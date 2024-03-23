@@ -1,0 +1,127 @@
+<%- include('../layouts/header.ejs') %>
+
+<section id="page-content" class="page-wrapper section" style="margin-top: 4%;">
+
+    <!-- SHOP SECTION START -->
+    <div class="shop-section mb-80">
+        <div class="container">
+            <div class="row">
+                
+                        <!-- checkout end -->
+                        <!-- order-complete start -->
+                       
+                                    <!-- our order -->
+                                    <div class="col-md-8">
+                                        <!-- our order -->
+                                        <div class="payment-details pl-10 mb-50">
+                                            <h6 class="widget-title border-left mb-20">your order</h6>
+                                            <table >
+                                                
+                                                    <tr>
+                                                        <td style="color: black;">
+                                                                    
+                                                                       
+                                                            <img src="/catimages/<%= Array.isArray(product.pimg) ? product.pimg[0] : '' %>" alt="" style="width:70px">   <%= product.pname %>  x    <%= pro.quantity %> <!-- Assuming product name is available -->
+                                                                
+                                                         
+                                                        </td>
+                                                        
+                                                        <td style="color: black;"class="text-end">₹<%= pro.totalPrice %></td>
+                                                    </tr>
+                                               
+                                              
+                                              
+                                            
+                                                </table>
+                                                <div class="mt-4">
+                                                    <label for="cancelReason">Select a reason to cancel:</label>
+                                                    <select id="cancelReason" class="form-select">
+                                                        <option value="itemNotNeeded">Item is no longer needed</option>
+                                                        <option value="foundCheaperPrice">Found a cheaper price elsewhere</option>
+                                                        <option value="changedMind">Changed my mind</option>
+                                                        <option value="delayedDelivery">Delivery is taking too long</option>
+                                                        <option value="other">Other reason</option>
+                                                    </select>
+                                                  
+                                                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                                                        <input type="hidden" name="productId" value="<%= product._id %>">
+                                                      
+                                                    <button id="cancelOrderBtn" class="btn btn-danger mt-2">Cancel Order</button>
+                                              
+                                                </div>
+                                        </div>         
+                                    </div>
+
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </section>
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+                                    <script>
+                  const cancelOrderBtn = document.getElementById('cancelOrderBtn');
+
+// Add event listener for click event
+cancelOrderBtn.addEventListener('click', () => {
+    const orderId = document.querySelector('input[name="orderId"]').value;
+    const productId = document.querySelector('input[name="productId"]').value;
+    console.log("product",productId)
+
+    // Send a confirmation dialog to the user
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to cancel this order.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, cancel it!',
+        cancelButtonText: 'No, keep it'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log("its coming inside here")
+            // Perform cancel order action here
+            // For example, you can make an Axios POST request to cancel the order
+            const cancelOrderPromise = axios.post('/cancel', { orderId: orderId ,productId:productId});
+
+            Promise.all([cancelOrderPromise])
+                .then(responses => {
+                    const cancelOrderResponse = responses[0];
+                    console.log("cancelOrderResponse",cancelOrderResponse.data)
+                    // Check if cancellation was successful
+                    if (cancelOrderResponse.status === 200 && cancelOrderResponse.data.success) {
+                        console.log("Order canceled successfully");
+
+                        sessionStorage.setItem('cancelSuccess','true');
+                       
+                        window.location.href = '/Orders'; 
+                    } else {
+                        console.error("Failed to cancel order");
+                        // Handle the failure case, maybe show an error message to the user
+                    }
+                })
+                .catch(errors => {
+                    console.error("Error occurred while canceling order:", errors);
+                    // Handle the error, maybe show an error message to the user
+                });
+        }
+    });
+});
+
+const isSuccess = sessionStorage.getItem('cancelSuccess');
+
+if(isSuccess === true) {
+
+    sessionStorage.removeItem('cancelSuccess');
+
+    Swal.fire({
+        title: 'Success!',
+        text: 'Your order was successfully canceled.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+    });
+
+}
+                                        
+                                        </script>
+                                        
+
+<%- include('../layouts/footer.ejs') %>

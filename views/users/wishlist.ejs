@@ -1,0 +1,173 @@
+<%- include('../layouts/header.ejs') %>
+        <style>
+
+.centered-image {
+    text-align: center;
+}
+
+</style>   
+
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper section" style="margin-top: 5%;">
+
+            <!-- SHOP SECTION START -->
+            <div class="shop-section mb-80">
+                <div class="container">
+                    <div class="row">
+                        
+                        <div class="col-lg-11">
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- shopping-cart start -->
+                                <div class="tab-pane active" id="shopping-cart">
+                                    <div class="shopping-cart-content">
+                                       
+                                            <div class="table-content table-responsive mb-50">
+                                                <% if (product  && product.length > 0) { %>
+                                                <table class="text-center" style="width: 100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="product-thumbnail">product</th>
+                                                            <th class="product-price">price</th>
+                                                            <th class="product-price">add to cart</th>
+                                                           
+                                                            <th class="product-remove">remove</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbodyToDelete">
+                                                        <!-- tr -->
+                                                       <% console.log("productsssss",product); %>
+                                                        <% for(let i = 0 ; i < product.length ; i++ ) {%>
+                                                       
+                                                        <tr id="wishlist_<%= product[i]?.product[0]._id %>">
+                                                            <td class="product-thumbnail">
+                                                                <div class="pro-thumbnail-img">
+                                                                    <img src="/catimages/<%= Array.isArray(product[i].product[0].pimg) ? product[i].product[0].pimg[0] : '' %>" alt="">
+                                                                </div>
+                                                                <div class="pro-thumbnail-info text-start">
+                                                                    <h6 class="product-title-2">
+                                                                        <a href="#"><%=  product[i]?.product[0].pname %></a>
+                                                                    </h6>
+                                                                    <p></p>
+                                                                    <p>colour : <%= product[i]?.product[0].color  %></p>
+                                                                    
+                                                                   
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                            
+                                                            
+                                                                <% if(!proffer && !catoffer) { %>
+                                                                    <h3 class="pro-price">₹<%= wishlist[0].product[0].price %></h3>
+                                                                    <% } else if(proffer || catoffer){ %>
+                                                                        <% 
+                  
+                                                                           const price = parseFloat(wishlist[i].product[0].price); 
+                                                                           console.log("price",price)
+                                                                           const productOffer = wishlist[i].proffer[0]?.productOfferAmt || 0; 
+                                                                           const categoryOffer =  wishlist[i].catoffer[0]?.categoryofferAmt || 0;
+                                                                           const highestOffer = Math.max(productOffer, categoryOffer);
+                                                                          
+                   
+                                                                           const discountedPrice = price * (100 - highestOffer) / 100;
+                                                                       %>
+                
+                                                                          
+                
+                                                                       <h3 class="pro-price discounted-price">₹<%= discountedPrice.toFixed(0) %></h3>
+                                                                       <% } %>
+                                                                   </td>
+                                                               
+               
+                                                                       
+             
+                                                               
+                                                                </td>
+                                                                 
+                                                            <td >
+                                                              <form action="/cart" method="post">
+                                                                <input type="hidden" name="productId" value="<%= product[i]?.product[0]._id %>">
+                                                               <button type="submit"><i class="zmdi zmdi-shopping-cart"></i></button> 
+                                                              </form>
+                                                              
+                                                                
+                                                           </td>
+
+                                                            <td class="product-remove">
+                                                                <button onclick="deleteFromWishlist('<%=  product[i]?.product[0]._id%>')"><i class="zmdi zmdi-close"></i></button>
+                                                            </td>
+                                                                                                                     
+                                                            <% } %>
+                                                           
+                                                                                                            </tr>
+                                                        <!-- tr -->
+                                                        
+                                                    </tbody>
+                                                </table>
+                                               
+                                            </div>
+
+
+                                          
+
+                                <!-- shopping-cart end -->
+                                <!-- wishlist start -->
+                            
+                                                              
+                                <!-- checkout end -->
+                        </div>
+                        </div>
+                       </div> 
+                              
+        </div>
+       
+        <% }else { %>
+
+            <img src="/catimages/Premium_Vector___Checklist_on_a_clipboard_paper_successful_completion_of_business_tasks-removebg-preview.png" alt=""  style="display: block; margin-left: 40%;height: 240px;">
+            <% } %>
+        </section>
+        <!-- End page content -->
+
+    
+        <!--style-customizer start -->
+       
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        function deleteFromWishlist(productId) {
+            console.log("productId",productId);
+
+            axios.delete(`/removeWishlist?id=${productId}`)
+            .then(res => {
+                if(res.data.message === true) {
+                    console.log("hiii");
+                    const deletedProductId = res.data.deletedProductId; 
+                    console.log("deletedProductId",deletedProductId);
+                    $(`#tbodyToDelete tr[id="wishlist_${deletedProductId}"]`).remove();
+                }
+
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
+    </script>
+    <!-- Body main wrapper end -->
+
+ 
+    <!-- Placed JS at the end of the document so the pages load faster -->
+
+    <!-- jquery latest version -->
+    <script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="js/vendor/jquery-migrate-3.3.2.min.js"></script>
+    <!-- Bootstrap framework js -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- jquery.nivo.slider js -->
+    <script src="lib/js/jquery.nivo.slider.js"></script>
+    <!-- All js plugins included in this file. -->
+    <script src="js/plugins.js"></script>
+    <!-- Main js file that contents all jQuery plugins activation. -->
+    <script src="js/main.js"></script>
+
+    <%- include('../layouts/footer.ejs') %>

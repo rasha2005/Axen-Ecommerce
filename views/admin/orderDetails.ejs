@@ -1,0 +1,198 @@
+<%- include('../adminLayout/header.ejs') %>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Order detail</h2>
+                       
+                    </div>
+                </div>
+                <div class="card">
+                    <header class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                                <span> <i class="material-icons md-calendar_today"></i> <b><%= order.date %></b> </span> <br />
+                                <!-- <small class="text-muted">Order ID: 3453012</small> -->
+                            </div>
+                          
+                           
+                           
+                        </div>
+                    </header>
+                    <!-- card-header end// -->
+                    <div class="card-body">
+                        <div class="row mb-50 mt-20 order-info-wrap">
+                            <div class="col-md-4">
+                                <article class="icontext align-items-start">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                                        <i class="text-primary material-icons md-person"></i>
+                                    </span>
+                                    <div class="text">
+                                        <h6 class="mb-1">Customer</h6>
+                                        <p class="mb-1">
+                                           <%= order.user.name %> <br />
+                                           <%= order.user.email %> <br />
+                                           <%= order.user.mobile %>
+                                        </p>
+                                       
+                                    </div>
+                                </article>
+                            </div>
+                            <!-- col// -->
+                            <div class="col-md-4">
+                                <article class="icontext align-items-start">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                                        <i class="text-primary material-icons md-local_shipping"></i>
+                                    </span>
+                                    <div class="text">
+                                        <h6 class="mb-1">Order info</h6>
+                                        <p class="mb-1">
+                                            
+                                            <%= order.paymentMethod %> <br />
+                                           
+                                        </p>
+                                        <!-- <a href="#">Download info</a> -->
+                                    </div>
+                                </article>
+                            </div>
+                            <!-- col// -->
+                            <div class="col-md-4">
+                                <article class="icontext align-items-start">
+                                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                                        <i class="text-primary material-icons md-place"></i>
+                                    </span>
+                                    <div class="text">
+                                        <h6 class="mb-1">Deliver to</h6>
+                                        <p class="mb-1">
+                                           <%= order.address.city %> <br /><%= order.address.address %> <br />
+                                           <%= order.address.pincode %>
+                                        </p>
+                                       
+                                    </div>
+                                </article>
+                            </div>
+                            <!-- col// -->
+                        </div>
+                        <!-- row // -->
+                      
+                    </div> 
+                    <!-- card-body end// -->
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <h3>Product Details</h3>
+                    </header>
+                
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                                <th>Returns</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% order.product.forEach(product => { %>
+                                
+                                <tr>
+                                   
+                                    <td><%= product.name %></td>
+                                    <td>₹<%= product.price %></td>
+                                    <td><%= product.quantity %></td>
+                                    <td><%= product.status %></td>
+                                    <td>
+                                        <form  name="status" id="updateStatusForm" action="/admin/updateOrderStatus/<%= product.productId %>" method="POST" class="d-flex align-items-center"  <% if (order.status === 'cancelled') { %>disabled<% } %>>
+                                            <div class="me-2">
+                                                <input type="hidden" name="orderId" value="<%= order._id %>">
+                                                <select class="form-select" id="orderStatus" name="status">
+                                                    <option value="pending">Pending</option>
+                                                    <option value="shipped">Shipped</option>
+                                                    <option value="delivered">Delivered</option>
+                                                    <option value="Cancelled">cancelled</option>
+                                                </select>
+                                            </div>
+                                          
+                                            <button type="submit" class="btn btn-primary" <% if (product.status === 'cancelled' ) { %>disabled<% } %>>Update</button>
+                                        </form>
+                                        
+
+                                    </td>
+                               <% console.log("products456",product) %>
+                              
+                                    <td id="returns">
+                                        <% if(product?.returnStatus === 'return') {%>
+                                        <button onclick="reqAccepted('<%= order._id %>','<%= product.productId %>')" style="border-radius: 3px; border: 0; background-color:green ;color:white ;">accept</button>
+                                        <button onclick="reqRejected('<%= order._id %>','<%= product.productId %>')" style="border-radius: 3px; border: 0; background-color:rgb(218, 11, 11) ;color:white ;">reject</button>
+                                        <% } else if(product?.returnStatus === 'accepted') { %>
+                                            <p style="color: rgb(12, 88, 12);">Request Accepted</p>
+                                            <% } else if(product?.returnStatus === 'rejected') {%>
+                                                <p style="color: red;">Request rejected</p>
+                                                <% } %>
+                                    </td>
+                                    
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                    
+                <!-- card end// -->
+            </section>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script>
+
+                function reqAccepted(orderId,productId) {
+                    console.log("orderId",orderId)
+                    console.log("productId",productId);
+                    axios.patch(`/admin/reqAccepted/${orderId}/${productId}`)
+                    .then(res => {
+                        if(res.data.sucess === true) {
+                            console.log('hiiiiiiiiiiiiii')
+                            window.location.reload();
+
+                        }
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+                }
+
+                function reqRejected(orderId,productId) {
+                    console.log(orderId);
+                    console.log(productId);
+                    axios.patch(`/admin/reqRejected/${orderId}/${productId}`)
+                    .then(res => {
+                        window.location.reload();
+
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }
+
+            </script>
+            <!-- content-main end// -->
+            <footer class="main-footer font-xs">
+                <div class="row pb-30 pt-15">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &copy; Nest - HTML Ecommerce Template .
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end">All rights reserved</div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+        <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/vendors/select2.min.js"></script>
+        <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+        <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+        <!-- Main Script -->
+        <script src="assets/js/main.js?v=1.1" type="text/javascript"></script>
+    </body>
+</html>

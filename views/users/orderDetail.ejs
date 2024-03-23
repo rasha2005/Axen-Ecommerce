@@ -1,0 +1,106 @@
+
+        
+ 
+       
+        <%- include('../layouts/header.ejs') %>
+
+        <style>
+            /* Your existing styles */
+        
+         
+         
+                                    /* Your existing styles */
+                                
+                                    .payment-details,
+                                    .bill-details {
+                                        background-color: #f9f9f9;
+                                        border: 1px solid #ddd;
+                                        border-radius: 5px;
+                                        padding: 20px;
+                                        margin-bottom: 20px;
+                                    }
+                                
+                                    .widget-title {
+                                        font-size: 18px;
+                                        border-left: 4px solid #007bff;
+                                        padding-left: 10px;
+                                        margin-bottom: 20px;
+                                    }
+                                
+                                    .bill-address li {
+                                        list-style: none;
+                                        margin-bottom: 10px;
+                                    }
+                                
+                                    .bill-address span {
+                                        font-weight: bold;
+                                        margin-right: 5px;
+                                    }
+                                    li{
+                                        color:black
+                                    }
+        </style>
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper section" style="margin-top: 4%;">
+
+            <!-- SHOP SECTION START -->
+            <div class="shop-section mb-80">
+                <div class="container">
+                    <div class="row">
+                        
+                                <!-- checkout end -->
+                                <!-- order-complete start -->
+                               
+                                
+                                
+                                <div class="col-md-8">
+                                    <div class="payment-details mb-50">
+                                        <h6 class="widget-title">Your Order</h6>
+                                        <table>
+                                            <tr>
+                                                <td style="color: black;">
+                                                    <img src="/catimages/<%= Array.isArray(product.pimg) ? product.pimg[0] : '' %>" alt="" style="width:70px">&nbsp;&nbsp;
+                                                    <%= product.pname %> x <%= pro.quantity %>
+                                                </td>
+                                                <td style="color: black;" class="text-end">₹<%= pro.totalPrice %></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                
+                                    <div class="bill-details">
+                                        <h6 class="widget-title">Deliver To</h6>
+                                        <ul class="bill-address">
+                                            <li style="color:black">
+                                                <span>Address:</span>
+                                                <%= order.address.address %>
+                                            </li>
+                                            <li style="color:black">
+                                                <span>Mobile:</span>
+                                                <%= order.address.mobile %>
+                                            </li>
+                                            <li style="color:black">
+                                                <span>City:</span>
+                                                <%= order.address.city %>
+                                            </li>
+                                            <li style="color:black">
+                                                <span>Pincode:</span>
+                                                <%= order.address.pincode %>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                               
+                                               
+                                <!-- order-complete end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- SHOP SECTION END -->             
+
+        </section>
+        <!-- End page content -->
+
+        <%- include('../layouts/footer.ejs') %>

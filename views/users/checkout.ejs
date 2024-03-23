@@ -1,0 +1,409 @@
+<%- include('../layouts/header.ejs') %>
+        
+       
+
+
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper section">
+            <div class="shop-section mb-80 mt-40 ml-80">
+                <div class="container">
+                    <div class="row">
+                        
+                        <div class="col-lg-11">
+
+                                <!-- checkout start -->
+                                <div class="tab-pane" id="checkout">
+                                    <div class="checkout-content box-shadow p-30">
+                                        
+                                            <div class="row">
+                                                <!-- billing details -->
+                                                
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="billing-details pr-10">
+                                                         <form action="" method="post" onsubmit="return validateForm()" id="orderForm">
+                                                                <h6 class="border-left mb-20">Select Address</h6>
+                                                                <a href="addAddress">
+                                                                    <input class="submit-btn-1 mt-20 btn-hover-1" type="button" value="Add Address">
+                                                                </a>
+                                                                <br><br>
+                                                                <% console.log("addatafdsf", addata) %>
+<% console.log("addatafdsf", addata._id) %>
+<% if (addata && addata.length > 0) { %>
+    <select class="custom-select" name="selectedAddress">
+        <% for (let i = 0; i < addata.length; i++) { %>
+            <option value="<%= addata[i]._id %>">
+                <%= addata[i].name %>, <%= addata[i].mobile %>, <%= addata[i].pincode %>, <%= addata[i].address %>, <%= addata[i].city %>
+            </option>
+        <% } %>
+    </select>
+<% } else { %>
+    <!-- Handle the case where the user doesn't have any addresses -->
+    <!-- You can display a message or provide an alternative UI here -->
+    <p>No addresses found.</p>
+<% } %>
+<br><br>
+
+                                                                <br><br>
+                                                                <div class="payment-method">
+                                                                    <h6 class="border-left mb-20">Payment Method</h6>
+                                                                    <div id="accordion">
+                                                                        <div class="panel">
+                                                                            <label>
+                                                                                <input type="radio" name="paymentMethod" value="razorpay"> Razorpay
+                                                                            </label>
+                                                                            <br>
+                                                                            <% if(subtotal > 1000) {%>
+                                                                                <label>
+                                                                                    <input type="radio" name="paymentMethod" value="Cash on Delivery" disabled> Cash on Delivery
+                                                                                </label>
+                                                                                <% }else{ %>
+                                                                            <label>
+                                                                                <input type="radio" name="paymentMethod" value="Cash on Delivery"> Cash on Delivery
+                                                                            </label>
+                                                                            <% } %>
+                                                                            <br>
+                                                                            <% if(wallet.balance === 0 || wallet.balance < subtotal) { %>
+                                                                            <label>
+                                                                                <input type="radio" name="paymentMethod" value="wallet" disabled> wallet<br>
+                                                                              
+                                                                            </label>
+                                                                            
+                                                                            <% } else { %>
+                                                                                <label>
+                                                                                    <input type="radio" name="paymentMethod" value="wallet" > wallet
+                                                                                </label>
+                                                                                <% } %>
+                                                                        </div>
+                                                                        <div class="panel">
+                                                                            <div id="collapseThree" class="panel-collapse collapse" data-bs-parent="#accordion">
+                                                                                <div class="payment-content">
+                                                                                    <!-- Additional payment content goes here if needed -->
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <!-- Order summary -->
+                                                            
+                                                            <div class="col-md-6">
+                                                                <!-- Coupons -->
+                                                                <h6 class="border-left mb-20">Coupons</h6>
+         
+                                                                <div class="payment-details pl-10 mb-50" style="border: 1px solid #f8f8f8; border-radius: 5px; width: 200%;box-shadow: 0 0 5px rgba(122, 116, 116, 0.1);">
+                                                                    <ol  >
+                                                                        <% for (let i = 0; i < coup.length; i++) { %>
+                                                                            <li>--<%= coup[i].description %>, the code for the discount coupon is <span style="color: rgb(224, 221, 16);"><%= coup[i].code %></span></li>
+                                                                        <% } %>
+                                                                    </ol>
+                                                                
+                                                                
+                                                          
+                                                            
+                                                            <!-- <form action="/apply-coupon" method="post"> -->
+                                                                <div class="form-group row" id="couponForm">
+                                                                    <div class="row d-none" id="afterApplied">
+                                                                        <div class="col-sm-8">
+                                                                            <p style="color: green;">Coupon applied successfully!</p>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <button type="button" id="remove" class="btn btn-danger">Remove</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" id="inputCoupon">
+                                                                        <div class="col-sm-8">
+                                                                            <input type="text" id="couponCode" name="couponCode" class="form-control " placeholder="Enter Coupon Code" >
+                                                                            
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <button type="button" id="apply" class="btn btn-primary" style="border-radius: 3px; height: 67%; ">Apply</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p class="mt-0 d-none" id="error" style="color: red;" ></p>
+                                                                </div>
+                                                               
+                                                            <!-- </form> -->
+                                                         </div>
+                                                           </div>
+                                                       
+                                                            <!-- Order summary -->
+                                                            <% console.log("userItemscd",userItems.productId) %>
+                                                            <div class="payment-details pl-10 mb-50">
+                                                                <h6 class="border-left mb-20">Order Summary</h6>
+                                                                <table>
+                                                                    <% for (let i = 0; i < products.length; i++) { %>
+                                                                        <tr>
+                                                                            <td class="td-title-1"><%= products[i].pname %> x <%= userItems[i].quantity %></td>
+                                                                            <td class="td-title-2">₹<%= userItems[i].totalPrice %></td>
+                                                                        </tr>
+                                                                    <% } %>
+                                                                    <tr>
+                                                                        <td class="td-title-1">coupon</td>
+                                                                        <td class="td-title-2" id="coupDisAmt">0</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="td-title-1" >Total Price</td>
+                                                                        <td class="td-title-2"  id="amtAfterDis" >₹<%= subtotal %></td>
+                                                                    </tr>
+                                                                   
+                                                                </table>
+                                                            </div>
+                                                            <!-- End order summary -->
+                                                        </div>
+                                                    </div>
+                                                   
+                                                    <div class="text-center">
+                                                        
+                                                        <% if (subtotal === '0') { %>
+                                                            <input type="submit" class="submit-btn-1 mt-20 btn-hover-1" value="continue" disabled>
+                                                        <% } else { %>
+                                                            <input type="submit" class="submit-btn-1 mt-20 btn-hover-1" value="continue">
+                                                        <% } %>
+                                                    </div>
+                                                
+                                                </form>
+                                                
+                                            </div>
+                                    </div>
+                                </div>
+                                <!-- checkout end -->
+                               
+</div>
+</div>
+</div>
+</div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function validateForm() {
+        console.log("here")
+        var addressSelect = document.querySelector('.custom-select');
+
+      
+        
+        if (!addressSelect ) {
+            // Display SweetAlert error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please select an address',
+            });
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+
+    document.getElementById('orderForm').addEventListener('submit', function(event) {
+        const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+        if (!selectedPaymentMethod) {
+            event.preventDefault(); // Prevent form submission
+
+            // Display SweetAlert error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please select a payment method.'
+            });
+        }
+    });
+
+    const applybtn = document.getElementById('apply');
+    applybtn.addEventListener('click',function(){
+        const error = document.getElementById('error');
+        const inputField = document.getElementById('couponCode');
+        const code = inputField.value.trim();
+        if(!code){
+            error.classList.remove('d-none');
+            error.innerHTML = 'field is empty';
+            inputField.classList.add('border-danger');
+            return;
+        }
+        
+        axios.post('/verifyCoupon',{code})
+        .then( response => {
+            if( response.data.status ){
+
+                document.getElementById('afterApplied').classList.remove('d-none');
+                document.getElementById('inputCoupon').classList.add('d-none');
+
+
+                error.classList.add('d-none');
+                inputField.classList.remove('border-danger');
+                error.innerHTML = '';
+                const cDAmt = document.getElementById('coupDisAmt');
+                cDAmt.innerHTML = `-₹${response.data.couponDisAmt}`;
+                const total = document.getElementById('amtAfterDis');
+                total.innerHTML = `₹${response.data.total}`
+                console.log(response.data);
+            }
+        }).catch (err => {
+            if(err.response?.data?.err){
+                error.classList.remove('d-none');
+                inputField.classList.add('border-danger');
+                error.innerHTML = err.response.data.message;
+                return;
+            }
+            console.error(err);
+        })
+    })
+
+    const inputField = document.getElementById('couponCode');
+
+    inputField.addEventListener('keydown',function(){
+        const error = document.getElementById('error');
+        error.classList.add('d-none');
+        error.innerHTML = '';
+        inputField.classList.remove('border-danger');
+    });
+
+    
+
+   const removebtn =  document.getElementById('remove') ;
+   
+   removebtn.addEventListener('click', function() {
+    console.log('hiiiii');
+
+    axios.post('/removeCoupon')
+    .then(response => {
+        if( response.data.status ){
+            const cDAmt = document.getElementById('coupDisAmt');
+            cDAmt.innerHTML = `${response.data.couponDisAmt}`;
+            const total = document.getElementById('amtAfterDis');
+            total.innerHTML = `₹${response.data.total}`
+            document.getElementById('afterApplied').classList.add('d-none');
+            document.getElementById('inputCoupon').classList.remove('d-none');
+        }
+    })
+
+   })
+   
+   
+   $(document).ready(function(){
+    console.log("razarpay sumbit working?")
+    // Event listener for the form submission
+    $('#orderForm').submit(function(e){
+        console.log("congaratzz working")
+        e.preventDefault(); // Prevent the default form submission
+
+        // Check if the payment method selected is Razorpay
+        var paymentMethod = $('input[name=paymentMethod]:checked').val();
+        if (paymentMethod === "razorpay") {
+            // Trigger the AJAX function for Razorpay payment
+            initiateRazorpayPayment();
+        } else {
+            // Handle other payment methods here
+            // For example, submit the form for Cash on Delivery
+            $(this).unbind('submit').submit();
+        }
+    });
+
+    function initiateRazorpayPayment() {
+        var formDataString = $('#orderForm').serialize();
+    console.log("Form data:", formDataString);
+
+    // Parse form data string into key-value pairs
+    const formData = new URLSearchParams(formDataString);
+    console.log("formData",formData)
+
+    // Convert form data to object
+    const formDataObject = {};
+    for (const pair of formData.entries()) {
+        formDataObject[pair[0]] = pair[1];
+    }
+
+    console.log("Form data object:", formDataObject);
+
+    axios.post("/createRazorpayOrder", formData)
+        .then(res => {
+          
+            if (res.data.success) {
+                console.log(" res.data.order._id,", res.data.order._id,);
+                console.log("success")
+                const value = "value"
+                var options = {
+                    "key": res.data.key_id, // Enter the Key ID generated from the Dashboard
+                    "amount": res.data.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "currency": "INR",
+                    "name": "Axen", //your business name
+                    "description": "Test Transaction",
+                   
+                    "order_id":res.data.order.id, //This is a sample Order ID. Pass the id obtained in the response of Step 1
+                    "callback_url":  "/OrderPlaced" ,
+                    
+			
+            
+		  
+                    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+                        "name": "Gaurav Kumar", //your customer's name
+                        "email": "gaurav.kumar@example.com",
+                        "contact": "9000090000" //Provide the customer's phone number for better conversion rates 
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                console.log("options",options)
+                var rzp1 = new Razorpay(options);
+                console.log("here is it")
+
+               
+                     // Call placeOrder function here
+                     placeOrder(formDataObject)
+              
+                rzp1.open();
+                  
+               
+               
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}
+   });
+
+   function placeOrder(formDataObject){
+    console.log("coming or not???")
+
+    axios.post("/checkout",formDataObject)
+            .then(res => {
+                            // No action needed here if you don't have any further processing
+                })
+            .catch(error => {
+                 console.error("Error posting order:", error);
+                            // Handle the error appropriately if needed
+                        });
+                    }
+
+
+
+
+   
+
+</script>
+
+
+    <!-- Placed JS at the end of the document so the pages load faster -->
+
+    <!-- jquery latest version -->
+    <script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="js/vendor/jquery-migrate-3.3.2.min.js"></script>
+    <!-- Bootstrap framework js -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- jquery.nivo.slider js -->
+    <script src="lib/js/jquery.nivo.slider.js"></script>
+    <!-- All js plugins included in this file. -->
+    <script src="js/plugins.js"></script>
+    <!-- Main js file that contents all jQuery plugins activation. -->
+    <script src="js/main.js"></script>
+
+    <%- include('../layouts/footer.ejs') %>

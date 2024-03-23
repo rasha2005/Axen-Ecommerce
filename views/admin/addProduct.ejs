@@ -1,0 +1,133 @@
+<%- include('../adminLayout/header.ejs') %>
+            <section class="content-main">
+                <div class="row">
+                    <div class="col-9">
+                        <div class="content-header">
+                            <h2 class="content-title">Add New Product</h2>
+                            <!-- <div>
+                                <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Add</button>
+                                
+                            </div> -->
+                        </div>
+                    </div>
+                    <form id="categoryForm"  action="" method="post" enctype="multipart/form-data">
+                       
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h4>Details</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-4">
+                                            <label for="product_name" class="form-label">Product title</label>
+                                            <input name="pname" type="text" placeholder="Type here" class="form-control" id="product_name" required/>
+                                            <% if (typeof message !== 'undefined') { %>
+                                                <% if (message === 'Product title is required' || message === 'Product title already exists') { %>
+                                                    <p style="color: red;"><%= message %></p>
+                                                <% } %>
+                                            <% } %>
+                                            
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label">Full description</label>
+                                            <textarea name="description" placeholder="Type here" class="form-control" rows="4" ></textarea>
+                                            <% if (typeof message !== 'undefined') { %>
+                                                <% if (message === 'Description is required') { %>
+                                                    <p style="color: red;"><%= message %></p>
+                                                <% } %>
+                                            <% } %>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="mb-4">
+                                                    <label class="form-label">Price</label>
+                                                    <div class="row gx-2">
+                                                        <input name="price" placeholder="₹" type="text" class="form-control" required/>
+                                                        <% if (typeof message !== 'undefined') { %>
+                                                            <% if (message ==='Price should be a number ') { %>
+                                                                <p style="color: red;"><%= message %></p>
+                                                            <% } %>
+                                                        <% } %>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-4">
+                                                    <label class="form-label">Stock</label>
+                                                    <input name="stock" type="text" class="form-control" required/>
+                                                    <% if (typeof message !== 'undefined') { %>
+                                                        <% if (message ==='Stock should be a number') { %>
+                                                            <p style="color: red;"><%= message %></p>
+                                                        <% } %>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <label class="form-label">Color</label>
+                                                <select name="color" class="form-select" required>
+                                                    <option>Black</option>
+                                                    <option>White</option>
+                                                    <option>Gray</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                    
+                                        <!-- Category section -->
+                                        <div class="card mb-4">
+                                            <div class="card-header">
+                                                <h4>Category</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row gx-2">
+                                                    <div class="col-sm-6 mb-3">
+                                                        <label class="form-label">Select category</label>
+                                                        <select name="category" class="form-select" required>
+
+                                                            <% for(let i=0; i<category.length; i++) { %>
+                                                                <option value="<%= category[i]._id %>"><%= category[i].category %></option>
+                                                            <% } %>
+
+                                                
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Category section -->
+                                    </div>
+                                </div>
+                                <!-- Other card sections can be added here -->
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h4>Media</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="input-upload">
+                                            <img src="/adminAssets/imgs/theme/upload.svg" alt="" />
+                                            <input multiple='multiple' name="pimg" class="form-control" type="file" accept="image/svg+xml, image/png, image/jpeg, image/jpg"required/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Additional card sections can be added here -->
+                            </div>
+                        </div>
+                        <!-- Additional card sections can be added here -->
+                        
+                        <button type="submit" class="btn btn-light rounded font-sm mr-5 text-body hover-up">Add</button>
+                   
+                       
+                      
+                    </form>
+                   
+            </section>
+
+          <!-- Place the script after the form -->
+
+    
+   
+
+<%- include('../adminLayout/footer.ejs') %>

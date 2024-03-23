@@ -1,0 +1,107 @@
+<%- include('../layouts/header.ejs') %>
+
+
+<style>
+    
+    .card-container {
+        max-width: 400px; /* Adjust the maximum width as needed */
+        margin: 60px; /* Provide space on all sides of the card */
+        padding: 20px;
+        border: 2px solid #d9e7e4; /* Add a border to the card with the desired color */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(206, 23, 23, 0.1);
+    }
+
+    .custom-table {
+        display: table;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .custom-row {
+        display: table-row;
+    }
+
+    .custom-cell {
+        display: table-cell;
+        padding: 10px;
+        text-align: right; /* Align the content to the right within the cell */
+    }
+
+    .custom-menu {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+    }
+
+    .custom-menu-item {
+        margin-right: 20px;
+    }
+
+    .custom-menu-link {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    
+    .custom-icon {
+        margin-right: 10px;
+    }
+</style>
+
+<div class="card-container">
+    <div class="custom-table">
+        <div class="custom-row">
+            <div class="custom-cell">
+                <nav class="custom-nav">
+                    <ul class="custom-menu">
+                        <li class="custom-menu-item">
+                            <a href="savedAddress" class="custom-menu-link">
+                                <i class="zmdi zmdi-accounts-list-alt"></i>&nbsp;
+                                <span>Saved Addresses</span>
+                            </a>
+                            
+                            <a href="accountDetails" class="custom-menu-link">
+                                <i class="zmdi zmdi-account"></i>&nbsp;
+                                <span>Account details</span>
+                            </a>
+                            <a href="Orders" class="custom-menu-link">
+                                <i class="zmdi zmdi-store"></i>&nbsp;
+                                <span >Orders</span>
+                            </a>
+                            <a href="changePassword" class="custom-menu-link">
+                                <i class="zmdi zmdi-key"></i>&nbsp;
+                                <span >change password</span>
+                            </a>
+                            <a href="wallet" class="custom-menu-link">
+                                <i class="zmdi zmdi-balance-wallet"></i>&nbsp;
+                                <span >wallet</span>
+                            </a>
+                            <a href="refferalOffer" class="custom-menu-link">
+                                <i class="zmdi zmdi-code"></i>&nbsp;
+                                <span >Refferal Code</span>
+                            </a>
+                            
+                            
+                            
+                            
+                        </li>
+                        <!-- Add more menu items as needed -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<%- include('../layouts/footer.ejs') %>

@@ -1,0 +1,255 @@
+<%- include('../layouts/header.ejs') %>
+        <style>
+
+.centered-image {
+    text-align: center;
+}
+
+</style>   
+
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper section" style="margin-top: 5%;">
+
+            <!-- SHOP SECTION START -->
+            <div class="shop-section mb-80">
+                <div class="container">
+                    <div class="row">
+                        
+                        <div class="col-lg-9">
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- shopping-cart start -->
+                                <div class="tab-pane active" id="shopping-cart">
+                                    <div class="shopping-cart-content">
+                                        <form action="#">
+                                            <div class="table-content table-responsive mb-50">
+                                                <% if (products  && products.length > 0) { %>
+                                                <table class="text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="product-thumbnail">product</th>
+                                                            <th class="product-price">price</th>
+                                                            <th class="product-quantity">Quantity</th>
+                                                           
+                                                            <th class="product-remove">remove</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- tr -->
+                                                        <% console.log("products",products) %>
+                                                      
+                                                            
+                                                        <% for(let i = 0 ; i < products.length ; i++ ) {%>
+                                                        <tr>
+                                                            <td class="product-thumbnail">
+                                                                <div class="pro-thumbnail-img">
+                                                                    <img src="/catimages/<%= Array.isArray(products[i].pimg) ? products[i].pimg[0] : '' %>" alt="">
+                                                                </div>
+                                                                <div class="pro-thumbnail-info text-start">
+                                                                    <h6 class="product-title-2">
+                                                                        <a href="#"><%=  products[i].pname %></a>
+                                                                    </h6>
+                                                                    <p></p>
+                                                                    <p>colour : <%= products[i].color  %></p>
+                                                                    
+                                                                   
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                            
+                                                            <% if(!proffer && !catoffer) { %>
+                                                                 <h3 class="pro-price">₹<%= userItems[0].product[0].price %></h3>
+                                                                 <% } else if(proffer || catoffer){ %>
+                                                                     <% 
+               
+                                                                        const price = parseFloat(userItems[i].product[0].price); 
+                                                                        console.log("price",price)
+                                                                        const productOffer = userItems[i].proffer[0]?.productOfferAmt || 0; 
+                                                                        const categoryOffer =  userItems[i].catoffer[0]?.categoryofferAmt || 0;
+                                                                        const highestOffer = Math.max(productOffer, categoryOffer);
+                                                                       
+                
+                                                                        const discountedPrice = price * (100 - highestOffer) / 100;
+                                                                    %>
+             
+                                                                       
+             
+                                                                    <h3 class="pro-price discounted-price">₹<%= discountedPrice.toFixed(0) %></h3>
+                                                                    <% } %>
+                                                                </td>
+                                                                 
+                                                            <td class="product-quantity">
+                                                                <% console.log("stock",userItems[0].product.quantity) %>
+                                                                <p class="error-message" style="color: red;"><%= (userItems[0].product.quantity > products[i].stock)?'stock limit exceeded':'' %></p>
+                                                                <div class="quantity">
+                                                                    <% console.log("products[i].quantity",products[i].quantity) %>
+                                                                    
+                                                                    <a href="#" class="quantity-action" data-product-id="<%= products[i]._id%>" data-action="subtract">-</a>
+                                                                    <span id="displayed-quantity-<%= products[i]._id %>"><%= userItems[i].cartItems.quantity %></span>
+                                                                    <a href="#" class="quantity-action" data-product-id="<%= products[i]._id %>" data-action="add">+</a>
+                                                                   
+                                                                </div>
+                                                           
+
+                                                            <td class="product-remove">
+                                                                <a href="remove/<%= products[i]._id %>"><i class="zmdi zmdi-close"></i></a>
+                                                            </td>
+                                                                                                                     
+                                                        
+                                                             <% } %>
+                                                                                                            </tr>
+                                                        <!-- tr -->
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+
+                                          
+
+                                <!-- shopping-cart end -->
+                                <!-- wishlist start -->
+                            
+                                                              
+                                <!-- checkout end -->
+                        </div>
+                        </div>
+                       </div>        
+        </div>
+        <div class="col-lg-3">
+            <div class="card" style="border-color: beige; border-radius: 3px;">
+                <div class="card-body">
+                   
+                    <span class="card-title">subtotal : <span id="subtotal">
+                        <% if (subtotal === '0') { %>
+                            0.00
+                        <% } else { %>
+                            ₹<%= subtotal %>
+                        <% } %>
+                    </span> 
+                    <a href="checkout"><br>
+                        <input id="placeOrderBtn" class="submit-btn-1 mt-20 btn-hover-1" type="button" value="place order" >
+                        
+                    </a>
+                   
+                </div>
+                 
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+    </section>
+        <% }else { %>
+            <div class="container">
+            <div class="d-flex justify-content-center" >
+                <img src="/catimages/empty-shopping-cart-illustration-concept-on-white-background-vector-removebg-preview.png" alt="" class="img-fluid" style="max-width: 100%; height: auto; align-items:center">
+            </div>
+        </div>
+            <% } %>   
+    
+        <!-- End page content -->
+
+    
+        <!--style-customizer start -->
+       
+    </div>
+    <!-- Body main wrapper end -->
+
+    <script>
+        
+    // Get subtotal element
+    const subtotalElement = document.getElementById('subtotal');
+    console.log('subtotalElement',subtotalElement);
+  const trim = subtotalElement.innerText.trim();
+  console.log("trim",trim);
+   
+    const placeOrderBtn = document.getElementById('placeOrderBtn');
+  console.log("here?")
+    if (subtotalElement.innerText.trim() === '₹0.00') {
+        console.log('hereeee')
+        placeOrderBtn.disabled = true;
+    }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+          const quantityActions = document.querySelectorAll('.quantity-action');
+//                                                   const storedValue = localStorage.getItem('quantityValue');
+// // if (storedValue) {
+//     document.getElementById('number').value = storedValue;
+// }
+      
+          quantityActions.forEach(function (action) {
+            action.addEventListener('click', function (event) {
+              event.preventDefault();
+      
+              const productId = action.getAttribute('data-product-id');
+              const actionType = action.getAttribute('data-action');
+      
+
+              console.log("productId",productId);
+              // Send AJAX request
+              fetch('/updateQuantity', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId, actionType }),
+              
+              })
+              .then(response => response.json())
+              .then(data => {
+                if (data.subtotal) {
+                    document.getElementById('subtotal').innerHTML = data.subtotal;
+                }
+                if(data?.err){
+                    return document.querySelector('.error-message').innerHTML = 'stock limit exceeded'
+                }
+                const errorMessageElement = document.querySelector('.error-message');
+                   if (errorMessageElement) {
+                       // Clear the innerHTML of the error message element
+                       errorMessageElement.innerHTML = '';
+                   }
+
+                   console.log("hiii,its here");
+                // Update the displayed quantity on the client side
+                
+                        const displayedQuantity = document.getElementById(`displayed-quantity-${productId}`);
+                        console.log("displayedQuantity",displayedQuantity);
+                
+                        if ( displayedQuantity) {
+
+                        displayedQuantity.textContent = data.updatedQuantity;
+                        }
+
+
+                        
+
+                        // Update the displayed subtotal on the client side
+        // const displayedSubtotal = document.getElementById('displayed-subtotal');
+        // if (displayedSubtotal) {
+        //   displayedSubtotal.textContent = data.subtotal.toFixed(2); // Assuming subtotal is a floating-point number
+        // }
+                                })
+                                .catch(error => {
+                                  console.error('Error updating quantity:', error);
+                                });
+                            });
+          });
+        });
+      </script>
+    <!-- Placed JS at the end of the document so the pages load faster -->
+
+    <!-- jquery latest version -->
+    <script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="js/vendor/jquery-migrate-3.3.2.min.js"></script>
+    <!-- Bootstrap framework js -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- jquery.nivo.slider js -->
+    <script src="lib/js/jquery.nivo.slider.js"></script>
+    <!-- All js plugins included in this file. -->
+    <script src="js/plugins.js"></script>
+    <!-- Main js file that contents all jQuery plugins activation. -->
+    <script src="js/main.js"></script>
+
+ 

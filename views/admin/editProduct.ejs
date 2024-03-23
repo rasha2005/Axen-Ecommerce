@@ -1,0 +1,297 @@
+<%- include('../adminLayout/header.ejs') %>
+<style>
+    .image-container {
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Center items vertically */
+    gap: 5px; /* Add space between the image and button */
+}
+</style>
+
+<section class="content-main">
+    <div class="row">
+        <div class="col-9">
+            <div class="content-header">
+                <h2 class="content-title">edit Product</h2>
+                <!-- <div>
+                    <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Add</button>
+                    
+                </div> -->
+            </div>
+        </div>
+        <form action="" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Details</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <label for="product_name" class="form-label">Product title</label>
+                                <input name="pname" type="text" placeholder="Type here" class="form-control" id="product_name" value="<%= product.pname %>" >
+                                <% if (typeof message !== 'undefined') { %>
+                                    <% if (message === 'Product title is required' || message === 'Product title already exists') { %>
+                                        <p style="color: red;"><%= message %></p>
+                                    <% } %>
+                                <% } %>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Full description</label>
+                                <textarea name="description" placeholder="Type here" class="form-control" rows="4"  required><%= product.description %></textarea>
+                                <% if (typeof message !== 'undefined') { %>
+                                    <% if (message === 'Description is required') { %>
+                                        <p style="color: red;"><%= message %></p>
+                                    <% } %>
+                                <% } %>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-4">
+                                        <label class="form-label">Price</label>
+                                        <div class="row gx-2">
+                                            <input name="price" placeholder="$" type="text" class="form-control" value="<%= product.price %>">
+                                            <% if (typeof message !== 'undefined') { %>
+                                                <% if (message ==='Price should be a number ') { %>
+                                                    <p style="color: red;"><%= message %></p>
+                                                <% } %>
+                                            <% } %>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-4">
+                                        <label class="form-label">Stock</label>
+                                        <input name="stock" type="text" class="form-control" value="<%= product.stock %>"required/>
+                                        <% if (typeof message !== 'undefined') { %>
+                                            <% if (message ==='Stock should be a number') { %>
+                                                <p style="color: red;"><%= message %></p>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <label class="form-label">Color</label>
+                                    <select name="color" class="form-select" value="<%= product.color %>" required>
+                                        <option>Black</option>
+                                        <option>White</option>
+                                        <option>Gray</option>
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <!-- Category section -->
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4>Category</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row gx-2">
+                                        <div class="col-sm-6 mb-3">
+                                            <label class="form-label" style=" color:black; font-size: 15px;" >Select category</label>
+                                            <ul>
+                                                <% for(let i = 0; i < categories.length; i++) { %>
+                                                    <li>
+                                                        <label>
+                                                            <input type="radio" name="category" value="<%= categories[i]._id %>" <% if (categories[i]._id.toString() === product.category.toString()) { %>checked<% } %>>
+                                                            <%= categories[i].category %>
+                                                        </label>
+                                                    </li>
+                                                <% } %>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of Category section -->
+                        </div>
+                    </div>
+                    <!-- Other card sections can be added here -->
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Media</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-upload">
+                                <img src="/adminAssets/imgs/theme/upload.svg" alt="" >
+                                <input multiple='multiple' name="pimg" class="form-control" type="file" >
+                                <p>Existing images:</p>
+                                <% if (product.pimg && product.pimg.length > 0) { %>
+                                    <div class="d-flex flex-wrap ">
+                                        <% product.pimg.forEach((image, index) => { %>
+                                            <div class="image-container">
+                                                <img src="/catimages/<%= image %>" class="img-thumbnail" style="max-width: 50px; max-height: 50px;">
+                                                <button type="button" onclick="deleteImage('<%= product._id %>', '<%= image %>')" style="background-color: orange; border-radius: 3px; border: 0cap;">Delete</button>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                <% } %>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Additional card sections can be added here -->
+                </div>
+            </div>
+            <!-- Additional card sections can be added here -->
+            <input type="hidden" name="productId" value="<%= product._id %>">
+           
+            <button type="submit" class="btn btn-light rounded font-sm mr-5 text-body hover-up">Add</button>
+ 
+
+        </form>
+        
+            <!-- card end// -->
+            <!-- <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Shipping</h4>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Width</label>
+                                    <input type="text" placeholder="inch" class="form-control" id="product_name" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Height</label>
+                                    <input type="text" placeholder="inch" class="form-control" id="product_name" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label">Weight</label>
+                            <input type="text" placeholder="gam" class="form-control" id="product_name" />
+                        </div>
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label">Shipping fees</label>
+                            <input type="text" placeholder="$" class="form-control" id="product_name" />
+                        </div>
+                    </form>
+                </div>
+            </div> -->
+            <!-- card end// -->
+        <!-- </div>
+        <div class="col-lg-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Media</h4>
+                </div>
+                <div class="card-body">
+                    <div class="input-upload">
+                        <img src="/adminAssets/imgs/theme/upload.svg" alt="" />
+                        <input name="pimg" class="form-control" type="file" required/>
+                    </div>
+                </div>
+            </div> -->
+            <!-- card end// --> 
+             <!-- <div class="card mb-4">
+                <div class="card-header">
+                    <h4>category</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row gx-2">
+                        <div class="col-sm-6 mb-3">
+                            <label class="form-label">select category</label>
+                            <select class="form-select">
+                                <% for(let i=0;i<categories.length;i++) { %>
+                                <option><%= categories[i].category %></option>
+                                <% } %>
+                                 
+                            </select>
+                        </div>
+                        
+                        
+                    </div> -->
+                    <!-- row.// -->
+                <!-- </div>
+            </div> -->
+            <!-- card end// -->
+        <!-- </div>
+    </div> -->
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    console.log("jdjsdhsd")
+    function deleteImage(productId, imageName) {
+        console.log("is it here")
+        console.log("productId",productId);
+        console.log("imageName",imageName);
+    // Send an AJAX request to delete the image
+   axios.delete(`/admin/deleteImage/${productId}/${imageName}`)
+    .then(response => {
+        if (response.status === 200) {
+                // Remove the deleted image from the UI
+                const imageElement = document.querySelector(`img[src="/catimages/${imageName}"]`);
+                if (imageElement) {
+                    imageElement.parentElement.remove(); // Remove the image container div
+                }
+            }
+        })
+    .catch(error => {
+        console.error('Error deleting image:', error);
+    });
+}
+
+    
+
+</script>
+
+<script>
+     
+    function validateForm() {
+        resetErrors();
+
+        const pname = document.getElementById('product_name').value.trim();
+        const price = document.getElementById('price').value.trim();
+        const stock = document.getElementById('stock').value.trim();
+        const pimg = document.querySelector('input[name="pimg"]').value.trim();
+
+        if (!pname) {
+            showError('pnameError', 'Product name cannot be empty');
+            return false;
+        }
+
+        if (isNaN(price)) {
+            showError('priceError', 'Price should only contain numbers');
+            return false;
+        }
+
+        if (isNaN(stock)) {
+            showError('stockError', 'Stock should only contain numbers');
+            return false;
+        }
+
+        // You may want to add more validations for other fields if needed
+
+        // Validate file input
+        if (!pimg) {
+            showError('pimgError', 'Please select an image');
+            return false;
+        }
+
+        return true;
+    }
+
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.innerHTML = message;
+        errorElement.style.color = 'red';
+    }
+
+    function resetErrors() {
+        const errorElements = document.getElementsByClassName('error-message');
+        Array.from(errorElements).forEach(element => {
+            element.innerHTML = '';
+        });
+    }
+</script>
+
+
+
+<%- include('../adminLayout/footer.ejs') %>

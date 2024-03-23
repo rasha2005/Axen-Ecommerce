@@ -1,0 +1,46 @@
+<%- include('../layouts/header.ejs') %>
+
+<style>
+    
+</style>
+
+
+<!-- LOGIN SECTION START -->
+<div class="login-section mb-80 d-flex align-items-center justify-content-center" style="background: #000;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="registered-customers">
+                    <h6 class="widget-title border-left mb-50">Login</h6>
+                    
+                    <%
+if(typeof message!=='undefined'){
+  %>
+  <h4 style="color: red;" ><%= message %></h4>
+  <%
+}
+
+
+
+%>
+                    
+                    <form action="/" method="post">
+                        <div class="login-account p-30 ">
+                            <p>If you have an account with us, Please log in.</p>
+                            <input type="text" name="email" placeholder="Email Address">
+                            <input type="password" name="password" placeholder="Password">
+                            <p><small><a href="resetPasswordEmail">Forgot our password?</a></small></p>
+                            <button class="submit-btn-1 btn-hover-1" type="submit">login</button>
+                            <br><br>
+                            <div><p>don't have an account?<a style="color: blue; " href="/register">sign up</a></p></div>
+                        </div>
+                    
+                    </form>
+                </div>
+            </div>
+</div>
+    </div>
+    </div>
+
+
+<%- include('../layouts/footer.ejs') %>

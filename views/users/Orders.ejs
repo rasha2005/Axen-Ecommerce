@@ -1,0 +1,419 @@
+<%- include('../layouts/header.ejs') %>
+
+<style>
+     body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #284b3b; /* Set a different background color */
+    }
+
+    .card-container {
+       /* Set the height of the card */
+        margin: 20px; /* Provide space on all sides of the card */
+        padding: 20px;
+        border: 2px solid #d9e7e4; /* Add a border to the card with the desired color */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(206, 23, 23, 0.1);
+        background-color: #fff;
+    }
+
+    .custom-table {
+        display: block;
+    }
+
+    .custom-column {
+        float: left;
+    }
+
+    .custom-column:first-child {
+        width: 25% /* Set the width of the first column (4 parts out of 12) */
+    }
+
+    .custom-column:last-child {
+        width: 75%; /* Set the width of the second column (8 parts out of 12) */
+    }
+
+    .custom-cell {
+        padding: 10px;
+        text-align: right; /* Align the content to the right within the cell */
+    }
+
+    .custom-menu {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+    }
+
+    .custom-menu-item {
+        margin-right: 20px;
+    }
+
+    .custom-menu-link {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .custom-icon {
+        margin-right: 10px;
+    }
+
+    /* Styles for the second card */
+    .second-card-container {
+        width: 90%; /* Set the width of the second card (8 parts out of 12) */
+        height: auto; /* Set the height of the card */
+        margin: 20px; /* Provide space on all sides of the card */
+        padding: 20px;
+        border: 2px solid #d9e7e4; /* Add a border to the card with the same color as the first card */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(206, 23, 23, 0.1);
+        background-color: #fff;
+    }
+
+    /* Styles for the nested card */
+    .nested-card {
+        width: 100%; /* Set the width of the nested card to 100% */
+        height: auto; /* Set the height of the nested card to 100% */
+        border: 2px solid #d9e7e4;
+        padding: 10px;
+        box-sizing: border-box; /* Include padding and border in the total width and height */
+        border-radius: 9px;
+        margin-top: 5px;
+       
+    }
+    .icon{
+        margin-left: 97%;
+        cursor: pointer;
+    position: relative;
+    float: right;
+    }
+    @media screen and (max-width: 600px) {
+    .icon,
+    .dropdown-content {
+        margin-left: 5%;
+    }
+}
+    .dropdown-content {
+    display: none;
+    padding: 9px 16px;
+    background-color: #f9f9f9;
+    min-width: 10px;
+   
+    z-index: 8;
+   float: right;
+}
+th {
+        text-align: center; /* Center align the text */
+    }
+    tr{
+        text-align: center;
+
+    }
+        /* Your existing styles */
+
+     
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-family: Arial, sans-serif;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 15px;
+        border-bottom: 1px solid #b4a3a3;
+        text-align: left;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f8f8f8;
+    }
+
+    tbody tr:hover {
+        background-color: #eaeaea;
+    }
+
+    td a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    td a:hover {
+        text-decoration: underline;
+    }
+
+    td button {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    td button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Add styles for status colors */
+    td p[style="color: rgb(218, 162, 8);"] {
+        color: rgb(218, 162, 8);
+        font-weight: bold;
+    }
+
+    td p[style="color: rgb(58, 146, 37);"] {
+        color: rgb(58, 146, 37);
+        font-weight: bold;
+    }
+
+    td p[style="color: red;"] {
+        color: red;
+        font-weight: bold;
+    }
+
+    /* Add style for table header */
+    thead {
+        background-color: #0b1825;
+        color: white;
+    }
+
+    /* Style for table header cells */
+    th {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    /* Style for table body cells */
+    td {
+        padding-top: 15px;
+        padding-bottom: 15px;
+        color: black;
+    }
+
+    /* Styling for table action buttons */
+    td .action-btns {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .invoice-link {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none; /* Remove default underline */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+}
+
+.invoice-link:hover {
+    background-color: #45a049; /* Darken the background color on hover */
+}
+.cancel-link {
+    padding: 5px 10px;
+    background-color: #f44336; /* Red */
+    color: white;
+    border-radius: 4px;
+    text-decoration: none; /* Remove default underline */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+}
+
+.cancel-link:hover {
+    background-color: #d32f2f; /* Darken the background color on hover */
+}
+.return-button {
+    padding: 5px 10px;
+    background-color: #2196F3; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none; /* Remove default underline */
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+}
+
+.return-button:hover {
+    background-color: #1976D2; /* Darker blue on hover */
+}
+
+</style>
+
+<div class="custom-table">
+    <div class="custom-column">
+        <div class="card-container">
+            <div class="custom-cell">
+                <nav class="custom-nav">
+                    <ul class="custom-menu">
+                        <li class="custom-menu-item">
+                            <a href="savedAddress" class="custom-menu-link">
+                                <i class="zmdi zmdi-accounts-list-alt"></i>&nbsp;
+                                <span>Saved Addresses</span>
+                            </a>
+                            
+                            <a href="accountDetails" class="custom-menu-link">
+                                <i class="zmdi zmdi-account"></i>&nbsp;
+                                <span>Account details</span>
+                            </a>
+                            <a href="Orders" class="custom-menu-link">
+                                <i class="zmdi zmdi-store"></i>&nbsp;
+                                <span >Orders</span>
+                            </a>
+                            <a href="changePassword" class="custom-menu-link">
+                                <i class="zmdi zmdi-key"></i>&nbsp;
+                                <span >change password</span>
+                            </a>
+                            <a href="wallet" class="custom-menu-link">
+                                <i class="zmdi zmdi-balance-wallet"></i>&nbsp;
+                                <span >wallet</span>
+                            </a>
+                            <a href="refferalOffer" class="custom-menu-link">
+                                <i class="zmdi zmdi-code"></i>&nbsp;
+                                <span >Refferal Code</span>
+                            </a>
+                        </li>
+                        <!-- Add more menu items as needed -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="custom-column">
+        <div class="second-card-container">
+            
+            <table >
+                <thead>
+                    <tr>
+                        
+                        <th>orderId</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>totalPrice</th>
+                        <th>Date & Time</th>
+                        <th>Payment</th>
+                        <th>status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% const ordersPerPage = 6; %>
+            <% const totalPages = Math.ceil(orders.length / ordersPerPage); %>
+            <% const currentPage = req.query.page || 1; %>
+            <% const startIndex = (currentPage - 1) * ordersPerPage; %>
+            <% const endIndex = Math.min(startIndex + ordersPerPage, orders.length); %>
+            <% const displayedOrders = orders.slice(startIndex, endIndex); %>
+                    <% if (orders && orders.length > 0) { %>
+                        <% displayedOrders.forEach(order => { %>
+                         
+                            <tr>
+                                <td><a href="/orderDetail/<%= order.product.productId %>/<%= order._id%>"><%= order._id %></a></td>
+                                <td><%= order.product.name %></td>
+                                <td><%= order.product.price %></td>
+                                <td><%= order.product.totalPrice %></td>
+                                <td><%= order.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) %></td>
+                                <td><%= order.paymentMethod %></td>
+                                <td><%= order.product.status %></td>
+                                <td>
+                                    <!-- Add cancel and return buttons with appropriate links -->
+                                    <% if (order.product.status !== 'cancelled' && order.product.status !== 'delivered' && order.product.status !== 'pending' && order.product.status !== 'failed') { %>
+                                        <input type="hidden" name="orderId" value="<%= order._id %>">
+                                        <a href="/cancelOrder/<%= order._id %>/<%= order.product.productId %>" class="cancel-link">cancel</a>
+                                    <% } %>
+
+                                    <% if(order.product.status === 'delivered') { %>
+                                        <a href="/downloadInvoice/<%= order._id %>/<%= order.product.productId %>" class="invoice-link">invoice</a>
+                                    <% } %>
+                                    <br><br>
+                                  
+
+                                    
+                                    <% if (order.product?.returnStatus === 'return'  ) { %>
+                                        <p style="color: rgb(218, 162, 8); ">request send</p>
+                                       <% } else if(order.product?.returnStatus === 'accepted' ) {%>
+                                       <p style="color: rgb(58, 146, 37);"> accepted</p>
+                                       <% } else if (order.product?.returnStatus === 'rejected' ) {%>
+                                        <p style="color: red;">rejected</p>
+                                        <% } else if(order.product?.status === 'delivered' ){ %>
+                                            
+                                                <input type="hidden" name="orderId" value="<%= order._id %>">
+                                                <button class="return-button" onclick="returnButton('<%= order._id %>','<%= order.product.productId %>')" type="submit">return</button>
+                                            </form>
+                                    <% } %>
+                                </td>
+                                <!-- Add action buttons here if needed -->
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" class="text-center">No orders found</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+                
+                
+                
+            </table>
+            <!-- Pagination -->
+
+            <div class="pagination-area mt-30 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <% if (totalPages > 1) { %>
+                            <% if (currentPage > 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1"></a>
+                                </li>
+                            <% } %>
+                            <% for (let page = 1; page <= totalPages; page++) { %>
+                                <li class="page-item <%= currentPage == page ? 'active' : '' %>">
+                                    <a class="page-link" href="?page=<%= page %>"><%= page %></a>
+                                </li>
+                            <% } %>
+                            <% if (currentPage < totalPages) { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<%= totalPages %>"></a>
+                                </li>
+                            <% } %>
+                        <% } else { %>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <% } %>
+                    </ul>
+                </nav>
+            </div>
+               
+           
+        </div>
+    </div>
+</div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function returnButton(orderId,productId) {
+        console.log("here in return handle")
+     axios.patch(`/returnHandle/${orderId}/${productId}`)
+     .then(res => {
+        if(res.data.success === true ){
+            window.location.reload();
+            
+        }
+     }).catch(err => {
+        console.error(err);
+     })
+    }
+
+
+
+
+</script>
+
+
+<%- include('../layouts/footer.ejs') %>

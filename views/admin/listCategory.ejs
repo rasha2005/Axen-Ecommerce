@@ -1,0 +1,31 @@
+<%- include('../adminLayout/header.ejs') %>
+
+<div class="card-body">
+    <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+        <% for (let i = 0; i<categories.length; i++) { %>
+            <div class="col">
+                <div class="card card-product-grid">
+                    <!-- Assuming your category has an image property -->
+                    
+                        <img src="/catimages/<%= categories[i].img %>" alt="<%= categories[i].img %>" />
+                  
+                    <div class="info-wrap">
+                        <p href="#" class="title text-truncate"><%= categories[i].category %></p>
+                        <!-- Add more details as needed -->
+                        <!-- <div class="price mb-2">$179.00</div> -->
+                        <!-- price.// -->
+                        
+                        <form action="/admin/catlist" method="post" style="display: inline;">
+                            <input type="hidden" name="categoriesId" value="<%= categories[i]._id %>">
+                            <button type="submit" class="btn btn-sm font-sm btn-light rounded">
+                                list
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../adminLayout/footer.ejs') %>

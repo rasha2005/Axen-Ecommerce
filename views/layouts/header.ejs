@@ -1,0 +1,207 @@
+<!doctype html>
+<html class="no-js"  lang="en">
+
+
+<!-- Mirrored from htmldemo.net/subas/subas/index-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Jan 2024 05:28:40 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AXEN || Home-6</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/icon/favicon.png">
+    <link rel="stylesheet" href="">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha384-wHA9dX7z9J1W1Z7T++Uz+KtSFAdzD8a48qE6i9z1X9Nq7T4if2ebh0PBl9d8/J3f" crossorigin="anonymous">
+
+    <!-- All CSS Files -->
+    <!-- Bootstrap fremwork main css -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- Nivo-slider css -->
+    <link rel="stylesheet" href="/lib/css/nivo-slider.css">
+    <!-- This core.css file contents all plugings css file. -->
+    <link rel="stylesheet" href="/css/core.css">
+    <!-- Theme shortcodes/elements style -->
+    <link rel="stylesheet" href="/css/shortcode/shortcodes.css">
+    <!-- Theme main style -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- User style -->
+    <link rel="stylesheet" href="css/custom.css">
+    
+    <!-- Style customizer (Remove these two lines please) -->
+    <link rel="stylesheet" href="/css/style-customizer.css">
+    <link href="#" data-style="styles" rel="stylesheet">
+
+    <!-- Add this in the head of your HTML file -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.14.1/dist/sweetalert2.min.css">
+<style>
+    body::-webkit-scrollbar {
+    display: none;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.14.1/dist/sweetalert2.min.js"></script>
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- Modernizr JS -->
+    <script src="js/vendor/modernizr-3.11.2.min.js"></script>
+    <script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="js/vendor/jquery-migrate-3.3.2.min.js"></script>
+</head>
+
+<body >
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->  
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper">
+
+        <!-- START HEADER AREA -->
+        <header class="header-area header-wrapper">
+            <!-- header-top-bar -->
+            <div class="header-top-bar plr-185">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 d-none d-md-block">
+                            <!-- <div class="call-us">
+                                <p class="mb-0 roboto">0123456789</p>
+                            </div> -->
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="top-link clearfix">
+                                <ul class="link f-right">
+                                    <% if (typeof user !== 'undefined') { %>
+                                        <li>
+                                            <a href="account">
+                                                <i class="zmdi zmdi-account"></i>
+                                                My Account
+                                            </a>
+                                        </li>
+                                    <% } %>
+                                    <li>
+                                        <a href="wishlist">
+                                            <i class="zmdi zmdi-favorite"></i>
+                                            Wish List 
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <% if (typeof user !== 'undefined') { %>
+                                            <!-- Display Logout if the user is authenticated -->
+                                            <a href="/logout">
+                                                <i class="zmdi zmdi-power"></i>
+                                                Logout
+                                            </a>
+                                        <% } else { %>
+                                            <!-- Display Login if the user is not authenticated -->
+                                            <a href="/login">
+                                                <i class="zmdi zmdi-lock"></i>
+                                                Login
+                                            </a>
+                                            <% } %>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- header-middle-area -->
+            <div class="header-middle-area plr-185" >
+                <div class="container-fluid">
+                    <div class="full-width-mega-dropdown">
+                        <div class="row">
+                            <!-- logo -->
+                            <div class="col-lg-2 col-md-4">
+                                <div class="logo" >
+                                    <h1 href="/" style="color: #e98614; font-family:  Georgia, 'Times New Roman', Times, serif">AXEN</h1>
+                                    
+                                </div>
+                            </div>
+                            <!-- primary-menu -->
+                            <div class="col-lg-8 d-none d-lg-block">
+                                <nav id="primary-menu">
+                                    <ul class="main-menu text-center">
+                                        <li ><a style="color: black;"href="/">Home</a> 
+                                            
+                                         </li>
+                                        <!-- Assuming categories is an array of objects with name property -->
+<li class="mega-parent">
+    <a style="color: black;"href="#">category</a>
+    <div class="mega-menu-area clearfix">
+        <div class="mega-menu-link mega-menu-link-4  f-left">
+            <ul class="single-mega-item">
+                <% for (let i = 0; i<category.length; i++) { %>
+                    <li ><a href="<%= category[i].name %>" ><%= category[i].category %></a></li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</li>
+
+                                        </li>
+                                        <li>
+                                            <a href="shop" style="color: black;">shop</a>
+                                        </li>
+                                        
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- header-search & total-cart -->
+                            <div class="col-lg-2 col-md-8">
+                                <div class="search-top-cart  f-right">
+                                    <!-- header-search -->
+                                    <div class="header-search f-left">
+                                        <div class="header-search-inner">
+                                            <button class="search-toggle">
+                                                <i class="zmdi zmdi-search"></i>
+                                            </button>
+                                            <form action="#">
+                                                <div class="top-search-box">
+                                                    <input type="text" placeholder="Search here your product...">
+                                                    <button type="submit">
+                                                        <i class="zmdi zmdi-search"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- total-cart -->
+                                    <div class="total-cart f-left">
+                                        <div class="total-cart-in">
+                                            <div class="cart-toggler">
+                                                <% if(typeof user !== 'undefined') { %>
+                                                <a href="cart">
+                                                    <span class="cart-quantity"></span><br>
+                                                    <span class="cart-icon">
+                                                        <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                                    </span>
+                                                </a>
+                                                <% }else{ %>
+                                                    <a href="login">
+                                                        <span class="cart-quantity"></span><br>
+                                                        <span class="cart-icon">
+                                                            <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                                        </span>
+                                                    </a>
+                                                    <% } %>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END HEADER AREA -->

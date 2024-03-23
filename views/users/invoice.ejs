@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+
+    <title>DISEE - Invoice HTML5 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ddbe0d;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .invoice-content {
+            background-color: #fff;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .invoice-logo img {
+            max-width: 100px;
+        }
+
+        .invoice-number-inner {
+            background-color: #f7f7f7;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .invoice-number-inner h2 {
+            color: #333;
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .invoice-number-inner p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .invoice-contant {
+            margin-top: 30px;
+        }
+
+        .invoice-top h1 {
+            color: #333;
+            font-size: 30px;
+            margin: 0;
+        }
+
+        .invoice-name {
+            color: #ff7f0e;
+        }
+
+        .invoice-number {
+            color: #666;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .invo-addr-1 {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .order-summary {
+            margin-top: 30px;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .invoice-table th,
+        .invoice-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .invoice-table th {
+            background-color: #f7f7f7;
+            text-align: left;
+            color: #333;
+        }
+
+        .invoice-bottom {
+            margin-top: 30px;
+        }
+
+        .terms-conditions h3 {
+            color: #333;
+            font-size: 20px;
+            margin: 0 0 10px 0;
+        }
+
+        .terms-conditions p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .payment-method h3 {
+            color: #333;
+            font-size: 20px;
+            margin: 0 0 10px 0;
+        }
+
+        .payment-method-list-1 li {
+            color: #666;
+            font-size: 14px;
+            list-style-type: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #ff7f0e;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #e65100;
+        }
+
+        .btn-print {
+            margin-right: 10px;
+        }
+
+        .btn-theme {
+            background-color: #007bff;
+        }
+
+        .btn-theme:hover {
+            background-color: #0056b3;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        .d-print-none {
+            display: none;
+        }
+
+        @media print {
+            .d-print-none {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Invoice 6 start -->
+<div class="invoice-6 invoice-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="invoice-inner clearfix">
+                    <div class="invoice-info clearfix" id="invoice_wrapper">
+                        <div class="invoice-headar">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="invoice-logo">
+                                        <!-- logo started -->
+                                        <!-- <div class="logo">
+                                            <img src="/images/logo/logo.png" alt="logo">
+                                        </div> -->
+                                        <!-- logo ended -->
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="invoice-contact-us">
+                                        <h1>Contact Us</h1>
+                                        <ul class="link">
+                                            <li>
+                                                <i class="fa fa-map-marker"></i> 169 Banglore
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-envelope"></i> <a href="mailto:sales@hotelempire.com">axen@gmail.com</a>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-phone"></i> <a href="tel:+55-417-634-7071">+91 123 647 840</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invoice-contant">
+                            <div class="invoice-top">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h1 class="invoice-name">Invoice</h1>
+                                    </div>
+                                    <div class="col-sm-6 mb-30">
+                                        <div class="invoice-number-inner">
+                                            <h2 class="name">Invoice No: #45613</h2>
+                                            <p class="mb-0">Invoice Date: <span>21 Sep 2021</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mb-30">
+                                        <div class="invoice-number">
+                                            <h4 class="inv-title-1">Invoice To</h4>
+                                            <h2 class="name mb-10"><%= data.address.name %></h2>
+                                            <p class="invo-addr-1 mb-0">
+                                                <%= data.user.mobile %> <br/>
+                                               <%= data.user.email %> <br/>
+                                               <%= data.address.address %> <br/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mb-30">
+                                        <div class="invoice-number">
+                                            <div class="invoice-number-inner">
+                                                <h4 class="inv-title-1">Invoice From</h4>
+                                                <h2 class="name mb-10">AXEN</h2>
+                                                <p class="invo-addr-1 mb-0">
+                                                    Apexo Inc  <br/>
+                                                    axen@gmail.com <br/>
+                                                    169 Banglore <br/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invoice-center">
+                                <div class="order-summary">
+                                    <div class="table-outer">
+                                        <table class="default-table invoice-table">
+                                            <thead>
+                                            <tr>
+                                                <th>product name</th>
+                                                <th>Price</th>
+                                                <th>quantity</th> 
+                                                <th>Total</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <% for(let i = 0 ; i < data.product.length ; i++) { %>
+                                            <tr>
+                                                <td><%=  data.product[i].name%></td>
+                                                <td><%=  data.product[i].price %></td>
+                                                <td><%=  data.product[i].quantity  %></td>
+                                                <td><%=  data.product[i].totalPrice %></td>
+                                            </tr>
+                                           <% } %>
+                                           <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><%= data.order.subtotal %></td>
+                                        </tr>
+                                           
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invoice-bottom">
+                                <div class="row">
+                                    <div class="col-lg-7 col-md-7 col-sm-7">
+                                        <div class="terms-conditions mb-30">
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5">
+                                        <div class="payment-method mb-30">
+                                            <h3 class="inv-title-1 mb-10">Payment Method</h3>
+                                            <ul class="payment-method-list-1 text-14">
+                                                <li><%= data.order.paymentMethod %></li>
+                                            
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="invoice-btn-section clearfix d-print-none">
+                        <!-- <a href="javascript:window.print()" class="btn btn-lg btn-print">
+                            <i class="fa fa-print"></i> Print Invoice
+                        </a>
+                        <a id="invoice_download_btn" class="btn btn-lg btn-download btn-theme">
+                            <i class="fa fa-download"></i> Download Invoice
+                        </a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

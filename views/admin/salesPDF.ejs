@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+
+    <title>DISEE - Invoice HTML5 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <style>
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            font-family: Arial, sans-serif; /
+        }
+        .custom-table th, .custom-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .custom-table th {
+            background-color: #f2f2f2;
+        }
+        .custom-table hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 0;
+        }
+    </style>
+    </head>
+    <body>
+    <table class="custom-table" >
+        <tr>
+            <td style="font-size: large; font-weight: bold; font-family: 'Times New Roman', Times, serif;" class="column">orderId</td>
+            <td style="font-size: large; font-weight: bold; font-family: 'Times New Roman', Times, serif;" class="column">subtotal</td>
+            <td style="font-size: large; font-weight: bold; font-family: 'Times New Roman', Times, serif;" class="column">paymentMethod</td>
+            <td style="font-size: large; font-weight: bold; font-family: 'Times New Roman', Times, serif;" class="column">date</td>
+        </tr>
+        
+       
+       
+      
+        
+            <% for(let i = 0 ; i < data.orders.length ; i++) { %>
+                <tr>
+                    <td class="column"><%= data.orders[i]._id %></td>
+                    <td class="column"><%= data.orders[i].subtotal %></td>
+                    <td class="column"><%= data.orders[i].paymentMethod %></td>
+                    <td class="column"><%= data.orders[i].date%></td>
+                    
+                </tr>
+           
+           <% } %>
+         
+      
+    </table>
+</body>
+  
+
+</html>
+
+

@@ -1,0 +1,48 @@
+<%- include('../adminLayout/header.ejs') %>
+
+<section class="content-main">
+    <div class="row">
+        <div class="col-9">
+            <div class="content-header">
+                <h2 class="content-title"></h2>
+            </div>
+        </div>
+<div class="card border-0" style=" color: #fff; background-color: orange; width: 300px; height: 250px; overflow: hidden; ">
+    <div class="card-body d-flex flex-column justify-content-between">
+      <h5 class="card-title text-center mb-4">Referral Offer</h5>
+      <p class="card-text text-center">refferal Bonus : <%= refferal[0].refferalBonus %></p>
+      <p class="card-text text-center">refferal signUp : <%= refferal[0].refferalSign  %></p>
+      <div class="text-center">
+        <a href="editRefferal/<%=refferal[0]._id  %>">
+
+            <button class=" mx-2 stylish-btn" >Edit</button>
+        </a>
+      </div>
+    </div>
+    <div class="pulse-animation"></div>
+ 
+  </div>
+  </section>
+  
+  <style>
+    .stylish-btn {
+      background-color: #4285f4; /* Blue color */
+      color: #fff; /* White text color */
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0px 4px 8px rgba(66, 133, 244, 0.2);
+    }
+  
+    .stylish-btn:hover {
+      background-color: #1a73e8; /* Darker shade of blue on hover */
+      box-shadow: 0px 6px 12px rgba(66, 133, 244, 0.4);
+    }
+  </style>
+
+ 
+  
+<%- include('../adminLayout/footer.ejs') %>

@@ -1,0 +1,200 @@
+
+<%- include('../adminLayout/header.ejs') %>
+          
+          <section class="content-main">
+                <div class="content-header">
+                    
+                        <h2 class="content-title card-title"></h2>
+                        
+                    
+                        <form action="/admin/filterSales" method="post">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-6">
+                                        <label class="form-label">start-date</label>
+                                        <input name="startDate" placeholder="" type="text" id="start-date" class="custom-input" >
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-6">
+                                        <label class="form-label">start-date</label>
+                                        <input name="endDate" placeholder="" type="text" id="end-date" class="custom-input" >
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 align-self-end" >
+                                    <div class="mt-4">
+                                        <button  style="height: 30px; background-color: rgb(231, 217, 12); border: 0; border-radius: 3px; color: white; transition: background-color 0.3s;">search</button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </form>
+                        <div>
+                        
+                            <a href="/admin/generatePdf"   class="btn btn-primary btn-sm rounded">generate PDF</a>
+                       
+                            
+                            <button onclick="exportToExcel()" class="btn btn-primary btn-sm rounded">exportToExcel</button>
+                        </div>
+                    </div>
+                        <p>.</p>
+                    
+                    <!-- <div>
+                        <a href="#" class="btn btn-light rounded font-md">Export</a>
+                        <a href="#" class="btn btn-light rounded font-md">Import</a>
+                        <a href="#" class="btn btn-primary btn-sm rounded">Create new</a>
+                    </div> -->
+                </div>
+                <div class="card mb-4">
+                    <!-- <header class="card-header">
+                        <table width="100%" border="2%">
+                            <tr>
+                                <td class="col-check">
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" value="" />
+                                    </div>
+                                </td>
+                                <tr class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+                                    <tr class="mb-0">Name</tr>
+                                    <tr class="mb-0">Email</tr>
+                                    <tr class="mb-0">Mobile</tr>
+                                </tr>
+                                <td class="col-md-3 col-12">
+                                    <h5 class="mb-0">Action</h5>
+                                </td>
+                            </tr>
+                        </table>
+                    </header> -->
+                    <div class="card-body">
+                        <style>
+                            .custom-table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                border: 1px solid #ddd;
+                                font-family: Arial, sans-serif; /
+                            }
+                            .custom-table th, .custom-table td {
+                                border: 1px solid #ddd;
+                                padding: 8px;
+                                text-align: left;
+                            }
+                            .custom-table th {
+                                background-color: #f2f2f2;
+                            }
+                            .custom-table hr {
+                                border: none;
+                                border-top: 1px solid #ddd;
+                                margin: 0;
+                            }
+                        </style>
+                        
+                        <table  class="custom-table"  id="orderTable">
+                            <tr>
+                                <td style="font-size: large; font-weight: bold; font-family: 'Times New Roman', Times, serif;" class="column">orderId</td>
+                                <td style="font-size: large; font-weight: bold; font-family: 'Times New Roman', Times, serif;" class="column">subtotal</td>
+                                <td style="font-size: large; font-weight: bold; font-family: 'Times New Roman', Times, serif;" class="column">paymentMethod</td>
+                                <td style="font-size: large; font-weight: bold; font-family: 'Times New Roman', Times, serif;" class="column">date</td>
+                            </tr>
+                            
+                           
+                           
+                            <% if(order.length === 0 ) {%>
+                                <tr>
+                                    <td class="column"><%=  %></td>
+                                    <td class="column"><%=  %></td>
+                                    <td class="column"><%=  %></td>
+                                    <td class="column"><%= %></td>
+                                    
+                                </tr>
+                                <% }else{ %>
+                            
+                                <% for(let i = 0 ; i < order.length ; i++) { %>
+                                    <tr>
+                                        <td class="column"><%= order[i]._id %></td>
+                                        <td class="column"><%= order[i].subtotal %></td>
+                                        <td class="column"><%= order[i].paymentMethod %></td>
+                                        <td class="column"><%= order[i].date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }) %></td>
+                                        
+                                    </tr>
+                               
+                               <% } %>
+                               <% } %>
+                          
+                        </table>
+                        
+                      
+                    </div>
+
+                  
+                   
+                
+                                <!-- <div class="col-lg-1 col-sm-2 col-4 col-date">
+                                    <span>02.11.2021</span>
+                                </div>
+                                <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
+                                    <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                    <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                </div> --> 
+                            </div>
+                            <!-- row .// -->
+                        </article>
+                        
+            </section> 
+            <!-- content-main end// -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Include jQuery UI library -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <script>
+                console.log("heii")
+                jQuery(document).ready(function($) {
+                    var today = new Date();
+                    $("#start-date").datepicker({
+                        dateFormat: 'dd/mm/y'
+
+                    });
+                    
+                });
+            
+                jQuery(document).ready(function($) {
+                    var today = new Date();
+                    $("#end-date").datepicker({
+                        dateFormat: 'dd/mm/y'
+                       
+                    });
+                    
+                });
+            </script>
+            <style>
+                /* Define styles for the input */
+                .custom-input {
+                    border: 2px solid transparent; /* Start with a transparent border */
+                    border-radius: 3px;
+                    padding: 8px;
+                    transition: border-color 0.3s, box-shadow 0.3s; /* Add smooth transition for border-color and box-shadow */
+                }
+            
+                /* Add hover effect */
+                .custom-input:hover {
+                    border-color: #b3bdbb; /* Change border color on hover */
+                }
+            
+                /* Add focus effect */
+                .custom-input:focus {
+                    border-color: #b3bdbb; /* Change border color on focus */
+                    box-shadow: 0 0 5px #b3bdbb; /* Add a slight shadow effect on focus */
+                    outline: none; /* Remove default focus outline */
+                }
+                button:hover {
+        background-color: rgb(201, 47, 0);
+    }
+            </style>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+        
+             <script>
+                function exportToExcel() {
+    var wb = XLSX.utils.table_to_book(document.getElementById('orderTable')); // Convert table to workbook
+    XLSX.writeFile(wb, 'orders.xlsx'); // Save workbook as Excel file
+}
+             </script>
+            <%- include('../adminLayout/footer.ejs') %>

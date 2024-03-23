@@ -1,0 +1,95 @@
+<%- include('../adminLayout/header.ejs') %>
+
+<section class="content-main mt-5">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">category offers</h2>
+        </div>
+        <div>
+                        
+            <a href="addCategoryOffer" class="btn btn-primary btn-sm rounded">add offer</a>
+       
+            
+           
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+           
+            <table class="table table-striped" width="100%">
+                <thead>
+                    <tr>
+                       
+                       
+                        <th></th>
+                        <th>name</th>
+                        <td></td>
+                        <th></th>
+                        
+                       
+                        <th></th>
+                        <th></th>
+                        <th>offer</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyToDelete">
+                    
+                   <% for(let i =0 ; i < CatOffers.length ; i++) {%>
+                    <tr id="offerRow_<%= CatOffers[i]._id %>">
+                      
+                        <td><img src="/catimages/<%=CatOffers[i].category.img %>" alt="<%= CatOffers[i].category.img%>" style="max-width: 100px;"></td>
+                        <td><%= CatOffers[i].category.category %></td>
+                        <td></td>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <td><%= CatOffers[i].categoryofferAmt %></td>
+                        <th></th>
+                        <th></th>
+                        <td></td>
+    
+                        <td>
+                            <a href="editCategoryOffer?id=<%= CatOffers[i]._id %>" class="btn btn-sm " style="background-color: #1199cf; color: #ffffff; border: 1px solid #1199cf;">
+                                Edit
+                            </a>
+                           
+                            <button type="submit" class="btn btn-sm btn-danger"  onclick="deleteCoupon('<%= CatOffers[i]._id  %>')">
+                                Delete
+                             </button>
+                        </td>
+                    </tr>
+                 <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>            
+                 
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+            <script>
+                 console.log("nmanjad");
+        function deleteCoupon(CatOffer){
+            console.log('inside the funtion');
+            console.log("dmns",CatOffer);
+            axios.delete(`/admin/deleteOffer/${CatOffer}`)
+            .then(res => {
+                if(res.data.success === true){
+                    console.log('yup u did it');
+                    const deletedOfferId = res.data.deletedOfferId; 
+                    console.log("deletedProductId",deletedOfferId);
+                    // window.location.reload();
+                
+                    $(`#tbodyToDelete tr[id="offerRow_${deletedOfferId}"]`).remove();
+                    console.log("heyy");
+                }
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+            </script>
+<%- include('../adminLayout/footer.ejs') %>

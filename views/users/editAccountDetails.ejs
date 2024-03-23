@@ -1,0 +1,328 @@
+<%- include('../layouts/header.ejs') %>
+
+<style>
+   body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #284b3b; /* Set a different background color */
+    }
+
+    .card-container {
+       /* Set the height of the card */
+        margin: 20px; /* Provide space on all sides of the card */
+        padding: 20px;
+        border: 2px solid #d9e7e4; /* Add a border to the card with the desired color */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(206, 23, 23, 0.1);
+        background-color: #fff;
+    }
+    
+
+    .custom-table {
+        display: block;
+    }
+
+    .custom-column {
+        float: left;
+    }
+
+    .custom-column:first-child {
+        width: 33.33%; /* Set the width of the first column (4 parts out of 12) */
+    }
+
+    .custom-column:last-child {
+        width: 66.66%; /* Set the width of the second column (8 parts out of 12) */
+    }
+
+    .custom-cell {
+        padding: 10px;
+        text-align: right; /* Align the content to the right within the cell */
+    }
+
+    .custom-menu {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+    }
+
+    .custom-menu-item {
+        margin-right: 20px;
+    }
+
+    .custom-menu-link {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .custom-icon {
+        margin-right: 10px;
+    }
+
+    /* Styles for the second card */
+    .second-card-container {
+        width: 90%; /* Set the width of the second card (8 parts out of 12) */
+        height: auto; /* Set the height of the card */
+        margin: 20px; /* Provide space on all sides of the card */
+        padding: 20px;
+        border: 2px solid #d9e7e4; /* Add a border to the card with the same color as the first card */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(206, 23, 23, 0.1);
+        background-color: #fff;
+    }
+
+    /* Styles for the nested card */
+    .nested-card {
+        width: 100%; /* Set the width of the nested card to 100% */
+        height: auto; /* Set the height of the nested card to 100% */
+        border: 2px solid #d9e7e4;
+        padding: 10px;
+        box-sizing: border-box; /* Include padding and border in the total width and height */
+        border-radius: 9px;
+        margin-top: 5px;
+       
+    }
+    .icon{
+        margin-left: 97%;
+        cursor: pointer;
+    position: relative;
+    float: right;
+    }
+    @media screen and (max-width: 600px) {
+    .icon,
+    .dropdown-content {
+        margin-left: 5%;
+    }
+}
+    .dropdown-content {
+    display: none;
+    padding: 9px 16px;
+    background-color: #f9f9f9;
+    min-width: 10px;
+   
+    z-index: 8;
+   float: right;
+}
+
+.input-field {
+    width: 100%;
+    padding: 9px;
+    margin-bottom: 20px;
+    border: 1px solid #F2F1EB;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+    font-size: 14px; }
+
+    .input-field:focus {
+    border-color: #f1950b; /* Change the border color when the input is in focus */
+}
+
+/* .dropdown-content a {
+    padding: 9px 16px;
+    text-decoration: none;
+  
+    color: #333;
+} */
+
+/* .dropdown-content a:hover {
+    background-color: #f1f1f1;
+    margin-left: 97%;
+} */
+</style>
+
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .card-container {
+       /* Set the height of the card */
+        margin: 20px; /* Provide space on all sides of the card */
+        padding: 20px;
+        border: 2px solid #d9e7e4; /* Add a border to the card with the desired color */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(206, 23, 23, 0.1);
+    }
+
+    .custom-table {
+        display: block;
+    }
+
+    .custom-column {
+        float: left;
+    }
+
+    .custom-column:first-child {
+        width: 33.33%; /* Set the width of the first column (4 parts out of 12) */
+    }
+
+    .custom-column:last-child {
+        width: 66.66%; /* Set the width of the second column (8 parts out of 12) */
+    }
+
+    .custom-cell {
+        padding: 10px;
+        text-align: right; /* Align the content to the right within the cell */
+    }
+
+    .custom-menu {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+    }
+
+    .custom-menu-item {
+        margin-right: 20px;
+    }
+
+    .custom-menu-link {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .custom-icon {
+        margin-right: 10px;
+    }
+
+    /* Styles for the second card */
+    .second-card-container {
+        width: 90%; /* Set the width of the second card (8 parts out of 12) */
+        height: 400px; /* Set the height of the card */
+        margin: 20px; /* Provide space on all sides of the card */
+        padding: 20px;
+        border: 2px solid #d9e7e4; /* Add a border to the card with the same color as the first card */
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(206, 23, 23, 0.1);
+    }
+
+    /* Styles for the nested card */
+    .nested-card {
+        width: 100%; /* Set the width of the nested card to 100% */
+        height: auto; /* Set the height of the nested card to 100% */
+        border: 2px solid #d9e7e4;
+        padding: 10px;
+        box-sizing: border-box; /* Include padding and border in the total width and height */
+        border-radius: 9px;
+        margin-top: 5px;
+       
+    }
+    .icon{
+        margin-left: 97%;
+        cursor: pointer;
+    position: relative;
+    float: right;
+    }
+   
+    .dropdown-content {
+    display: none;
+    padding: 9px 16px;
+    background-color: #f9f9f9;
+    min-width: 10px;
+   
+    z-index: 8;
+   float: right;
+}
+</style>
+
+<div class="custom-table">
+    <div class="custom-column">
+        <div class="card-container">
+            <div class="custom-cell">
+                <nav class="custom-nav">
+                    <ul class="custom-menu">
+                        <li class="custom-menu-item">
+                            <a href="/savedAddress" class="custom-menu-link">
+                                <i class="zmdi zmdi-accounts-list-alt"></i>&nbsp;
+                                <span>Saved Addresses</span>
+                            </a>
+                            
+                            <a href="accountDetails" class="custom-menu-link">
+                                <i class="zmdi zmdi-account"></i>&nbsp;
+                                <span>Account details</span>
+                            </a>
+                            <a href="Orders" class="custom-menu-link">
+                                <i class="zmdi zmdi-store"></i>&nbsp;
+                                <span >Orders</span>
+                            </a>
+                            <a href="changePassword" class="custom-menu-link">
+                                <i class="zmdi zmdi-key"></i>&nbsp;
+                                <span >change password</span>
+                            </a>
+                            <a href="wallet" class="custom-menu-link">
+                                <i class="zmdi zmdi-balance-wallet"></i>&nbsp;
+                                <span >wallet</span>
+                            </a>
+                            <a href="refferalOffer" class="custom-menu-link">
+                                <i class="zmdi zmdi-code"></i>&nbsp;
+                                <span >Refferal Code</span>
+                            </a>
+                        </li>
+                        <!-- Add more menu items as needed -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-column">
+        <div class="second-card-container">
+         
+                <!-- Content for the nested card -->
+             
+                
+                    <h6 class="widget-title border-left mb-10" style="color:#161515"> edit account Details</h6>
+                    <div class="login-account p-30 ">
+
+                        
+                       
+                        <div class="row">
+                            <div class="col-sm-12" >
+                                <form method="post" action="/editAddressDetails/<%= user._id %>">
+                               <h5 style="color: #fff; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">name</h5>
+                                <input style="color: black;" type="text" name="name" placeholder="name" value="<%= user.name %>" >
+                                <% if(typeof message !== 'undefined'){ %>
+                                    <% if (message === 'user name is required') { %>
+                                        <p style="color: rgb(230, 14, 14);"><%= message %></p>
+                                    
+                                    <% } %>
+                                <% } %>
+                               
+                            </div>
+                            
+
+                            <div class="col-sm-12">
+                                <h5 style="color: #fff; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">mobile</h5>
+                                <input  style="color: black;" type="text" name="mobile" placeholder="Phone" value="<%= user.mobile %>" >
+                                <% if(typeof message !== 'undefined'){ %>
+                                    <% if (message === 'mobile is required' || message === 'mobile should be a number'||message === 'Mobile number must be exactly 10 digits' || message === ' Invalid mobile number') { %>
+                                        <p style="color: rgb(230, 14, 14);"><%= message %></p>
+                                    
+                                    <% } %>
+                                <% } %>
+                            </div>
+                           
+                        </div>
+                        <br><br>
+                        <input type="hidden" name="userId" value="<%= user._id %>">
+                        <button type="submit" class="btn btn-light rounded font-sm mr-5 text-body hover-up" style="background-color: #f1950b; ">save</button>
+                  
+                    </form>
+           
+                        
+                    </div>
+               
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/footer.ejs') %>

@@ -1,0 +1,99 @@
+<%- include('../adminLayout/header.ejs') %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">coupons</h2>
+           
+        </div>
+        <div>
+            
+            <a href="addCoupon" class="btn btn-primary btn-sm rounded">add coupon</a>
+        
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+           
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                       
+                        <th>code</th>
+                        <th>description</th>
+                        <th>maxAmt</th>
+                        <th>couponAmt</th>
+                        <th>startDate</th>
+                        <th>endDate</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyToDelete">
+                    
+                   <% for(let i =0 ; i < coup.length ; i++) {%>
+                    <tr  id="couponRow_<%= coup[i]._id %>">
+                      
+                        <td><%= coup[i].code %></td>
+                        <td><%= coup[i].description %></td>
+                        <td>₹<%= coup[i].maxAmt %></td>
+                        <td>₹<%= coup[i].couponAmt %></td>
+                        <td><%= coup[i].startDate %></td>
+                        <td><%= coup[i].endDate %></td>
+                        <% console.log(" coup", coup[i]._id ); %>
+                        <td>
+                            
+                            <a href="/admin/editCoupon/<%= coup[i]._id  %>" class="btn btn-sm " style="background-color: #1199cf; color: #ffffff; border: 1px solid #1199cf;">
+                                Edit
+                            </a>
+                            <input type="hidden" id="productId" value="product_id_to_delete">
+                            <button type="button" class="btn btn-sm btn-danger" onclick="deleteCoupon('<%= coup[i]._id  %>')">
+                                Delete
+                            </button>
+                           
+                        </td>
+                    </tr>
+                 <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        console.log("nmanjad");
+        function deleteCoupon(couponId){
+            console.log('inside the funtion');
+            console.log("dmns",couponId);
+
+            axios.delete(`/admin/deletecoup/${couponId}`)
+            .then(res => {
+                if(res.data.sucess === true){
+                    console.log('yup u did it');
+                    const deletedProductId = res.data.deletedProductId; 
+                    console.log("deletedProductId",deletedProductId);
+                    // window.location.reload();
+                
+                    $(`#tbodyToDelete tr[id="couponRow_${deletedProductId}"]`).remove();
+
+               }
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        }
+
+        function loadEditCoupon(couponId){
+            console.log("coming to edut function??");
+            console.log()
+
+            axios.get(`/admin/editCoupon/${couponId}`)
+        }
+
+    </script>
+
+
+<%- include('../adminLayout/footer.ejs') %>

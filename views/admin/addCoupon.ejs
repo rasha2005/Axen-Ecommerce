@@ -1,0 +1,144 @@
+<%- include('../adminLayout/header.ejs') %>
+            <section class="content-main">
+                <div class="row">
+                    <div class="col-9">
+                        <div class="content-header">
+                            <h2 class="content-title">Add New Coupon</h2>
+                            <!-- <div>
+                                <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Add</button>
+                                
+                            </div> -->
+                        </div>
+                    </div>
+                    <form   action="" method="post" >
+                       
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h4>Details</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-4">
+                                            <label  class="form-label">code</label>
+                                            <input name="code" type="text" placeholder="Type here" class="form-control"  />
+                                            <% if (typeof message !== 'undefined') { %>
+                                                <% if (message ==='code is required' ||message === 'code already exists') { %>
+                                                    <p style="color: red;"><%= message %></p>
+                                                <% } %>
+                                            <% } %>
+                                            
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label"> description</label>
+                                            <textarea name="description" placeholder="Type here" class="form-control" rows="4" ></textarea>
+                                            <% if (typeof message !== 'undefined') { %>
+                                                <% if (message ==='Description is required') { %>
+                                                    <p style="color: red;"><%= message %></p>
+                                                <% } %>
+                                            <% } %>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-6">
+                                                    <label class="form-label">min-amt</label>
+                                                    <div class="row gx-2">
+                                                        <input name="maxAmt" placeholder="₹" type="text" class="form-control" >
+                                                        <% if (typeof message !== 'undefined') { %>
+                                                            <% if (message === 'maxAmt should be a number'|| message ==='maxAmt is required' || message === 'minAmt should be greater than couponAmt' || message === 'maxAmt should not be a negative number') { %>
+                                                                <p style="color: red;"><%= message %></p>
+                                                            <% } %>
+                                                        <% } %>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div><br>
+                                            <div class="col-lg-6">
+                                                <div class="mb-6">
+                                                    <label class="form-label">coupon-amt</label>
+                                                    <input name="couponAmt" placeholder="₹" type="text" class="form-control" />
+                                                    <% if (typeof message !== 'undefined') { %>
+                                                        <% if (message ==='couponAmt should be a number' || message === 'couponAmt is required' || message === 'cuoponAmt should not be a negative number') { %>
+                                                            <p style="color: red;"><%= message %></p>
+                                                        <% } %>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        </div><br>
+                                        <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-6">
+                                                <label class="form-label">start-date</label>
+                                                <input name="startDate" placeholder="" type="text" id="start-date" class="form-control">
+                                                <% if (typeof message !== 'undefined') { %>
+                                                    <% if (message ==='startDate is required' || message === 'Invalid dates') { %>
+                                                        <p style="color: red;"><%= message %></p>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-6">
+                                                <label class="form-label">end-date</label>
+                                                <input name="endDate" placeholder="" type="text" id="end-date" class="form-control" >
+                                                <% if (typeof message !== 'undefined') { %>
+                                                    <% if (message ==='endDate is required') { %>
+                                                        <p style="color: red;"><%= message %></p>
+                                                    <% } %>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                        <!-- Category section -->
+                                      
+                                        <!-- End of Category section -->
+                                    </div>
+                                </div>
+                                <!-- Other card sections can be added here -->
+                               
+                            </div>
+                         
+                        </div>
+                        <!-- Additional card sections can be added here -->
+                        
+              
+                        <button class="btn btn-light hover-up" type="submit">add</button>
+                       
+                      
+                    </form>
+                   
+            </section>
+
+          <!-- Place the script after the form -->
+      
+ 
+<!-- Include jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Include jQuery UI library -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!-- Initialize datepicker after including jQuery and jQuery UI -->
+<script>
+    console.log("heii")
+    jQuery(document).ready(function($) {
+        var today = new Date();
+        $("#start-date").datepicker({
+            minDate: today,
+            dateFormat: 'dd/mm/y'
+        });
+        
+    });
+
+    jQuery(document).ready(function($) {
+        var today = new Date();
+        $("#end-date").datepicker({
+            minDate: today,
+            dateFormat: 'dd/mm/y'
+        });
+        
+    });
+</script>
+
+<%- include('../adminLayout/footer.ejs') %>

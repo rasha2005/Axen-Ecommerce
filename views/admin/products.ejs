@@ -1,0 +1,276 @@
+<%- include('../adminLayout/header.ejs') %>
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Products</h2>
+                        
+                    </div>
+                    <div>
+                        
+                        <a href="addProduct" class="btn btn-primary btn-sm rounded">add product</a>
+                   
+                        
+                        <a href="list" class="btn btn-primary btn-sm rounded">unlisted products</a>
+                    </div>
+                </div>
+                <!-- <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row gx-3">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                                <input type="text" placeholder="Search..." class="form-control" />
+                            </div>
+                            <div class="col-lg-2 col-6 col-md-3">
+                                <select class="form-select">
+                                    <option>All category</option>
+                                    <option>Electronics</option>
+                                    <option>Clothings</option>
+                                    <option>Something else</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-6 col-md-3">
+                                <select class="form-select">
+                                    <option>Latest added</option>
+                                    <option>Cheap first</option>
+                                    <option>Most viewed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </header> -->
+                    <!-- card-header end// -->
+                   
+<div class="card-body">
+   
+    <% const usersPerPage = 6; %>
+        <% const totalPages = Math.ceil(product.length / usersPerPage); %>
+        <% const currentPage = req.query.page || 1; %>
+        <% const startIndex = (currentPage - 1) * usersPerPage; %>
+        <% const endIndex = Math.min(startIndex + usersPerPage, product.length); %>
+        <% const displayedProducts = product.slice(startIndex, endIndex); %>
+     <% console.log("totalPages",totalPages) %>
+     <% console.log("startIndex",startIndex) %>
+     <% console.log("endIndex",endIndex) %>
+     <% console.log("displayedProducts",displayedProducts) %>
+     
+    <div class="table-responsive">
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Color</th>
+                    <th>Stock</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <% for(let i=startIndex; i<endIndex; i++) { %>
+                <tr>
+                    <td>
+                        <img src="/catimages/<%= product[i].pimg[0] %>" alt="<%= product[i].pimg %>" style="max-width: 100px;">
+                    </td>
+                    <td><%= product[i].pname %></td>
+                    <td>₹<%= product[i].price %></td>
+                    <td><%= product[i].color %></td>
+                    <td><%= product[i].stock %></td>
+                    <td><%= product[i]?.category?.category %></td>
+
+                    <td>
+                        <a href="/admin/editProduct/<%= product[i]._id %>" class="btn btn-sm " style="background-color: #1199cf; color: #ffffff; border: 1px solid #1199cf;">
+                            Edit
+                        </a>
+                        <form action="/admin/unlist" method="post" style="display: inline;">
+                            <input type="hidden" name="productId" value="<%= product[i]._id %>">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Unlist
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+                    
+                            <!-- col.// -->
+                            <!-- <div class="col">
+                                <div class="card card-product-grid">
+                                    <a href="#" class="img-wrap"> <img src="assets/imgs/items/2.jpg" alt="Product" /> </a>
+                                    <div class="info-wrap">
+                                        <a href="#" class="title text-truncate">Seeds of Change Organic Quinoa</a>
+                                        <div class="price mb-2">$179.00</div>
+                                        <!- price.// -->
+                                        <!-- <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                        <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                    </div>
+                                </div> -->
+                                <!-- card-product  end// -->
+                            <!-- </div> -->
+                            <!-- col.// -->
+                            <!-- <div class="col">
+                                <div class="card card-product-grid">
+                                    <a href="#" class="img-wrap"> <img src="assets/imgs/items/3.jpg" alt="Product" /> </a>
+                                    <div class="info-wrap">
+                                        <a href="#" class="title text-truncate">All Natural Italian-Style</a>
+                                        <div class="price mb-2">$179.00</div> -->
+                                        <!-- price.// -->
+                                        <!-- <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                        <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                    </div>
+                                </div> -->
+                                <!-- card-product  end// -->
+                            <!-- </div> -->
+                            <!-- col.// -->
+                            <!-- <div class="col">
+                                <div class="card card-product-grid">
+                                    <a href="#" class="img-wrap"> <img src="assets/imgs/items/4.jpg" alt="Product" /> </a>
+                                    <div class="info-wrap">
+                                        <a href="#" class="title text-truncate">Boomchick apop Sweet & Salty</a>
+                                        <div class="price mb-2">$179.00</div> -->
+                                        <!-- price.// -->
+                                        <!-- <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                        <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                    </div>
+                                </div> -->
+                                <!-- card-product  end// -->
+                            <!-- </div> -->
+                            <!-- col.// -->
+                            <!-- <div class="col">
+                                <div class="card card-product-grid">
+                                    <a href="#" class="img-wrap"> <img src="assets/imgs/items/5.jpg" alt="Product" /> </a>
+                                    <div class="info-wrap">
+                                        <a href="#" class="title text-truncate">Haagen-Dazs Caramel Cone Ice</a>
+                                        <div class="price mb-2">$179.00</div> -->
+                                        <!-- price.// -->
+                                        <!-- <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                        <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                    </div>
+                                </div> -->
+                                <!-- card-product  end// -->
+                            <!-- </div> -->
+                            <!-- col.// -->
+                            <!-- <div class="col">
+                                <div class="card card-product-grid">
+                                    <a href="#" class="img-wrap"> <img src="assets/imgs/items/6.jpg" alt="Product" /> </a>
+                                    <div class="info-wrap">
+                                        <a href="#" class="title text-truncate">Haagen-Dazs Caramel Cone Ice</a>
+                                        <div class="price mb-2">$179.00</div> -->
+                                        <!-- price.// -->
+                                        <!-- <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                        <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                    </div>
+                                </div> -->
+                                <!-- card-product  end// -->
+                            <!-- </div> -->
+                            <!-- col.// -->
+                            <!-- <div class="col">
+                                <div class="card card-product-grid">
+                                    <a href="#" class="img-wrap"> <img src="assets/imgs/items/7.jpg" alt="Product" /> </a>
+                                    <div class="info-wrap">
+                                        <a href="#" class="title text-truncate">Haagen-Dazs Caramel Cone Ice</a>
+                                        <div class="price mb-2">$179.00</div> -->
+                                        <!-- price.// -->
+                                        <!-- <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                        <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                    </div>
+                                </div> -->
+                                <!-- card-product  end// -->
+                            <!-- </div> -->
+                            <!-- col.// -->
+                            <!-- <div class="col">
+                                <div class="card card-product-grid">
+                                    <a href="#" class="img-wrap"> <img src="assets/imgs/items/8.jpg" alt="Product" /> </a>
+                                    <div class="info-wrap">
+                                        <a href="#" class="title text-truncate">Apple Airpods CB-133</a>
+                                        <div class="price mb-2">$179.00</div>
+                                        < price.// -->
+                                        <!-- <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                        <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                    </div> -->
+                                <!-- </div> --> 
+                                <!-- card-product  end// -->
+                            <!-- </div> -->
+                            <!-- col.// -->
+                            <!-- <div class="col">
+                                <div class="card card-product-grid">
+                                    <a href="#" class="img-wrap"> <img src="assets/imgs/items/9.jpg" alt="Product" /> </a>
+                                    <div class="info-wrap">
+                                        <a href="#" class="title text-truncate">Apple Airpods CB-133</a>
+                                        <div class="price mb-2">$179.00</div> -->
+                                        <!-- price.// -->
+                                        <!-- <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                        <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                    </div>
+                                </div> -->
+                                <!-- card-product  end// -->
+                            <!-- </div> -->
+                            <!-- col.// -->
+                            <!-- <div class="col">
+                                <div class="card card-product-grid">
+                                    <a href="#" class="img-wrap"> <img src="assets/imgs/items/10.jpg" alt="Product" /> </a>
+                                    <div class="info-wrap">
+                                        <a href="#" class="title text-truncate">Apple Airpods CB-133</a>
+                                        <div class="price mb-2">$179.00</div> -->
+                                        <!-- price.// -->
+                                        <!-- <a href="#" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                                        <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                                    </div>
+                                </div> -->
+                                <!-- card-product  end// -->
+                            <!-- </div> -->
+                            <!-- col.// -->
+                        <!-- </div> -->
+                        <!-- row.// -->
+                    <!-- </div> -->
+                    <!-- card-body end// -->
+                <!-- </div>  -->
+                <!-- card end// -->
+                <div class="pagination-area mt-30 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <% if (totalPages > 1) { %>
+                                <% if (currentPage > 1) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1"><i class="material-icons md-chevron_left"></i></a>
+                                    </li>
+                                <% } %>
+                                <% for (let page = 1; page <= totalPages; page++) { %>
+                                    <li class="page-item <%= currentPage == page ? 'active' : '' %>">
+                                        <a class="page-link" href="?page=<%= page %>"><%= page %></a>
+                                    </li>
+                                <% } %>
+                                <% if (currentPage < totalPages) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<%= totalPages %>"><i class="material-icons md-chevron_right"></i></a>
+                                    </li>
+                                <% } %>
+                            <% } else { %>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                </div>
+                
+                
+            </section>
+            <style>
+                .card-product-grid {
+                    height: 300px; /* Set the desired fixed height for the card */
+                    overflow: hidden; /* Hide any content that exceeds the fixed height */
+                }
+            
+                .card-product-grid img {
+                    width: 100%; /* Make sure the image takes 100% width inside the card */
+                    height: 100%; /* Make sure the image takes 100% height inside the card */
+                    object-fit: cover; /* Crop the image to cover the entire container */
+                }
+            </style>
+            <!-- content-main end// -->
+            
+            <%- include('../adminLayout/footer.ejs') %>

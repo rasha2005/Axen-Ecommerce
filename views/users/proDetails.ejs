@@ -1,0 +1,453 @@
+
+<%- include('../layouts/header.ejs') %>
+        <style>
+            .my-button {
+    padding: 5px 10px;
+    background-color: transparent;
+    color: #fff; /* Dark text color */
+    border: 2px solid #fff; /* Add a solid border */
+    border-radius: 6px; /* Increase border radius for a softer appearance */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+    font-size: 15px; /* Increase font size for better readability */
+    font-weight: bold; /* Make text bold */
+    text-decoration: none; /* Remove default underline */
+    display: inline-block; /* Ensure inline-block display for anchor tags */
+}
+
+/* Hover effect */
+.my-button:hover {
+    background-color: #ca670a; /* Darken the background color on hover */
+    color: #fff; /* Change text color to white on hover */
+}
+
+/* Focus effect */
+.my-button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 3px rgba(199, 66, 13, 0.2); /* Add a subtle shadow on focus */
+}
+
+        </style>
+        <!-- END HEADER AREA -->
+        
+        <!-- START MOBILE MENU AREA -->
+        <!-- <div class="mobile-menu-area d-block d-lg-none section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mobile-menu">
+                            <nav id="dropdown">
+                                <ul>
+                                    <li><a href="index.html">Home</a>
+                                        <ul>
+                                            <li>
+                                                <a href="index.html">Home Version 1</a>
+                                            </li>
+                                            <li>
+                                                <a href="index-2.html">Home Version 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="index-3.html">Home Version 3</a>
+                                            </li>
+                                            <li>
+                                                <a href="index-4.html">Home 4 Animated Text</a>
+                                            </li>
+                                            <li>
+                                                <a href="index-5.html">Home 5 Animated Text Ovlerlay</a>
+                                            </li>
+                                            <li>
+                                                <a href="index-6.html">Home 6 Background Video</a>
+                                            </li>
+                                            <li>
+                                                <a href="index-7.html">Home 7 BG-Video Ovlerlay</a>
+                                            </li>
+                                            <li>
+                                                <a href="index-8.html">Home 8 Boxed-1</a>
+                                            </li>
+                                            <li>
+                                                <a href="index-9.html">Home 9 Gradient</a>
+                                            </li>
+                                            <li>
+                                                <a href="index-10.html">Home 10 Boxed-2</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="shop.html">Products</a>
+                                    </li>
+                                    <li><a href="#">Pages</a>
+                                        <ul>
+                                            <li>
+                                                <a href="shop.html">Shop</a>
+                                            </li>
+                                            <li>
+                                                <a href="shop-left-sidebar.html">Shop Left Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="shop-right-sidebar.html">Shop Right Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="shop-list.html">Shop List</a>
+                                            </li>
+                                            <li>
+                                                <a href="shop-list-right-sidebar.html">Shop List Right Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="single-product.html">Single Product</a>
+                                            </li>
+                                            <li>
+                                                <a href="single-product-left-sidebar.html">Single Product Left Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="single-product-no-sidebar.html">Single Product No Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="cart.html">Shopping Cart</a>
+                                            </li>
+                                            <li>
+                                                <a href="wishlist.html">Wishlist</a>
+                                            </li>
+                                            <li>
+                                                <a href="checkout.html">Checkout</a>
+                                            </li>
+                                            <li>
+                                                <a href="order.html">Order</a>
+                                            </li>
+                                            <li>
+                                                <a href="login.html">Login</a>
+                                            </li>
+                                            <li>
+                                                <a href="my-account.html">My Account</a>
+                                            </li>
+                                            <li>
+                                                <a href="about.html">About us</a>
+                                            </li>
+                                            <li>
+                                                <a href="404.html">404</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="blog.html">Blog</a>
+                                        <ul>
+                                            <li>
+                                                <a href="blog.html">Blog</a>
+                                            </li>
+                                            <li>
+                                                <a href="blog-left-sidebar.html">Blog Left Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="blog-right-sidebar.html">Blog Right Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="blog-2.html">Blog style 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="blog-2-left-sidebar.html">Blog 2 Left Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="blog-2-right-sidebar.html">Blog 2 Right Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="single-blog.html">Blog Details</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="about.html">About Us</a>
+                                    </li>
+                                    <li>
+                                        <a href="contact.html">Contact</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- END MOBILE MENU AREA -->
+
+        <!-- BREADCRUMBS SETCTION START -->
+        <!-- <div class="breadcrumbs-section plr-200 mb-80 section">
+            <div class="breadcrumbs overlay-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="breadcrumbs-inner">
+                                <h1 class="breadcrumbs-title">Single Product</h1>
+                                <ul class="breadcrumb-list">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li>Single Product</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- BREADCRUMBS SETCTION END -->
+
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper section align-items-center" style="">
+
+            <!-- SHOP SECTION START -->
+            <div class="shop-section mb-80 " style="margin-left: 10%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <!-- single-product-area start -->
+                            <div class="single-product-area mb-80">
+                                <div class="row">
+                                    <!-- imgs-zoom-area start -->
+                                    <div class="col-lg-5">
+                                        <div class="imgs-zoom-area">
+                                            <img id="zoom_03" src="/catimages/<%= product[0].pimg[0] %>" data-zoom-image="/catimages/<%= product[0].pimg[0] %>" alt=""><br><br><br>
+                                            <div class="row" >
+                                                <div class="col-lg-12 " >
+                                                    <div id="gallery_01" class="carousel-btn slick-arrow-3 mt-30">
+                                                        <div class="p-c" >
+                                                            <a href="#" data-image="/catimages/<%= product[0].pimg[0] %>" data-zoom-image="/catimages/<%= product[0].pimg[0] %>">
+                                                                <img class="zoom_03" src="/catimages/<%= product[0].pimg[0] %>" alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="p-c" >
+                                                            <a href="#" data-image="/catimages/<%= product[0].pimg[1] %>" data-zoom-image="/catimages/<%= product[0].pimg[1] %>">
+                                                                <img class="zoom_03" src="/catimages/<%= product[0].pimg[1] %>" alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="p-c"  >
+                                                            <a href="#" data-image="/catimages/<%= product[0].pimg[2] %>" data-zoom-image="/catimages/<%= product[0].pimg[2] %>">
+                                                                <img class="zoom_03" src="/catimages/<%= product[0].pimg[2] %>" alt="">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                                
+                                                 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- imgs-zoom-area end -->
+                                    <!-- single-product-info start -->
+                                    <div class="col-lg-7"> 
+                                        <div class="single-product-info" style="margin-top: 20%;">
+                                            <h3 class="text-black-1" style="color: #000;"><%= product[0].pname %> </h3>
+                                            <!-- <h6 class="brand-name-2">brand name</h6> -->
+                                            <!--  hr -->
+                                          <br><br>
+                                            <!-- plus-minus-pro-action -->
+                                            <div class="plus-minus-pro-action clearfix">
+                                                
+                                                <div class="sin-pro-action f-right">
+                                                    <ul class="action-button">
+                                                        <form action="/addtowish" method="post">
+                                                        <li>
+                                                             <input type="hidden" name="productId" value="<%= productId %>">
+                                                            <button title="Wishlist" tabindex="0"><i class="zmdi zmdi-favorite"></i></a>
+                                                        </li>
+                                                    </form>
+                                                        <!-- <li>
+                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#productModal" title="Quickview" tabindex="0"><i class="zmdi zmdi-zoom-in"></i></a>
+                                                        </li> -->
+                                                        <!-- <li>
+                                                            <a href="#" title="Compare" tabindex="0"><i class="zmdi zmdi-refresh"></i></a>
+                                                        </li> -->
+                                                    </ul>
+                                                       
+                                                    
+                                                    
+                                                </div>
+                                            </div>
+                                            <!-- plus-minus-pro-action end -->
+                                            <!-- hr -->
+                                            <% if(!proffer && !catoffer) { %>
+                                                <h3 class="pro-price" style="color: #000;">₹<%= product[0].price %></h3>
+                                                <% } else if(proffer || catoffer){ %>
+                                                    <% 
+
+                                                       const price = parseFloat(product[0].price); 
+                                                       const productOffer = product[0].proOffer[0]?.productOfferAmt || 0; 
+                                                       const categoryOffer = product[0].catOffer[0]?.categoryofferAmt || 0;
+                                                       const highestOffer = Math.max(productOffer, categoryOffer);
+                                                      
+
+                                                       const discountedPrice = price * (100 - highestOffer) / 100;
+                                                   %>
+
+                                                      <h6 class="pro-price">
+                                                          <span class="original-price" style="color:#000">₹<%= product[0].price %></span>   <span style="color: green;">(<%= highestOffer %>% off)</span>
+                                                      </h6>
+
+                                                   <h3 class="pro-price discounted-price" style="color:#000">₹<%= discountedPrice.toFixed(0) %></h3>
+                                                   <% } %>
+                                                
+                                                
+                                            <!--  hr -->
+                                            <br>
+                                            <form action="cart" method="post"> <!-- Assuming you're using a POST request -->
+                                                            
+                                                <input type="hidden" name="productId" value="<%= productId %>">
+                                            
+                                            <button class="my-button" type="submit" title="Add to cart" tabindex="0">
+                                                add to cart
+                                            </button>
+                                        </form>
+											<div>
+												<!-- <a href="" class="button extra-small button-black" tabindex="-1">
+													<span class="text-uppercase">Buy now</span>
+												</a> -->
+											</div>
+                                        </div>    
+                                    </div>
+                                    <!-- single-product-info end -->
+                                </div>
+                                <br><br>
+								<!-- single-product-tab -->
+								<div class="row">
+									<div class="col-lg-12">
+										<!-- hr -->
+										<hr>
+										<div class="single-product-tab reviews-tab">
+											<ul class="nav mb-20">
+												<li><a class="active" href="#description" data-bs-toggle="tab">description</a></li>
+											</ul>
+											<div class="tab-content">
+												<div role="tabpanel" class="tab-pane active show" id="description">
+                                                    <p style="color:#000"><%= product[0].description %></p>
+												</div>
+												
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--  hr -->
+										<hr>
+									</div>
+								</div>
+                            </div>
+                                                         
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- SHOP SECTION END -->             
+
+        </section>
+        <!-- End page content -->
+
+        <!-- START FOOTER AREA -->
+       
+        <!-- END FOOTER AREA -->
+
+        <!-- START QUICKVIEW PRODUCT -->
+        <div id="quickview-wrapper">
+            <!-- Modal -->
+            <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-product clearfix">
+                                <div class="product-images">
+                                    <div class="main-image images">
+                                        <img alt="" src="img/product/quickview.jpg">
+                                    </div>
+                                </div><!-- .product-images -->
+                                
+                                <div class="product-info">
+                                    <h1>Aenean eu tristique</h1>
+                                    <div class="price-box-3">
+                                        <div class="s-price-box">
+                                            <span class="new-price">£160.00</span>
+                                            <span class="old-price">£190.00</span>
+                                        </div>
+                                    </div>
+                                    <a href="single-product-left-sidebar.html" class="see-all">See all features</a>
+                                    <div class="quick-add-to-cart">
+                                        <form method="post" class="cart">
+                                            <div class="numbers-row">
+                                                <input type="number" id="french-hens" value="3" min="1">
+                                            </div>
+                                            <a href="cart">
+                                            <button class="single_add_to_cart_button" type="submit">Add to cart</button>
+                                        </a>
+                                        </form>
+                                    </div>
+                                    <div class="quick-desc">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero.
+                                    </div>
+                                    <div class="social-sharing">
+                                        <div class="widget widget_socialsharing_widget">
+                                            <h3 class="widget-title-modal">Share this product</h3>
+                                            <ul class="social-icons clearfix">
+                                                <li>
+                                                    <a class="facebook" href="#" target="_blank" title="Facebook">
+                                                        <i class="zmdi zmdi-facebook"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="google-plus" href="#" target="_blank" title="Google +">
+                                                        <i class="zmdi zmdi-google-plus"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="twitter" href="#" target="_blank" title="Twitter">
+                                                        <i class="zmdi zmdi-twitter"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="pinterest" href="#" target="_blank" title="Pinterest">
+                                                        <i class="zmdi zmdi-pinterest"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="rss" href="#" target="_blank" title="RSS">
+                                                        <i class="zmdi zmdi-rss"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div><!-- .product-info -->
+                            </div><!-- .modal-product -->
+                        </div><!-- .modal-body -->
+                    </div><!-- .modal-content -->
+                </div><!-- .modal-dialog -->
+            </div>
+            <!-- END Modal -->
+        </div>
+        <!-- END QUICKVIEW PRODUCT --> 
+
+        <style>
+           
+            .original-price {
+              text-decoration: line-through; /* Add a line through the original price */
+             /* Optionally change the color */
+            }
+            
+            
+          </style>
+
+    <!-- Placed JS at the end of the document so the pages load faster -->
+
+    <!-- jquery latest version -->
+    <script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="js/vendor/jquery-migrate-3.3.2.min.js"></script>
+    <!-- Bootstrap framework js -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- jquery.nivo.slider js -->
+    <script src="lib/js/jquery.nivo.slider.js"></script>
+    <!-- All js plugins included in this file. -->
+    <script src="js/plugins.js"></script>
+    <!-- Main js file that contents all jQuery plugins activation. -->
+    <script src="js/main.js"></script>
+    <%- include('../layouts/footer.ejs') %>
+
+
+
+<!-- Mirrored from htmldemo.net/subas/subas/single-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Jan 2024 05:28:44 GMT -->

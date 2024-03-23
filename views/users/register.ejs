@@ -1,0 +1,133 @@
+<%- include('../layouts/header.ejs') %>
+
+<div class="container" >
+    <div class="row ">
+        <div class="col-lg-7 margin-right-4">
+            <div class="new-customers ml-50">
+                <form method="post" onsubmit="return validateForm()">
+                    <h6 class="widget-title border-left mb-10">NEW CUSTOMERS</h6>
+                    <div class="login-account p-30 box-shadow">
+                        <% if(typeof message !== 'undefined'){ %>
+                            <% if (message === 'Please enter valid values for all fields') { %>
+                                <p style="color: red;"><%= message %></p>
+                            
+                            <% } %>
+                        <% } %>
+                        <div class="row">
+                            <div class="col-sm-12" >
+                                <input type="text" name="name" placeholder="First Name" >
+                               
+                            </div>
+                            <div class="col-sm-12">
+                                <input type="email" class="input-field" name="email" placeholder="Email address here..."  >
+                                <% if(typeof message !== 'undefined'){ %>
+                                    <% if (message === 'Invalid email address') { %>
+                                        <p style="color: red;"><%= message %></p>
+                                    
+                                    <% } %>
+                                <% } %>
+                            
+                            </div>
+                            
+                            <div class="col-sm-12">
+                                <input type="text" name="mobile" placeholder="Phone here..." >
+                                <% if(typeof message !== 'undefined'){ %>
+                                    <% if (message === 'Mobile number must be exactly 10 digits') { %>
+                                        <p style="color: red;"><%= message %></p>
+                                    
+                                    <% } %>
+                                <% } %>
+                            </div>
+                        </div>
+                        <input type="password" name="password" placeholder="Password" >
+                        <% if(typeof message !== 'undefined'){ %>
+                            <% if (message === 'Password must be atleast 6 digits' || message === 'Password must contain at least one special character') { %>
+                                <p style="color: red;"><%= message %></p>
+                            
+                            <% } %>
+                        <% } %>
+                  
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input class="submit-btn-1 mt-20 btn-hover-1" type="submit" value="Register">
+                            </div>
+                        </div>
+                        <% if(typeof message !== 'undefined'){ %>
+                            <% if (message === 'email already in use') { %>
+                                <p style="color: red;"><%= message %></p>
+                            
+                            <% } %>
+                        <% } %>
+                    </div>
+                </form>
+</div>
+</div>
+</div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+
+            <img src="/catimages/1707805781320-Futuristic Style LED Gaming Headphones - Aalamey.jpeg" alt="">
+
+        </div>
+    </div>
+
+</div>
+
+                <style>
+         /* Add this to your existing CSS or in a style block */
+.input-field {
+    width: 100%;
+    padding: 9px;
+    margin-bottom: 20px;
+    border: 1px solid #F2F1EB;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+    font-size: 14px; }
+
+    .input-field:focus {
+    border-color: #f1950b; /* Change the border color when the input is in focus */
+}
+
+                
+                </style>
+
+                
+                
+
+
+<!-- Add this element where you want to display validation messages -->
+<div id="validation-message"></div>
+
+
+<!-- 
+<script>
+    async function registerUser(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const form = event.target;
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                alert(result.msg); // Show a success message
+            } else {
+                const error = await response.json();
+                alert(error.error); // Show an error message
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+</script> -->
+
+<%- include('../layouts/footer.ejs') %>

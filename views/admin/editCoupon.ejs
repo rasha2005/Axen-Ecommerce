@@ -1,0 +1,127 @@
+<%- include('../adminLayout/header.ejs') %>
+            <section class="content-main">
+                <div class="row">
+                    <div class="col-9">
+                        <div class="content-header">
+                            <h2 class="content-title">Edit Coupon</h2>
+                            <!-- <div>
+                                <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Add</button>
+                                
+                            </div> -->
+                        </div>
+                    </div>
+                    <form   action="/admin/updateCoupon/<%= coup._id  %>" method="post" >
+                       
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h4>Details</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-4">
+                                            <label  class="form-label">code</label>
+                                            <input name="code" type="text" placeholder="Type here" class="form-control" value="<%= coup.code  %>"  />
+                                            <% if (typeof message !== 'undefined') { %>
+                                                <% if (message ==='code is required') { %>
+                                                    <p style="color: red;"><%= message %></p>
+                                                <% } %>
+                                            <% } %>
+                                            
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label"> description</label>
+                                            <textarea name="description" placeholder="Type here" class="form-control" rows="4"  ><%= coup.description  %></textarea>
+                                            <% if (typeof message !== 'undefined') { %>
+                                                <% if (message ==='Description is required') { %>
+                                                    <p style="color: red;"><%= message %></p>
+                                                <% } %>
+                                            <% } %>
+                                           
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-6">
+                                                    <label class="form-label">max-amt</label>
+                                                    <div class="row gx-2">
+                                                        <input name="maxAmt" placeholder="₹" type="text" class="form-control" value="<%= coup.maxAmt %>" >
+                                                        <% if (typeof message !== 'undefined') { %>
+                                                            <% if (message ==='maxAmt should be a number') { %>
+                                                                <p style="color: red;"><%= message %></p>
+                                                            <% } %>
+                                                        <% } %>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div><br>
+                                            <div class="col-lg-6">
+                                                <div class="mb-6">
+                                                    <label class="form-label">coupon-amt</label>
+                                                    <input name="couponAmt" placeholder="₹" type="text" class="form-control" value="<%= coup.couponAmt %>">
+                                                    <% if (typeof message !== 'undefined') { %>
+                                                        <% if (message ==='couponAmt should be a number') { %>
+                                                            <p style="color: red;"><%= message %></p>
+                                                        <% } %>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        </div><br>
+                                        <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-6">
+                                                <label class="form-label">start-date</label>
+                                                <input name="startDate" placeholder="" type="text" id="start-date" class="form-control" value="<%= coup.startDate %>">
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-6">
+                                                <label class="form-label">end-date</label>
+                                                <input name="endDate" placeholder="" type="text" id="end-date" class="form-control" value="<%= coup.endDate %>">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                        <!-- Category section -->
+                                      
+                                        <!-- End of Category section -->
+                                    </div>
+                                </div>
+                                <!-- Other card sections can be added here -->
+                               
+                            </div>
+                         
+                        </div>
+                        <!-- Additional card sections can be added here -->
+                        
+              
+                        <button  class="btn btn-light hover-up" type="submit">add</button>
+                       
+                      
+                    </form>
+                   
+            </section>
+
+          
+ 
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script>
+
+            function editCoupon(event,couponId) {
+                event.preventDefault();
+                axios.put(`/admin/updateCoupon/${couponId}`)
+                .then(res => {
+
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+            }
+        </script>
+
+
+
+<%- include('../adminLayout/footer.ejs') %>

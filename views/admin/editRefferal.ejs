@@ -1,0 +1,62 @@
+<%- include('../adminLayout/header.ejs') %>
+            <section class="content-main">
+                <div class="row">
+                    <div class="col-9">
+                        <div class="content-header">
+                            <h2 class="content-title">Edit refferal Offer</h2>
+                            <!-- <div>
+                                <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Add</button>
+                                
+                            </div> -->
+                        </div>
+                    </div>
+<form action="/admin/updateReff/<%= refferal._id %>" method="post" >
+    <div class="col-lg-6">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="mb-4">
+                    <label for="product_title" class="form-label" >Refferal Bonus</lab>
+                    <input name="bonus" type="text" value="<%= refferal.refferalBonus  %>" class="form-control" id="product_title" ><br>
+                    <% if (typeof message !== 'undefined') { %>
+                        <% if (message ==='bonus title is required') { %>
+                            <p style="color: red;"><%= message %></p>
+                        <% } %>
+                    <% } %>
+                    <label for="product_title" class="form-label" >refferal SignUp</lab>
+                        <input name="SignUp" type="text" value="<%= refferal.refferalSign  %>" class="form-control" id="product_title" >
+                        <% if (typeof message !== 'undefined') { %>
+                            <% if (message ==='signUp is required') { %>
+                                <p style="color: red;"><%= message %></p>
+                            <% } %>
+                        <% } %>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <button  type="submit" class="btn btn-light rounded font-sm mr-5 text-body hover-up">edit</button>
+    </div>
+</form>
+                        <!-- card end// -->
+                    </div>
+        
+                </div>
+            </section>
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script>
+                function editRefferal(event,reffID) {
+                    event.preventDefault();
+                    console.log("hiiiii")
+                    axios.put('/admin/editReffaral',{reff:reffID})
+                   
+                    .then(res => {
+            
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }
+              </script> -->
+
+<%- include('../adminLayout/footer.ejs') %>
+           
