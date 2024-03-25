@@ -16,7 +16,7 @@
             <div class="card-body">
                 <div class="mb-4">
                     <label for="product_title" class="form-label" >Category Name</lab>
-                    <input name="category" type="text" placeholder="Type here" class="form-control" id="product_title" >
+                    <input name="category" type="text" placeholder="Type here" class="form-control" id="product_title"  accept="image/svg+xml, image/png, image/jpeg, image/jpg">
                     <% if (typeof message !== 'undefined') { %>
                         <% if (message === 'Category name is required' || message === 'Category name already exists' ||  message === 'Category name should contain only characters') { %>
                             <p style="color: red;"><%= message %></p>

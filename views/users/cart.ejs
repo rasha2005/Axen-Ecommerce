@@ -23,88 +23,61 @@
                                     <div class="shopping-cart-content">
                                         <form action="#">
                                             <div class="table-content table-responsive mb-50">
-                                                <% if (products  && products.length > 0) { %>
-                                                <table class="text-center">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="product-thumbnail">product</th>
-                                                            <th class="product-price">price</th>
-                                                            <th class="product-quantity">Quantity</th>
-                                                           
-                                                            <th class="product-remove">remove</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <!-- tr -->
-                                                        <% console.log("products",products) %>
-                                                      
-                                                            
-                                                        <% for(let i = 0 ; i < products.length ; i++ ) {%>
-                                                        <tr>
-                                                            <td class="product-thumbnail">
-                                                                <div class="pro-thumbnail-img">
-                                                                    <img src="/catimages/<%= Array.isArray(products[i].pimg) ? products[i].pimg[0] : '' %>" alt="">
-                                                                </div>
-                                                                <div class="pro-thumbnail-info text-start">
-                                                                    <h6 class="product-title-2">
-                                                                        <a href="#"><%=  products[i].pname %></a>
-                                                                    </h6>
-                                                                    <p></p>
-                                                                    <p>colour : <%= products[i].color  %></p>
-                                                                    
-                                                                   
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                            
-                                                            <% if(!proffer && !catoffer) { %>
-                                                                 <h3 class="pro-price">₹<%= userItems[0].product[0].price %></h3>
-                                                                 <% } else if(proffer || catoffer){ %>
-                                                                     <% 
-               
-                                                                        const price = parseFloat(userItems[i].product[0].price); 
-                                                                        console.log("price",price)
-                                                                        const productOffer = userItems[i].proffer[0]?.productOfferAmt || 0; 
-                                                                        const categoryOffer =  userItems[i].catoffer[0]?.categoryofferAmt || 0;
-                                                                        const highestOffer = Math.max(productOffer, categoryOffer);
-                                                                       
-                
-                                                                        const discountedPrice = price * (100 - highestOffer) / 100;
-                                                                    %>
-             
-                                                                       
-             
-                                                                    <h3 class="pro-price discounted-price">₹<%= discountedPrice.toFixed(0) %></h3>
-                                                                    <% } %>
-                                                                </td>
-                                                                 
-                                                            <td class="product-quantity">
-                                                                <% console.log("stock",userItems[0].product.quantity) %>
-                                                                <p class="error-message" style="color: red;"><%= (userItems[0].product.quantity > products[i].stock)?'stock limit exceeded':'' %></p>
-                                                                <div class="quantity">
-                                                                    <% console.log("products[i].quantity",products[i].quantity) %>
-                                                                    
-                                                                    <a href="#" class="quantity-action" data-product-id="<%= products[i]._id%>" data-action="subtract">-</a>
-                                                                    <span id="displayed-quantity-<%= products[i]._id %>"><%= userItems[i].cartItems.quantity %></span>
-                                                                    <a href="#" class="quantity-action" data-product-id="<%= products[i]._id %>" data-action="add">+</a>
-                                                                   
-                                                                </div>
-                                                           
-
-                                                            <td class="product-remove">
-                                                                <a href="remove/<%= products[i]._id %>"><i class="zmdi zmdi-close"></i></a>
-                                                            </td>
-                                                                                                                     
-                                                        
-                                                             <% } %>
-                                                                                                            </tr>
-                                                        <!-- tr -->
-                                                        
-                                                    </tbody>
-                                                </table>
+                                                <% if (products && products.length > 0) { %>
+                                                    <table class="text-center">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="product-thumbnail">Product</th>
+                                                                <th class="product-price">Price</th>
+                                                                <th class="product-quantity">Quantity</th>
+                                                                <th class="product-remove">Remove</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% for (let i = 0; i < products.length; i++) { %>
+                                                                <tr>
+                                                                    <td class="product-thumbnail">
+                                                                        <div class="pro-thumbnail-img">
+                                                                            <img src="/catimages/<%= Array.isArray(products[i].pimg) ? products[i].pimg[0] : '' %>" alt="">
+                                                                        </div>
+                                                                        <div class="pro-thumbnail-info text-start">
+                                                                            <h6 class="product-title-2">
+                                                                                <a href="#"><%= products[i].pname %></a>
+                                                                            </h6>
+                                                                            <p>Color: <%= products[i].color %></p>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <% if (!proffer && !catoffer) { %>
+                                                                            <h3 class="pro-price">₹<%= userItems[0].product[0].price %></h3>
+                                                                        <% } else if (proffer || catoffer) { %>
+                                                                            <% 
+                                                                                const price = parseFloat(userItems[i].product[0].price); 
+                                                                                const productOffer = userItems[i].proffer[0]?.productOfferAmt || 0; 
+                                                                                const categoryOffer = userItems[i].catoffer[0]?.categoryofferAmt || 0;
+                                                                                const highestOffer = Math.max(productOffer, categoryOffer);
+                                                                                const discountedPrice = price * (100 - highestOffer) / 100;
+                                                                            %>
+                                                                            <h3 class="pro-price discounted-price">₹<%= discountedPrice.toFixed(0) %></h3>
+                                                                        <% } %>
+                                                                    </td>
+                                                                    <td class="product-quantity">
+                                                                        <p class="error-message" style="color: red;"><%= (userItems[0].product.quantity > products[i].stock) ? 'Stock limit exceeded' : '' %></p>
+                                                                        <div class="quantity">
+                                                                            <a href="#" class="quantity-action" data-product-id="<%= products[i]._id %>" data-action="subtract">-</a>
+                                                                            <span id="displayed-quantity-<%= products[i]._id %>"><%= userItems[i].cartItems.quantity %></span>
+                                                                            <a href="#" class="quantity-action" data-product-id="<%= products[i]._id %>" data-action="add">+</a>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="product-remove">
+                                                                        <a href="remove/<%= products[i]._id %>"><i class="zmdi zmdi-close"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            <% } %>
+                                                        </tbody>
+                                                    </table>
+                                                
                                             </div>
-
-
                                           
 
                                 <!-- shopping-cart end -->
@@ -139,15 +112,11 @@
         </div>
         </div>
         </div>
+        <% } else { %>
+            <h3>No products in the cart</h3>
+        <% } %>
     </section>
-        <% }else { %>
-            <div class="container">
-            <div class="d-flex justify-content-center" >
-                <img src="/catimages/empty-shopping-cart-illustration-concept-on-white-background-vector-removebg-preview.png" alt="" class="img-fluid" style="max-width: 100%; height: auto; align-items:center">
-            </div>
-        </div>
-            <% } %>   
-    
+   
         <!-- End page content -->
 
     

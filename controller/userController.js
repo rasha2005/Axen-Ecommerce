@@ -11,7 +11,7 @@ const categoryOffer = require('../model/categoryOfferModel')
 const productOffer = require('../model/productOfferModel')
 const mongoose = require('mongoose');
 const Cart = require('../model/cartModel');
-
+const Order = require('../model/orderModel');
 const bcrypt = require('bcrypt');
 const sendOTPByEmail = require('../services/sendemailotp');
 const generateOTP = require('../services/generateOTP')
@@ -98,9 +98,40 @@ const loadHome = async(req,res,next)=>{
 
        
         
+        const topPro = await Order.aggregate([
+            {
+              '$unwind': {
+                'path': '$product'
+              }
+            },
+            {
+              '$group': {
+                '_id': '$product.productId',
+                'count': {
+                  '$sum': 1
+                }
+              }
+            },
+            {
+              '$sort': { 'count': -1 } // Corrected: Sorting by the 'count' field in descending order
+            },
+            {
+              "$limit": 10
+            }
+          ]);
 
+       console.log("topProducts",topPro);
+       const productIds = topPro.map(product => product._id);
+          console.log("productIds",productIds);
+        
+          const topProductsDetails = await product.aggregate([
+            {
+              $match: { "_id": { $in: productIds } } // Match product IDs in topProducts
+            }
+          ]);
+          console.log("topProductsDetails",topProductsDetails);
 
-        res.render('home',{user:req.session.user, category:catData,product:filteredProData ,proffer:proData[0]?.proOffer[0],catoffer:proData[0]?.catOffer[0]});
+        res.render('home',{user:req.session.user, category:catData,product:filteredProData ,proffer:proData[0]?.proOffer[0],catoffer:proData[0]?.catOffer[0],topProductsDetails:topProductsDetails});
     }catch (error) {
         next(error);
         

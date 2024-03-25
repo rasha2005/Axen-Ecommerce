@@ -89,16 +89,16 @@
                                     <div class="row gx-2">
                                         <div class="col-sm-6 mb-3">
                                             <label class="form-label" style=" color:black; font-size: 15px;" >Select category</label>
-                                            <ul>
-                                                <% for(let i = 0; i < categories.length; i++) { %>
-                                                    <li>
-                                                        <label>
-                                                            <input type="radio" name="category" value="<%= categories[i]._id %>" <% if (categories[i]._id.toString() === product.category.toString()) { %>checked<% } %>>
+                                           
+                                                <select name="category" class="form-select" required>
+                                                    <% for(let i = 0; i < categories.length; i++) { %>
+                                                        <option value="<%= categories[i]._id %>" <% if (categories[i]._id.toString() === product.category.toString()) { %>selected<% } %>>
                                                             <%= categories[i].category %>
-                                                        </label>
-                                                    </li>
-                                                <% } %>
-                                            </ul>
+                                                        </option>
+                                                    <% } %>
+                                                </select>
+                                               
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +116,7 @@
                         <div class="card-body">
                             <div class="input-upload">
                                 <img src="/adminAssets/imgs/theme/upload.svg" alt="" >
-                                <input multiple='multiple' name="pimg" class="form-control" type="file" >
+                                <input multiple='multiple' name="pimg" class="form-control" type="file"  accept="image/svg+xml, image/png, image/jpeg, image/jpg" >
                                 <p>Existing images:</p>
                                 <% if (product.pimg && product.pimg.length > 0) { %>
                                     <div class="d-flex flex-wrap ">
