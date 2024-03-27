@@ -18,7 +18,7 @@ const generateOTP = require('../services/generateOTP')
 const validateOTP = require('../services/validateotp')
 const { ObjectId } = require('mongodb');
 const Razorpay = require("razorpay");
-const { ConsoleMessage } = require('puppeteer');
+
 const instance = new Razorpay({
   key_id: process.env.RAZORPAY_ID_KEY ,
   key_secret: process.env.RAZORPAY_SECRET_KEY,

@@ -312,7 +312,7 @@ th {
             <% const displayedOrders = orders.slice(startIndex, endIndex); %>
                     <% if (orders && orders.length > 0) { %>
                         <% displayedOrders.forEach(order => { %>
-                            <% console.log("jkfdkfklsdnfd",order.result) %>
+                            <% console.log("jkfdkfklsdnfd",order) %>
                          
                             <tr>
                                 <td> <a href="/orderDetail/<%= order.product.productId %>/<%= order._id %>">
