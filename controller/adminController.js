@@ -8,7 +8,7 @@ const admin = require('../model/adminModel');
 const product = require('../model/productModel');
 const cat = require('../model/categoryModel')
 const bcrypt = require('bcrypt');
-const puppeteer = require("puppeteer")
+const puppeteer = require("puppeteer-core")
 const ejs = require('ejs')
 const fs = require('fs');
 const path = require('path');
@@ -612,7 +612,7 @@ console.log("Reversed end date:", reversedEndDate);
 const generatePdf = async (req, res) => {
     const browser = await puppeteer.launch({ 
         headless: "new",
-        
+        executablePath: '/snap/bin/chromium'
      });
     try {
         console.log("hiii");

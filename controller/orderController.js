@@ -7,7 +7,7 @@ const wallet = require('../model/userWalletModel');
 const mongoose = require('mongoose');
 const Cart = require('../model/cartModel');
 const User = require('../model/userModel')
-const puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer-core')
 const fs = require('fs');
 const path = require('path');
 const ejs  = require('ejs')
@@ -343,7 +343,7 @@ console.log('here?');
   const downloadInvoice = async(req,res) => {
     const browser = await puppeteer.launch({ 
         headless: "new",
-        
+        executablePath: '/snap/bin/chromium'
      });
     try{
         console.log("hiii");
