@@ -257,6 +257,7 @@ const loadlistCategory = async(req,res) => {
 
             const Category = await category.find();
 
+
             res.render('addCategoryOffer',{category:Category});
 
         }catch (error) {
@@ -282,7 +283,13 @@ const loadlistCategory = async(req,res) => {
                 return res.render('addCategoryOffer', {message:'offer should not be a negative number',
                 category:Category
             })
+           
             }
+            if(offer > 70) {
+                return res.render('addCategoryOffer', {message:'offer is above the limit',
+                category:Category
+            })
+        }
             if (!/^\d+$/.test(offer)) {
                 return res.render('addCategoryOffer', {
                     message: 'Offer must be a number',
@@ -336,7 +343,7 @@ const loadlistCategory = async(req,res) => {
         try{
             const id = new mongoose.Types.ObjectId(req.query.id);
             console.log("id",id);
-            const offer = await categoryOffer.find({_id:id});
+            const offer = await categoryOffer.findOne({_id:id});
             console.log("offer",offer);
             // const cat = await category.find();
             res.render('editCategoryOffer',{offer:offer});
@@ -350,10 +357,18 @@ const loadlistCategory = async(req,res) => {
         try{
 
             const id = new mongoose.Types.ObjectId(req.query.id);
-            const off = await categoryOffer.findOne({_id:id});
+            const off = await categoryOffer.findOne({_id:id})
+            console.log("off",off)
             const offer = req.body.offer
+          
             if(offer < 0 ) {
                 return res.render('editCategoryOffer', {message:'offer should not be a negative number',
+                offer:off
+            })
+            }
+
+            if(offer > 70 ) {
+                return res.render('editCategoryOffer', {message:'offer is above the limit',
                 offer:off
             })
             }
@@ -362,6 +377,7 @@ const loadlistCategory = async(req,res) => {
                 offer:off
             })
             }
+          
             if (!/^\d+$/.test(offer)) {
                 return res.render('editCategoryOffer', {
                     message: 'Offer must be a number',

@@ -11,7 +11,8 @@
                 </div> -->
             </div>
         </div>
-<form action="/admin/updateOffer?id=<%= offer[0]._id  %>" method="post" >
+        <% console.log("offer[0]._id ",offer._id ) %>
+<form action="/admin/updateOffer?id=<%= offer._id  %>" method="post" >
 <div class="col-lg-6">
 <div class="card mb-4">
 <div class="card-body">
@@ -20,7 +21,7 @@
         
     <br><br>
         <label for="product_title" class="form-label" >offer</label>
-            <input name="offer"  value="<%= offer[0].categoryofferAmt %>" type="text"  class="form-control" id="product_title" >
+            <input name="offer"  value="<%= offer.categoryofferAmt %>" type="text"  class="form-control" id="product_title" >
             <% if (typeof message !== 'undefined') { %>
                
                     <p style="color: red;"><%= message %></p>
@@ -29,7 +30,7 @@
     </div>
 </div>
 </div>
-
+<% console.log("offer[0]._idjdjkd ",offer._id ) %>
 
 
 <button type="submit" class="btn btn-light rounded font-sm mr-5 text-body hover-up">Add</button>

@@ -4,6 +4,10 @@ const Order = require("../model/orderModel");
 const Coupon = require("../model/couponModel");
 const wallet  = require("../model/userWalletModel");
 const refferal = require("../model/refferalOffer")
+const admin = require('../model/adminModel');
+const product = require('../model/productModel');
+const cat = require('../model/categoryModel')
+const bcrypt = require('bcrypt');
 const puppeteer = require("puppeteer")
 const ejs = require('ejs')
 const fs = require('fs');
@@ -13,7 +17,19 @@ const { default: mongoose } = require("mongoose");
 const { application } = require("express");
 
 
-// Now, you can use filePath with the updated directory
+
+
+const createAdmin = async(req,res) => {
+   
+
+   const Admin = new admin({
+        email : req.body.email,
+        password :req.body.password
+    })
+    await Admin.save();
+    res.json()
+}
+
 
 const loadAdminLogin = async(req,res) => {
 try{
@@ -58,6 +74,33 @@ const verifyAdminLogin = async(req,res) => {
 const loadDashboard = async(req,res) => {
   try{
    console.log("hiii")
+
+   const procount = await product.aggregate([
+    {
+        $count:"totalProducts"
+    }
+ ] )
+console.log("procount",procount);
+const ordercount = await Order.aggregate([
+    {
+        $count: 'totalOrders'
+    }
+])
+console.log("ordercount",ordercount);
+    const usercount = await User.aggregate([
+        {
+            $count:"totalUsers"
+        }
+    ])
+    console.log("totalUsers",usercount)
+
+    const catcount = await cat.aggregate([
+        {
+            $count:"totalcats"
+        }
+    ]);
+    console.log("catcount",catcount)
+
    const currentDate = new Date();
 
    // Calculate the date 30 days ago
@@ -107,7 +150,7 @@ const monthlyOrder = monthOrders.map(item => item.totalOrders);
    // Here, 'ordersWithinLast30Days' will contain the aggregated data
    console.log("monthOrder",month);
    console.log("monthlyOrder",monthlyOrder)
-        res.render('dashboard',{dailyDates:dailyDates,dailyOrders:dailyOrders,month:month,monthlyOrder:monthlyOrder});
+        res.render('dashboard',{dailyDates:dailyDates,dailyOrders:dailyOrders,month:month,monthlyOrder:monthlyOrder,procount:procount,ordercount:ordercount,usercount:usercount,catcount:catcount});
     
     
   }catch (error) {
@@ -629,7 +672,8 @@ module.exports = {
     editRefferalOffer,
     loadSalesReport,
     filterData,
-    generatePdf
+    generatePdf,
+    createAdmin
     
     
 }

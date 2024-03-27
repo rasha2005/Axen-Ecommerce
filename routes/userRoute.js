@@ -16,10 +16,10 @@ user_route .set('views', './views/users');
 
 const block = require('../middleware/checkBlockedStatus');
 const auth = require('../middleware/userauth');
-
+const cart = require('../middleware/cartQuantity')
 
 const userController = require("../controller/userController");
-user_route.get('/',block.checkBlockedStatus,userController.loadHome);
+user_route.get('/',block.checkBlockedStatus,cart.addCartCountToSession,userController.loadHome);
 
 user_route.get('/login',userController.loadLogin);
 

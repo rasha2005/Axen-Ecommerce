@@ -335,6 +335,11 @@ const toggleIsList = async(req,res) => {
             const offer = req.body.offer.trim();
             console.log("offer",offer);
             console.log("productName",productName)
+            if(offer >  70 ) {
+                return res.render('addProductOffer', {message:'offer is above the limit',
+                pro:pro
+            })
+            }
             if (!offer) {
                 return res.render('addProductOffer', { message: 'offer is required' ,pro:pro});
             }
@@ -407,6 +412,11 @@ const toggleIsList = async(req,res) => {
             const id = new mongoose.Types.ObjectId(req.query.id);
             const off = await productOffer.findOne({_id:id});
             const offer = req.body.offer;
+            if(offer > 70 ) {
+                return res.render('editProductOffer', {message:'offer is above the limit',
+                proOffer:off
+            })
+            }
             if(offer < 0 ) {
                 return res.render('editProductOffer', {message:'offer should not be a negative number',
                 proOffer:off

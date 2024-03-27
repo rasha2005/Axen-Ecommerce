@@ -41,7 +41,8 @@ const loadHome = async(req,res,next)=>{
 
     try {
 
-        
+        console.log("hhhhhhhhhh",req.session.user)
+    //    
          
           const catData = await category.find({is_list:1})
         //   console.log(catData);
@@ -105,6 +106,19 @@ const loadHome = async(req,res,next)=>{
               }
             },
             {
+                '$lookup': {
+                  'from': 'products',
+                  'localField': 'product.productId',
+                  'foreignField': '_id',
+                  'as': 'productDetails'
+                }
+              },
+              {
+                '$match': {
+                  'productDetails.is_list': 1
+                }
+              },
+            {
               '$group': {
                 '_id': '$product.productId',
                 'count': {
@@ -112,12 +126,13 @@ const loadHome = async(req,res,next)=>{
                 }
               }
             },
+
             {
               '$sort': { 'count': -1 } // Corrected: Sorting by the 'count' field in descending order
             },
             {
               "$limit": 10
-            }
+            } 
           ]);
 
        console.log("topProducts",topPro);
@@ -131,7 +146,65 @@ const loadHome = async(req,res,next)=>{
           ]);
           console.log("topProductsDetails",topProductsDetails);
 
-        res.render('home',{user:req.session.user, category:catData,product:filteredProData ,proffer:proData[0]?.proOffer[0],catoffer:proData[0]?.catOffer[0],topProductsDetails:topProductsDetails});
+         
+     
+        const topCat = await Order.aggregate([
+            {
+              '$unwind': {
+                'path': '$product'
+              }
+            },
+            {
+                '$lookup': {
+                  'from': 'products',
+                  'localField': 'product.productId',
+                  'foreignField': '_id',
+                  'as': 'productDetails'
+                }
+              },
+              {
+                  $unwind: '$productDetails'
+              },
+              {
+                  $lookup: {
+                      'from': 'categories',
+                      'localField': 'productDetails.category',
+                      'foreignField': '_id', // Assuming 'category' is the correct field to match
+                      'as': 'catDetails'
+                  }
+              },{
+                '$match': {
+                  'catDetails.is_list': 1
+                }
+              },
+            {
+              '$group': {
+                '_id': '$catDetails._id',
+                'count': {
+                  '$sum': 1
+                }
+              }
+            },
+
+            {
+              '$sort': { 'count': -1 } // Corrected: Sorting by the 'count' field in descending order
+            },
+            {
+              "$limit": 10
+            } 
+          ]);
+
+          console.log("jdjsbak",topCat)
+          const catIds = topCat.map(product => product._id[0]);
+          console.log("catIds",catIds);
+        
+          const topCatDetails = await category.aggregate([
+            {
+              $match: { "_id": { $in: catIds } } // Match product IDs in topProducts
+            }
+          ]);
+          console.log("topProductsDetails",topCatDetails);
+        res.render('home',{user:req.session.user, category:catData,product:filteredProData ,proffer:proData[0]?.proOffer[0],catoffer:proData[0]?.catOffer[0],topProductsDetails:topProductsDetails,topCatDetails:topCatDetails});
     }catch (error) {
         next(error);
         
@@ -144,9 +217,21 @@ const loadLogin = async(req,res, next)=>{
         if (req.session.user) {
             // If user is logged in, fetch additional user details (if needed)
           
+               
 
            return res.redirect('/')
         } else {
+            console.log("userdfdsfsfs",req.session.user)
+            // const cartcount = await Cart.aggregate([
+            //     {
+            //         $match : {user : req.session.user._id}
+            //     },
+            //     {
+            //         $count:"totalItemsInCart"
+            //     }
+            //    ])
+            //    console.log("cartcount",cartcount);
+
           
             res.render('login');
         }
@@ -355,11 +440,11 @@ console.log("storedUserData",storedUserData);
             }
                 // Push the new transaction object to the transactions array
                 
-               
+              
             
 
             if (userData) {
-
+               
                 req.session.user = userData;
                
                

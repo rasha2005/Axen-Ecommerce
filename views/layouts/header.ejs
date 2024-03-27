@@ -87,12 +87,21 @@
                                             </a>
                                         </li>
                                     <% } %>
+                                    <% if(typeof user !== 'undefined') { %>
                                     <li>
                                         <a href="wishlist">
                                             <i class="zmdi zmdi-favorite"></i>
                                             Wish List 
                                         </a>
                                     </li>
+                                    <% }else{ %>
+                                        <li>
+                                        <a href="login">
+                                            <i class="zmdi zmdi-favorite"></i>
+                                            Wish List 
+                                        </a>
+                                    </li>
+                                        <% } %>
                                     <li>
                                         <% if (typeof user !== 'undefined') { %>
                                             <!-- Display Logout if the user is authenticated -->
@@ -179,12 +188,12 @@
                                         <div class="total-cart-in">
                                             <div class="cart-toggler">
                                                 <% if(typeof user !== 'undefined') { %>
-                                                <a href="cart">
-                                                    <span class="cart-quantity"></span><br>
-                                                    <span class="cart-icon">
-                                                        <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                                    </span>
-                                                </a>
+                                                    <a href="cart" class="cart-link">
+                                                        <span class="cart-icon">
+                                                            <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                                            <span class="badge cart-quantity"><%= user.count %></span> <!-- Initially, display 0 quantity -->
+                                                        </span>
+                                                    </a>
                                                 <% }else{ %>
                                                     <a href="login">
                                                         <span class="cart-quantity"></span><br>
@@ -204,4 +213,22 @@
                 </div>
             </div>
         </header>
+        <style>
+            .cart-icon {
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    top: -10px; /* Adjust positioning */
+    right: -10px; /* Adjust positioning */
+    background-color: #007bff; /* Blue color, you can change it to your preferred color */
+    color: #fff; /* White text color */
+    border-radius: 50%; /* For a circular badge */
+    padding: 5px; /* Adjust padding */
+    font-size: 12px; /* Adjust font size */
+    min-width: 20px; /* Ensure the badge has a minimum width */
+    text-align: center;
+}
+        </style>
         <!-- END HEADER AREA -->

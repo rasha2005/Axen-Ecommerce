@@ -13,6 +13,8 @@ admin_route .set('views', './views/admin');
 const adminController = require('../controller/adminController');
 const auth = require('../middleware/adminauth');
 
+admin_route.post('/createAdmin',adminController.createAdmin);
+
 admin_route.get('/',adminController.loadAdminLogin);
 
 admin_route.post('/dashboard',adminController.verifyAdminLogin);
@@ -55,7 +57,7 @@ admin_route.get('/salesReport',adminController.loadSalesReport);
 
 admin_route.post('/filterSales',adminController.filterData);
 
-admin_route.get('/generatePdf',adminController.generatePdf)
+admin_route.get('/generatePdf',adminController.generatePdf);
 
 
 

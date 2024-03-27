@@ -109,7 +109,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title text-start mb-40">
-                            <h2 class=""">Top 10 products</h2>
+                            <h2 class="">TOP 10 PRODUCT</h2>
                             
                         </div>
                     </div>
@@ -161,198 +161,135 @@
             </div>
         </div>
         <!-- PRODUCT TAB SECTION END -->
-
         <!-- BLOG SECTION START -->
-        <div class="blog-section-2 pt-60 pb-30">
+            <div class="blog-section-2 pt-60 pb-30">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="section-title text-start mb-40">
+                                <h2 class="uppercase">Latest blog</h2>
+                                <h6></h6>
+                            </div>
+                            <div class="blog">
+                                <div class="row active-blog-2">
+                                    <!-- blog-item start -->
+                                    <div class="col-lg-12">
+                                        <div class="blog-item-2">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="blog-image">
+                                                        <img src="img/blog/4.jpeg" alt="" style="height: 230px; object-fit: cover;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="">
+                                                        <h5 class="blog-title-2">Frequency Finesse</h5>
+                                                        <p style="color:black"> Frequency Finesse serves as your compass in mastering the subtle nuances of sound, providing invaluable guidance to elevate your auditory experience. Together, these platforms pave the way for an enriched journey into the intricate world of audio."</p>
+                                                        <div class="read-more">
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- blog-item end -->
+                                    <!-- blog-item start -->
+                                    <div class="col-lg-12">
+                                        <div class="blog-item-2">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="blog-image">
+                                                        <img src="img/blog/5.jpg" alt="" style="height: 230px; object-fit: cover;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="blog-desc">
+                                                        <h5 class="blog-title-2"> Audio Aura Insights</h5>
+                                                        <p style="color: black;">
+                                                            "Audio Aura Insights delves deep into the captivating realms of headphones, offering illuminating reviews and expert analyses. From the latest releases to timeless classics, we navigate the diverse landscape of audio to provide comprehensive insights, empowering you to make informed decisions and elevate your listening experience."</p>
+                                                        <div class="read-more">
+                                                            <a href="#"></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- blog-item end -->
+                                    <!-- blog-item start -->
+                                 
+                                    <!-- blog-item end -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- BLOG SECTION END -->
+
+         <!-- PRODUCT TAB SECTION START -->
+         <div class="product-tab-section section-bg-tb pt-80 pb-55">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title text-start mb-40">
-                            <h2 class="uppercase">Latest blog</h2>
-                            <h6>There are many variations of passages of brands available,</h6>
+                            <h2 class="">TOP CATEGORY</h2>
+                            
                         </div>
-                        <div class="blog">
-                            <div class="row active-blog-2">
-                                <!-- blog-item start -->
-                                <div class="col-lg-12">
-                                    <div class="blog-item-2">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="blog-image">
-                                                    <a href="single-blog.html"><img src="img/blog/4.jpg" alt=""></a>
+                    </div>
+                    <div class="col-lg-12">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <!-- popular-product start -->
+                            <div id="popular-product" class="tab-pane active show">
+                                <div class="row">
+                                    <!-- product-item start -->
+                                    <% for(let i = 0 ; i < topCatDetails.length ; i++) { %>
+                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                            <div class="product-item">
+                                                <div class="product-img">
+                                                   
+                                                        <img src="/catimages/<%= topCatDetails[i].img[0] %>" class="card-img-top" alt="<%= topCatDetails[i].category %>" style="height: 300px; object-fit: cover;">
+                                                  
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="blog-desc">
-                                                    <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                                                    <p>There are many variations of passages of in psum available, but the majority have
-                                                        sufe ered on in some form...</p>
-                                                    <div class="read-more">
-                                                        <a href="#">Read more</a>
+                                                <div class="product-info">
+                                                    <div class="card-body text-center">
+                                                        <h5 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color:black"><%= topCatDetails[i].category %></h5>
+                                                        <h5 style="color: black;"></h5>
                                                     </div>
                                                 </div>
+                                                <!-- <ul class="action-button">
+                                                    <li>
+                                                        <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" data-bs-toggle="modal"  data-bs-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                                    </li>
+                                                </ul> -->
                                             </div>
                                         </div>
-                                    </div>
+                                    <% } %>
+                                    <!-- product-item end -->
                                 </div>
-                                <!-- blog-item end -->
-                                <!-- blog-item start -->
-                                <div class="col-lg-12">
-                                    <div class="blog-item-2">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="blog-image">
-                                                    <a href="single-blog.html"><img src="img/blog/5.jpg" alt=""></a>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="blog-desc">
-                                                    <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                                                    <p>There are many variations of passages of in psum available, but the majority have
-                                                        sufe ered on in some form...</p>
-                                                    <div class="read-more">
-                                                        <a href="#">Read more</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- blog-item end -->
-                                <!-- blog-item start -->
-                                <div class="col-lg-12">
-                                    <div class="blog-item-2">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="blog-image">
-                                                    <a href="single-blog.html"><img src="img/blog/4.jpg" alt=""></a>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="blog-desc">
-                                                    <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                                                    <p>There are many variations of passages of in psum available, but the majority have
-                                                        sufe ered on in some form...</p>
-                                                    <div class="read-more">
-                                                        <a href="#">Read more</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- blog-item end -->
                             </div>
+                            <!-- popular-product end -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- BLOG SECTION END -->
-         
-        <!-- NEWSLETTER SECTION START -->
-        <div class="newsletter-section section-bg-tb pt-60 pb-80">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 offset-lg-2">
-                        <div class="newsletter">
-                            <div class="newsletter-info text-center">
-                                <h2 class="newsletter-title">get a newsletter</h2>
-                                <p>Make sure that you never miss our interesting news <br class="hidden-xs">by joining our newsletter program.</p>
-                            </div>
-                            <div class="subcribe clearfix">
-                                <form action="#">
-                                    <input type="text" name="email" placeholder="Enter your email here..."/>
-                                    <button class="submit-btn-2 btn-hover-2" type="submit">subcribe</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- NEWSLETTER SECTION END -->            
-    </section>
-    <!-- END PAGE CONTENT -->
-        <!-- END FOOTER AREA -->
+        <!-- PRODUCT TAB SECTION END -->
 
-        <!-- START QUICKVIEW PRODUCT -->
-        <div id="quickview-wrapper">
-            <!-- Modal -->
-            <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="modal-product clearfix">
-                                <div class="product-images">
-                                    <div class="main-image images">
-                                        <img alt="" src="img/product/quickview.jpg">
-                                    </div>
-                                </div><!-- .product-images -->
-                                
-                                <div class="product-info">
-                                    <h1>Aenean eu tristique</h1>
-                                    <div class="price-box-3">
-                                        <div class="s-price-box">
-                                            <span class="new-price">£160.00</span>
-                                            <span class="old-price">£190.00</span>
-                                        </div>
-                                    </div>
-                                    <a href="single-product-left-sidebar.html" class="see-all">See all features</a>
-                                    <div class="quick-add-to-cart">
-                                        <!-- <form method="post" class="cart">
-                                            <div class="numbers-row">
-                                                <input type="number" id="french-hens" value="3" min="1">
-                                            </div>
-                                            <button class="single_add_to_cart_button" type="submit">Add to cart</button>
-                                        </form> -->
-                                    </div>
-                                    <!-- <div class="quick-desc">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero.
-                                    </div> -->
-                                    <div class="social-sharing">
-                                        <div class="widget widget_socialsharing_widget">
-                                            <h3 class="widget-title-modal">Share this product</h3>
-                                            <ul class="social-icons clearfix">
-                                                <li>
-                                                    <a class="facebook" href="#" target="_blank" title="Facebook">
-                                                        <i class="zmdi zmdi-facebook"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="google-plus" href="#" target="_blank" title="Google +">
-                                                        <i class="zmdi zmdi-google-plus"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="twitter" href="#" target="_blank" title="Twitter">
-                                                        <i class="zmdi zmdi-twitter"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="pinterest" href="#" target="_blank" title="Pinterest">
-                                                        <i class="zmdi zmdi-pinterest"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="rss" href="#" target="_blank" title="RSS">
-                                                        <i class="zmdi zmdi-rss"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div><!-- .product-info -->
-                            </div><!-- .modal-product -->
-                        </div><!-- .modal-body -->
-                    </div><!-- .modal-content -->
-                </div><!-- .modal-dialog -->
-            </div>
-            <!-- END Modal -->
-        </div>
+
+        <!-- BLOG SECTION START -->
+      
         <!-- END QUICKVIEW PRODUCT -->  
 
         <!--style-customizer start -->
@@ -382,9 +319,9 @@
     <script src="lib/js/jquery.nivo.slider.js"></script>
     <!-- All js plugins included in this file. -->
     <script src="js/plugins.js"></script>
-    <!-- Main js file that contents all jQuery plugins activation. -->
     <script src="js/main.js"></script>
-
+    <!-- Main js file that contents all jQuery plugins activation. -->
+    
 
 <!-- Mirrored from htmldemo.net/subas/subas/index-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Jan 2024 05:28:40 GMT -->
 

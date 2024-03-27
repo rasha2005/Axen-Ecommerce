@@ -9,11 +9,12 @@ cartRoute.use(session({secret:process.env.SESSIONSECRET,resave:true,saveUninitia
 
 
 const block = require('../middleware/checkBlockedStatus');
+const cart = require('../middleware/cartQuantity')
 const cartController = require('../controller/cartController')
 
 cartRoute .set('views', './views/users');
 
-cartRoute.get('/cart',block.checkBlockedStatus,cartController.loadCart);
+cartRoute.get('/cart',block.checkBlockedStatus,cart.addCartCountToSession,cartController.loadCart);
 
 cartRoute.post('/cart',block.checkBlockedStatus,cartController.addProductToCart);
 

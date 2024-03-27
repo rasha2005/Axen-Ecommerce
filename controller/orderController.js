@@ -135,11 +135,14 @@ console.log("addataId",addataId);
         newOrder.coupon = coupon.couponAmt
     }
         await newOrder.save();
-        
-        products.cartItems = [];
-        products.subtotal = 0;
-        await products.save();
+        console.log("kkkkkk");
+        await Cart.deleteMany({ user: req.session.user._id });
+      console.log("jiiiii")
+        // products.subtotal = 0;
+        // await products.save();
+        console.log("here or not");
         req.session.OrderID = newOrder._id;
+        console.log("here ");
    console.log("coming to the last?")
         // Create an array to store address objects
         res.render('orderPlaced',{user:req.session.user});
@@ -157,11 +160,22 @@ const loadOrder = async(req,res) => {
 
         const order = await Order.aggregate([
             { $match: { user: new mongoose.Types.ObjectId(user) } },
-            { $unwind: "$product" } ,
+            {
+                '$unwind': {
+                  'path': '$product'
+                }
+              }, {
+                '$lookup': {
+                  'from': 'products', 
+                  'localField': 'product.productId', 
+                  'foreignField': '_id', 
+                  'as': 'result'
+                }
+              }, 
             { $sort: { date: -1 } }// Deconstruct the product array
         ]);
-
-        // console.log("order",order);
+console.log(order);
+        console.log("order",order[0].result);
 
     
         res.render('Orders', { orders:order ,user:req.session.user,req});

@@ -292,7 +292,7 @@ th {
                 <thead>
                     <tr>
                         
-                        <th>orderId</th>
+                        <th>img</th>
                         <th>Name</th>
                         <th>Price</th>
                         <th>totalPrice</th>
@@ -312,9 +312,13 @@ th {
             <% const displayedOrders = orders.slice(startIndex, endIndex); %>
                     <% if (orders && orders.length > 0) { %>
                         <% displayedOrders.forEach(order => { %>
+                            <% console.log("jkfdkfklsdnfd",order.result) %>
                          
                             <tr>
-                                <td><a href="/orderDetail/<%= order.product.productId %>/<%= order._id%>"><%= order._id %></a></td>
+                                <td> <a href="/orderDetail/<%= order.product.productId %>/<%= order._id %>">
+                                    <img src="/catimages/<%= order.result[0].pimg[0] %>" style="max-width: 100px;">
+                                    
+                                  </a></td>
                                 <td><%= order.product.name %></td>
                                 <td><%= order.product.price %></td>
                                 <td><%= order.product.totalPrice %></td>
@@ -415,5 +419,3 @@ th {
 
 </script>
 
-
-<%- include('../layouts/footer.ejs') %>

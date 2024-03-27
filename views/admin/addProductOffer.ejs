@@ -34,7 +34,7 @@
         <label for="product_title" class="form-label" >offer</label>
             <input name="offer" type="text" placeholder="Type here" class="form-control" id="product_title" >
             <% if (typeof message !== 'undefined') { %>
-                <% if (message === 'offer is required' || message === 'offer should not be a negative number' || message === 'Offer must be a number') { %>
+                <% if (message === 'offer is required' || message === 'offer should not be a negative number' || message === 'Offer must be a number'||message === 'offer is above the limit') { %>
                     <p style="color: red;"><%= message %></p>
                 <% } %>
             <% } %>
