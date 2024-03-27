@@ -202,14 +202,14 @@ console.log("kdskdns",userId);
                   }, // Update the subtotal
                 },
                 
-                { new: true } // Return the updated document and create the document if it doesn't exist
+                { new: true ,upsert:true} // Return the updated document and create the document if it doesn't exist
               );
               
             console.log("result",result);
-            if (!result) {
-              // If result is null, redirect to cart
-              return res.redirect('/cart');
-          }
+if (!result) {
+    // If result is null, redirect to cart
+    return res.redirect('/cart');
+}
             const subtotal = result.cartItems.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0).toFixed(2);
             
     // Update the subtotal in the document

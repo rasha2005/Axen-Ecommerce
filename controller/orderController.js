@@ -132,7 +132,12 @@ console.log("addataId",addataId);
         // Add any other relevant order details
     });
     if(req.session.coupon){
-        newOrder.coupon = coupon.couponAmt
+        console.log("req.session.coupon.couponAmt",req.session.coupon);
+        const coupon = await Coupon.findOne({code:req.session.coupon})
+        newOrder.coupon = {
+            coupAmt: coupon.couponAmt,
+            discoutAmt: newOrder.subtotal
+        };
     }
         await newOrder.save();
         console.log("kkkkkk");

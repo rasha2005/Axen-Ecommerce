@@ -87,9 +87,16 @@ const orderSchema = new mongoose.Schema({
         enum: ['razorpay', 'Cash on Delivery','wallet'], // define the allowed payment methods
         required: true
     },
-    coupon:{
-        type:String
-    },
+    coupon:[
+        {
+        coupAmt : {
+            type:Number
+        },
+        discoutAmt: {
+            type:Number
+        }
+    }
+],
     
        
      

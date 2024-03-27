@@ -46,7 +46,7 @@
                                 <td class="column">Name</td>
                                 <td class="column">Email</td>
                                 <td class="column">Mobile</td>
-                               
+                                <td class="column">couponAmt</td>
                                 <td class="column">total</td>
                                 <td class="column">payment</td>
                                
@@ -56,11 +56,16 @@
                             <% if(orders && orders.length > 0)  {%>
                            
                             <% displayedOrders.forEach(order => { %>
-                              <% console.log("orderndkd",order.product.status) %>
+                              <% console.log("orderndkd",order.coupon[0]) %>
                                 <tr>
                                     <td><br><%= order.user.name %></td>
                                     <td><br><%= order.user.email %></td>
                                     <td><br><%= order.user.mobile %></td>
+                                    <% if (order.coupon && order.coupon.length > 0 && order.coupon[0].coupAmt !== undefined) { %>
+                                        <td><br><%= order.coupon[0].coupAmt %></td>
+                                    <% } else { %>
+                                        <td><br>---</td>
+                                    <% } %>
                                     
                                     <td><br><%= order.subtotal %></td>
                                     <td><br><%= order.paymentMethod %></td>
