@@ -55,6 +55,9 @@
     <script src="js/vendor/modernizr-3.11.2.min.js"></script>
     <script src="js/vendor/jquery-3.6.0.min.js"></script>
     <script src="js/vendor/jquery-migrate-3.3.2.min.js"></script>
+     
+
+     </script>
 </head>
 
 <body >
@@ -138,18 +141,18 @@
                             <!-- primary-menu -->
                             <div class="col-lg-8 d-none d-lg-block">
                                 <nav id="primary-menu">
-                                    <ul class="main-menu text-center">
-                                        <li ><a style="color: black;"href="/">Home</a> 
+                                    <ul class="main-menu text-center menu-aside">
+                                        <li class="menu-item"><a  style="color: black;"href="/home">Home</a> 
                                             
                                          </li>
                                         <!-- Assuming categories is an array of objects with name property -->
-<li class="mega-parent">
-    <a style="color: black;"href="#">category</a>
+<li class="mega-parent " >
+    <a href="/category" style="color: black;"href="#">category</a>
     <div class="mega-menu-area clearfix">
         <div class="mega-menu-link mega-menu-link-4  f-left">
             <ul class="single-mega-item">
                 <% for (let i = 0; i<category.length; i++) { %>
-                    <li ><a href="<%= category[i].name %>" ><%= category[i].category %></a></li>
+                    <li><%= category[i].category %></li>
                 <% } %>
             </ul>
         </div>
@@ -157,8 +160,7 @@
 </li>
 
                                         </li>
-                                        <li>
-                                            <a href="shop" style="color: black;">shop</a>
+                                        <li class="menu-item"><a  href="shop" style="color: black;">shop</a>
                                         </li>
                                         
                                     </ul>
@@ -230,5 +232,44 @@
     min-width: 20px; /* Ensure the badge has a minimum width */
     text-align: center;
 }
+.highlighted {
+    /* Add your styles to indicate the highlighted state */
+    background-color: #f0f0f0;
+    margin-top: 10%; /* Adjust this value as needed */
+    padding-top: 5%; /* Adjust this value as needed */
+    height: 1px;
+    width: 10%;
+
+   
+    /* Example styles, adjust as needed */
+}
         </style>
         <!-- END HEADER AREA -->
+        <script>
+         
+                console.log("hiii")
+                
+                var currentUrl = window.location.href;
+            console.log("hello",currentUrl)
+               
+                var menuLinks = document.querySelectorAll('.menu-aside a');
+                console.log("menuLinks",menuLinks);
+            
+                
+                menuLinks.forEach(function(link) {
+                  
+                    var href = link.getAttribute('href');
+            console.log("href",href);
+                   
+                    if (currentUrl.includes(href)) {
+                        console.log("coming here")
+
+                        link.parentElement.classList.add('highlighted');
+                    }else{
+                        link.parentElement.classList.remove('highlighted');
+                    }
+                });
+   
+
+        </script>
+       
