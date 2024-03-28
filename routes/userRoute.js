@@ -21,7 +21,7 @@ const cart = require('../middleware/cartQuantity')
 const userController = require("../controller/userController");
 user_route.get('/',block.checkBlockedStatus,cart.addCartCountToSession,userController.loadHome)
 
-user_route.get('/Home',block.checkBlockedStatus,cart.addCartCountToSession,userController.loadHome)
+user_route.get('/home',block.checkBlockedStatus,cart.addCartCountToSession,userController.loadHome)
 
 
 
