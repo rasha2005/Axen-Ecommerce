@@ -150,7 +150,113 @@ const monthlyOrder = monthOrders.map(item => item.totalOrders);
    // Here, 'ordersWithinLast30Days' will contain the aggregated data
    console.log("monthOrder",month);
    console.log("monthlyOrder",monthlyOrder)
-        res.render('dashboard',{dailyDates:dailyDates,dailyOrders:dailyOrders,month:month,monthlyOrder:monthlyOrder,procount:procount,ordercount:ordercount,usercount:usercount,catcount:catcount});
+
+   const topPro = await Order.aggregate([
+    {
+      '$unwind': {
+        'path': '$product'
+      }
+    },
+    {
+        '$lookup': {
+          'from': 'products',
+          'localField': 'product.productId',
+          'foreignField': '_id',
+          'as': 'productDetails'
+        }
+      },
+      {
+        '$match': {
+          'productDetails.is_list': 1
+        }
+      },
+    {
+      '$group': {
+        '_id': '$product.productId',
+        'count': {
+          '$sum': 1
+        }
+      }
+    },
+
+    {
+      '$sort': { 'count': -1 } // Corrected: Sorting by the 'count' field in descending order
+    },
+    {
+      "$limit": 10
+    } 
+  ]);
+
+console.log("topProducts",topPro);
+const productIds = topPro.map(product => product._id);
+  console.log("productIds",productIds);
+
+  const topProductsDetails = await product.aggregate([
+    {
+      $match: { "_id": { $in: productIds } } // Match product IDs in topProducts
+    }
+  ]);
+  console.log("topProductsDetails",topProductsDetails);
+
+
+  const topCat = await Order.aggregate([
+    {
+      '$unwind': {
+        'path': '$product'
+      }
+    },
+    {
+        '$lookup': {
+          'from': 'products',
+          'localField': 'product.productId',
+          'foreignField': '_id',
+          'as': 'productDetails'
+        }
+      },
+      {
+          $unwind: '$productDetails'
+      },
+      {
+          $lookup: {
+              'from': 'categories',
+              'localField': 'productDetails.category',
+              'foreignField': '_id', // Assuming 'category' is the correct field to match
+              'as': 'catDetails'
+          }
+      },{
+        '$match': {
+          'catDetails.is_list': 1
+        }
+      },
+    {
+      '$group': {
+        '_id': '$catDetails._id',
+        'count': {
+          '$sum': 1
+        }
+      }
+    },
+
+    {
+      '$sort': { 'count': -1 } // Corrected: Sorting by the 'count' field in descending order
+    },
+    {
+      "$limit": 10
+    } 
+  ]);
+
+  console.log("jdjsbak",topCat)
+  const catIds = topCat.map(product => product._id[0]);
+  console.log("catIds",catIds);
+
+  const topCatDetails = await cat.aggregate([
+    {
+      $match: { "_id": { $in: catIds } } // Match product IDs in topProducts
+    }
+  ]);
+  console.log("topProductsDetails",topCatDetails);
+
+        res.render('dashboard',{dailyDates:dailyDates,dailyOrders:dailyOrders,month:month,monthlyOrder:monthlyOrder,procount:procount,ordercount:ordercount,usercount:usercount,catcount:catcount,topProductsDetails:topProductsDetails,topCatDetails:topCatDetails});
     
     
   }catch (error) {
