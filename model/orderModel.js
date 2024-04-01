@@ -79,7 +79,7 @@ const orderSchema = new mongoose.Schema({
         
     ],
     subtotal : {
-        type:String,
+        type:Number,
         required:true
     },
     paymentMethod: {

@@ -256,7 +256,33 @@ const productIds = topPro.map(product => product._id);
   ]);
   console.log("topProductsDetails",topCatDetails);
 
-        res.render('dashboard',{dailyDates:dailyDates,dailyOrders:dailyOrders,month:month,monthlyOrder:monthlyOrder,procount:procount,ordercount:ordercount,usercount:usercount,catcount:catcount,topProductsDetails:topProductsDetails,topCatDetails:topCatDetails});
+  const totalDis = await Order.aggregate([
+    {
+        $unwind: "$coupon" // Deconstruct the coupon array
+    },
+    {
+        $group: {
+            _id: null,
+            totalCouponAmount: { $sum: "$coupon.coupAmt" },
+          
+        }
+    },
+    
+]);
+console.log("totalDis",totalDis);
+const totalRev = await Order.aggregate([
+    
+    {
+        $group: {
+            _id: null,
+            totalRevenue: { $sum: "$subtotal" },
+          
+        }
+    },
+    
+]);
+
+        res.render('dashboard',{dailyDates:dailyDates,dailyOrders:dailyOrders,month:month,monthlyOrder:monthlyOrder,procount:procount,ordercount:ordercount,usercount:usercount,catcount:catcount,topProductsDetails:topProductsDetails,topCatDetails:topCatDetails,coupAmt:totalDis[0].totalCouponAmount,totalRev:totalRev[0].totalRevenue});
     
     
   }catch (error) {
