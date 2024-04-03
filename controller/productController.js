@@ -302,9 +302,19 @@ const toggleIsList = async(req,res) => {
 
         try{
 
-            const Product  = await productOffer.find().populate('product');
+            const result = await productOffer.aggregate([
+                {
+                  $lookup: {
+                    from: 'products', // Assuming 'products' is the name of your product collection
+                    localField: 'product',
+                    foreignField: '_id',
+                    as: 'product'
+                  }
+                }
+              ]);
 
-            res.render('productOffer',{pro:Product})
+              console.log('result',result)
+            res.render('productOffer',{pro:result})
 
         }catch (error) {
             next(error);

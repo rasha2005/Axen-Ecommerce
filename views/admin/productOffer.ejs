@@ -34,12 +34,12 @@
                     </tr>
                 </thead>
                 <tbody id="tbodyToDelete">
-                    
-             <% for(let i = 0 ; i < pro.length ; i++) { %>
-                    <tr id="offerrow_<%= pro[i]._id %>">
+                    <% for(let i = 0 ; i < pro.length ; i++) { %>
+                        <tr id="offerrow_<%= pro[i]._id %>">
+                            
+                            <% console.log('prodfdsf',pro[i].product[0]); %>
                       
-                      
-                        <td><%= pro[i].product.pname %></td>
+                        <td><%= pro[i].product[0].pname %></td>
                         <td></td>
                         <th></th>
                         <th></th>
