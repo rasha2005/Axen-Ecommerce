@@ -17,9 +17,9 @@ const cart = require('../middleware/cartQuantity')
 const orderController = require('../controller/orderController');
 const { Module } = require('module');
 
-order_route.post('/checkout',block.checkBlockedStatus,cart.addCartCountToSession,orderController.orderPlaced);
-
 order_route.post('/OrderPlaced',cart.addCartCountToSession,orderController.loadOrderPlaced);
+
+order_route.post('/checkout',block.checkBlockedStatus,cart.addCartCountToSession,orderController.orderPlaced);
 
 
 

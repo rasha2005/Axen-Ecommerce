@@ -344,7 +344,8 @@ const insertUser = async(req,res,next)=>{
          res.render('otp',{ user: req.session.user });
         } catch (error) {
             next(error);
-            res.render('register', { message: 'An error occurred during registration' });
+           
+            
         }
     };
 
@@ -721,7 +722,7 @@ const loadProDetails = async(req,res,next) => {
 
 
         }catch (error) {
-            next(error);
+            next(error);34732
         }
     }
 

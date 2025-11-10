@@ -234,7 +234,7 @@
 }
 .highlighted {
     /* Add your styles to indicate the highlighted state */
-    background-color: #f0f0f0;
+    background-color: #d8ddd1;
     margin-top: 10%; /* Adjust this value as needed */
     padding-top: 5%; /* Adjust this value as needed */
     height: 1px;
@@ -247,29 +247,18 @@
         <!-- END HEADER AREA -->
         <script>
          
-                console.log("hiii")
-                
-                var currentUrl = window.location.href;
-            console.log("hello",currentUrl)
-               
-                var menuLinks = document.querySelectorAll('.menu-aside a');
-                console.log("menuLinks",menuLinks);
-            
-                
-                menuLinks.forEach(function(link) {
-                  
-                    var href = link.getAttribute('href');
-            console.log("href",href);
-                   
-                    if (currentUrl.includes(href)) {
-                        console.log("coming here")
+           var url = window.location.href;
 
-                        link.parentElement.classList.add('highlighted');
-                    }else{
-                        link.parentElement.classList.remove('highlighted');
-                    }
-                });
-   
+           var menuli = document.querySelectorAll('.menu-aside a');
 
+           menuli.forEach(element => {
+            var href = element.getAttribute('href');
+
+            if(url.includes(href)) {
+                element.parentElement.classList.add('highlighted');
+            }
+           });
+              
         </script>
-       
+         
+        

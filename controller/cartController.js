@@ -44,9 +44,7 @@ console.log("kdskdns",userId);
                       
                       
                         
-                        // Include the quantity field from cartItems
                     },
-                    // Include other fields from userCart if needed
                 }
             },
            
@@ -469,7 +467,7 @@ if (!result) {
 
                 }catch (error) {
                   next(error);
-                }
+                }  
                }
             
             

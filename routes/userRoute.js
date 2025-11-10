@@ -45,7 +45,7 @@ user_route.get('/details',block.checkBlockedStatus,userController.loadProDetails
 
 
 
-user_route.get('/accountDetails',auth.isUserLogin,block.checkBlockedStatus,userController.loadAccountDetails);
+user_route.get('/accountDetails',block.checkBlockedStatus,userController.loadAccountDetails);
 
 user_route.get('/changePassword',auth.isUserLogin,block.checkBlockedStatus,userController.loadChangePassword);
 
