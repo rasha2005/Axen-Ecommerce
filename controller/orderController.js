@@ -11,6 +11,12 @@ const puppeteer = require('puppeteer-core')
 const fs = require('fs');
 const path = require('path');
 const ejs  = require('ejs')
+const Razorpay = require("razorpay");
+
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_ID_KEY ,
+  key_secret: process.env.RAZORPAY_SECRET_KEY,
+});
 
 
 
@@ -33,7 +39,7 @@ const orderPlaced = async(req,res) => {
 
        const pM = req.body.paymentMethod;
        // Loop through each product in the cart
-       for (const cartItems of products.cartItems) { // Accessing products array from the Cart collection
+       for (const cartItems of products.cartItems) { 
         const productDetails = await product.findById(cartItems.productId);
         console.log("coming till here?")
       
@@ -51,7 +57,7 @@ const orderPlaced = async(req,res) => {
                 quantity,
                 price,
                 totalPrice,
-                status:'failed'
+                status:'Order Placed'
                 
                
             });
@@ -386,16 +392,277 @@ console.log('here?');
     }
   }
 
+  const paymentFailedOrder = async (req, res) => {
+    try {
+        const user = req.session.user._id;
+        const cart = await Cart.findOne({ user });
+
+        if (!cart || cart.cartItems.length === 0) {
+            return res.status(400).json({ message: "Cart is empty" });
+        }
+
+        const orderedProducts = [];
+
+        for (const item of cart.cartItems) {
+            const productDetails = await product.findById(item.productId);
+
+            if (productDetails) {
+                orderedProducts.push({
+                    productId: item.productId,
+                    name: productDetails.pname,
+                    quantity: item.quantity,
+                    price: item.price,
+                    totalPrice: item.totalPrice,
+                    status: "failed"
+                });
+            }
+        }
+
+        const address = await Address.findById(req.body.selectedAddress);
+
+        const failedOrder = new Order({
+            user,
+            address: {
+                name: address?.name,
+                mobile: address?.mobile,
+                pincode: address?.pincode,
+                address: address?.address,
+                city: address?.city,
+            },
+            product: orderedProducts,
+            subtotal: cart.subtotal,
+            paymentMethod: "razorpay",
+            status: "failed",
+        });
+
+        await failedOrder.save();
+
+        return res.status(200).json({ 
+            success: true,
+            orderId: failedOrder._id 
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ success: false });
+    }
+};
+
+
+const getFailedOrder = async (req, res) => {
+    try {
+        console.log("hehe")
+        const orderId = req.params.orderId;
+        console.log("hehe1",orderId)
+
+        const order = await Order.findById(orderId);
+        console.log("hehe2",order)
+
+        if (!order) {
+            return res.status(404).json({
+                success: false,
+                message: "Order not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            order
+        });
+
+    } catch (err) {
+        console.log("Error in getting failed order:", err);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
+
+const  createRetryRazorpayOrder = async (req, res) => {
+    try {
+        const { amount, failedOrderId } = req.body;
+
+        if (!amount || !failedOrderId) {
+            return res.status(400).json({
+                success: false,
+                message: "Amount or failedOrderId missing"
+            });
+        }
+
+        // Razorpay requires amount in paise
+        const razorpayOrder = await razorpay.orders.create({
+            amount: amount * 100,
+            currency: "INR",
+            receipt: `retry_${failedOrderId}`,
+        });
+        console.log("ji",razorpayOrder)
+        return res.status(200).json({
+            success: true,
+            key_id: process.env.RAZORPAY_ID_KEY,
+            order: razorpayOrder
+        });
+
+    } catch (error) {
+        console.log("Retry Razorpay Order Error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to create Razorpay retry order"
+        });
+    }
+};
  
+const retryPaymentSuccess = async (req, res) => {
+    try {
+        const { failedOrderId } = req.body;
+
+        if (!failedOrderId) {
+            return res.status(400).json({ success: false, message: "Missing failedOrderId" });
+        }
+
+        // Fetch failed order
+        const failedOrder = await Order.findById(failedOrderId);
+
+        if (!failedOrder) {
+            return res.status(404).json({ success: false, message: "Failed order not found" });
+        }
+
+        // CHECK failure correctly based on your schema
+        const isFailed = failedOrder.product.every(p => p.status === "failed");
+
+        if (!isFailed) {
+            return res.status(400).json({
+                success: false,
+                message: "Order was not marked as failed"
+            });
+        }
+
+        const user = failedOrder.user;
+
+        // Create a NEW successful order
+        const newOrder = new Order({
+            user,
+            address: failedOrder.address,
+            product: failedOrder.product.map(p => ({
+                productId: p.productId,
+                name: p.name,
+                quantity: p.quantity,
+                price: p.price,
+                totalPrice: p.totalPrice,
+                status: "Order Placed ",
+                returnStatus: p.returnStatus || null
+            })),
+            subtotal: failedOrder.subtotal,
+            paymentMethod: "razorpay",
+            date: new Date(),
+            coupon: failedOrder.coupon
+        });
+
+        await newOrder.save();
+
+       
+        for (const item of failedOrder.product) {
+            await product.findByIdAndUpdate(item.productId, {
+                $inc: { stock: -item.quantity }
+            });
+        }
+
+
+        await Cart.findOneAndUpdate(
+            { user },
+            { $set: { cartItems: [], subtotal: 0 } }
+        );
+
+        await failedOrder.save();
+
+        return res.json({
+            success: true,
+            newOrderId: newOrder._id,
+            message: "Retry payment succeeded",
+        });
+
+    } catch (error) {
+        console.log("RetryPaymentSuccess ERROR:", error);
+        return res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
+const retryPaymentFailed = async (req, res) => {
+    try {
+        const { failedOrderId } = req.body;
+
+        if (!failedOrderId) {
+            return res.status(400).json({ success: false, message: "Missing failedOrderId" });
+        }
+
+        // Fetch failed order
+        const failedOrder = await Order.findById(failedOrderId);
+
+        if (!failedOrder) {
+            return res.status(404).json({ success: false, message: "Failed order not found" });
+        }
+
+        // CHECK failure correctly based on your schema
+        const isFailed = failedOrder.product.every(p => p.status === "failed");
+
+        if (!isFailed) {
+            return res.status(400).json({
+                success: false,
+                message: "Order was not marked as failed"
+            });
+        }
+
+        const user = failedOrder.user;
+
+        // Create a NEW successful order
+        const newOrder = new Order({
+            user,
+            address: failedOrder.address,
+            product: failedOrder.product.map(p => ({
+                productId: p.productId,
+                name: p.name,
+                quantity: p.quantity,
+                price: p.price,
+                totalPrice: p.totalPrice,
+                status: "failed",
+                returnStatus: p.returnStatus || null
+            })),
+            subtotal: failedOrder.subtotal,
+            paymentMethod: "razorpay",
+            date: new Date(),
+            coupon: failedOrder.coupon
+        });
+
+        await newOrder.save();
+
+
+        await failedOrder.save();
+
+        return res.json({
+            success: true,
+            orderId: newOrder._id,
+            message: "Retry payment failed",
+        });
+
+    } catch (error) {
+        console.log("RetryPaymentSuccess ERROR:", error);
+        return res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
 
 module.exports = {
     orderPlaced,
- 
      loadOrder,
      orderDetails,
      loadCancelOrder,
      cancelOrder,
      loadOrderPlaced,
      handleReturn,
-     downloadInvoice
+     downloadInvoice,
+     paymentFailedOrder,
+     getFailedOrder,
+     createRetryRazorpayOrder,
+     retryPaymentSuccess,
+     retryPaymentFailed
 }

@@ -6,28 +6,36 @@ const sharp = require('sharp');
 const { default: mongoose } = require("mongoose");
 
 
+const loadProduct = async (req, res) => {
+    try {
+        let query = {};
 
-const loadProduct = async(req,res) => {
-    try{
-        
-            
-        const proData = await product.find({ is_list: 1 })
-        .populate({
-            path: 'category',
-            match: { is_list: 1 }
-        })
-        .sort({ createdAt: -1 })  
-        .exec();
-    
-        const filteredProData = proData.filter(product => product.category);
-        console.log("filteredProData",filteredProData);
+        // If search exists in query, use a regex to filter by name (case-insensitive)
+        if (req.query.search) {
+            query.pname = { $regex: req.query.search, $options: 'i' };
+        }
 
-              res.render('products',{product:filteredProData,req});
-               
-    }catch (error) {
+        const proData = await product.find(query)
+            .populate({
+                path: 'category',
+                match: { is_list: 1 }
+            })
+            .sort({ createdAt: -1 })
+            .exec();
+
+        // Only keep products with a category (matching is_list: 1)
+        const filteredProData = proData.filter(prod => prod.category);
+
+        console.log("filteredProData", filteredProData);
+
+        res.render('products', { product: filteredProData, req });
+
+    } catch (error) {
         console.log(error.message);
+        res.status(500).send("Server Error");
     }
 }
+
 
 const addProduct = async(req,res) => {
     try{
@@ -325,7 +333,7 @@ const toggleIsList = async(req,res) => {
 
         try{
 
-            const Product = await product.find()
+            const Product = await product.find({is_list :1})
 
             res.render('addProductOffer',{pro:Product});
 

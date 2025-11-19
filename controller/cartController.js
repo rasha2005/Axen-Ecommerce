@@ -183,7 +183,8 @@ console.log("kdskdns",userId);
                
                 }
                 console.log("actualPrice",actualPrice);
-           
+                const quantity = parseInt(req.body.quantity);
+
            
             // Update the cart: add the product if it's not already in the cart
             const result = await Cart.findOneAndUpdate(
@@ -192,9 +193,9 @@ console.log("kdskdns",userId);
                   $push: {
                     cartItems: {
                       productId,
-                      quantity: 1, // Set the initial quantity
+                      quantity:quantity,
                       price: actualPrice,
-                      totalPrice: actualPrice,
+                      totalPrice:actualPrice * quantity,
                      
                     },
                   }, // Update the subtotal
@@ -379,10 +380,13 @@ if (!result) {
             
                     const wishlist = await Wishlist.aggregate([
                         {$match:{user:new mongoose.Types.ObjectId(req.session.user._id)}},
-                        {'$unwind' : {
-                            'path' : '$wishlistItems'
-                        }
-                    },
+                        {
+                          $unwind: {
+                            path: "$wishlistItems",
+                            preserveNullAndEmptyArrays: true
+                          }
+                        },
+                        
                     {
                         '$lookup': {    
                             'from': 'products', 
@@ -455,7 +459,7 @@ if (!result) {
                   const productId = req.query.id;
                   const userId = req.session.user._id
                   let wishlist = await Wishlist.findOne({ user: userId });
-
+                  console.log("wishlist",wishlist)
                   index = wishlist.wishlistItems.findIndex(item => item.productId.equals(productId));
                   console.log("index",index)
                       if (index !== -1) {
@@ -469,6 +473,18 @@ if (!result) {
                   next(error);
                 }  
                }
+
+               const removeWish =  async(req,res,next) => {
+                const userId = req.session.user._id;
+                const productId = req.body.productId;
+            
+                await Wishlist.updateOne(
+                    { user: userId },
+                    { $pull: { wishlistItems: { productId } } }
+                );
+            
+                res.redirect("back");
+               }
             
             
   module.exports = {
@@ -478,5 +494,6 @@ if (!result) {
      updateQuantity,
      loadWishlist,
      addToWishlist,
-     removeWishlist
+     removeWishlist,
+     removeWish
   }

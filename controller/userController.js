@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 const Cart = require('../model/cartModel');
 const Order = require('../model/orderModel');
 const bcrypt = require('bcrypt');
+const Wishlist = require('../model/whishlistModel')
 const sendOTPByEmail = require('../services/sendemailotp');
 const generateOTP = require('../services/generateOTP')
 const validateOTP = require('../services/validateotp')
@@ -43,7 +44,17 @@ const loadHome = async(req,res,next)=>{
 
         console.log("hhhhhhhhhh",req.session.user)
     //    
-         
+    let wishedProductIds = [];
+
+    if (req.session.user) {
+        const wishlist = await  Wishlist.findOne({ user: req.session.user._id });
+    
+        if (wishlist) {
+            wishedProductIds = wishlist.wishlistItems.map(
+                item => item.productId.toString()
+            );
+        }
+    }
           const catData = await category.find({is_list:1})
         //   console.log(catData);
           
@@ -204,7 +215,7 @@ const loadHome = async(req,res,next)=>{
             }
           ]);
           console.log("topProductsDetails",topCatDetails);
-        res.render('home',{user:req.session.user, category:catData,product:filteredProData ,proffer:proData[0]?.proOffer[0],catoffer:proData[0]?.catOffer[0],topProductsDetails:topProductsDetails,topCatDetails:topCatDetails});
+        res.render('home',{user:req.session.user, category:catData,product:filteredProData ,proffer:proData[0]?.proOffer[0],catoffer:proData[0]?.catOffer[0],topProductsDetails:topProductsDetails,topCatDetails:topCatDetails,wishedProductIds});
     }catch (error) {
         next(error);
         
@@ -608,9 +619,22 @@ const loadProDetails = async(req,res,next) => {
         console.log("proData",Product);
         console.log("Product[0].proOffer[0]?.productOfferAmt",Product[0].proOffer[0]?.productOfferAmt);
         console.log("Product[0].catOffer[0]?.categoryofferAmt",Product[0].catOffer[0]?.categoryofferAmt);
+        let isInWishlist = false;
 
+if (req.session.user && req.session.user._id) {
+    const userWishlist = await Wishlist.findOne({
+        user: req.session.user._id,
+        wishlistItems: { 
+            $elemMatch: { productId: productId } 
+        }
+    });
+    console.log("userWishlist", userWishlist);
+    isInWishlist = !!userWishlist;
+} else {
+    isInWishlist = false; 
+}
 
-        res.render('proDetails', {user:req.session.user, product: Product ,productId:productId,proffer:Product[0].proOffer[0]?.productOfferAmt,catoffer:Product[0].catOffer[0]?.categoryofferAmt});
+        res.render('proDetails', {user:req.session.user, product: Product ,productId:productId,proffer:Product[0].proOffer[0]?.productOfferAmt,catoffer:Product[0].catOffer[0]?.categoryofferAmt,isInWishlist});
 
     }catch (error) {
         next(error);
@@ -1083,98 +1107,91 @@ const loadUserWallet = async(req,res,next) => {
         }
     }
 
-    const filterProduct = async(req,res,next) => {
-        try{
-console.log("hii")
-            const category = req.query.category
-            let categoryIds;
-
-            if (Array.isArray(category)) {
-                categoryIds = category.map(id => new mongoose.Types.ObjectId(id));
-            } else {
-                categoryIds = [new mongoose.Types.ObjectId(category)];
-            }
-
-            const priceRange = req.query.price;
-            const prices = priceRange.split('-');
-            const minPrice = Number(prices[0].trim().substring(1)); 
-            const maxPrice = Number(prices[1].trim().substring(1));
-
-            const filterObject = {
-                $match: {
-                    $or:[],
-                    $and: [{price: {$gte: minPrice}},{price: {$lte: maxPrice}} ]
+    const filterProduct = async (req, res, next) => {
+        try {
+            console.log("RAW QUERY:", req.query);
+    
+            // CATEGORY
+            let categoryIds = [];
+            if (req.query.category) {
+                if (Array.isArray(req.query.category)) {
+                    categoryIds = req.query.category.map(id => new mongoose.Types.ObjectId(id));
+                } else {
+                    categoryIds = [new mongoose.Types.ObjectId(req.query.category)];
                 }
+            }
+    
+            // PRICE
+            const [min, max] = req.query.price.split("-").map(v => Number(v.trim().substring(1)));
+    
+            // ⭐ BUILD MATCH
+            let matchStage = {
+                is_list: 1,
+                price: { $gte: min, $lte: max }
             };
-            
-            categoryIds.forEach(catId => {
-                const expersion = {category: catId};
-                filterObject.$match.$or.push(expersion);
-            })
-console.log('1')
-console.log(req.query.sort)
-let sortObject = {};
-            if (req.query.sort) {
-                // Create the sort object based on the 'sort' parameter
-                
-                const sort = req.query.sort;
-                if (sort === '1') {
-                    sortObject = { price: 1 };
-                } else if (sort === '-1') {
-                    sortObject = { price: -1 };
-                }
-        console.log('2');
-                
+    
+            // ADD CATEGORY FILTER
+            if (categoryIds.length > 0) {
+                matchStage.category = { $in: categoryIds };
             }
-        
-
+    
+            // ADD SEARCH FILTER
+            if (req.query.search && req.query.search.trim() !== "") {
+                matchStage.pname = {
+                    $regex: req.query.search.trim(),
+                    $options: "i"
+                };
+            }
+    
+            // SORT
+            let sortObject = {};
+            if (req.query.sort === "1") sortObject = { price: 1 };
+            if (req.query.sort === "-1") sortObject = { price: -1 };
+    
+            // ⭐ FINAL PIPELINE
             const filteredProducts = await product.aggregate([
-                {
-                    $match: { is_list: 1 }
-                },
-                filterObject,
+                { $match: matchStage },
                 { $sort: sortObject },
                 {
                     $lookup: {
-                        from: "productoffers", 
+                        from: "productoffers",
                         localField: "productOffer",
                         foreignField: "_id",
                         as: "proOffer"
                     }
                 },
                 {
-                    '$lookup': {
-                    'from': 'categories', 
-                    'localField': 'category', 
-                    'foreignField': '_id', 
-                    'as': 'catData'
-                    }
-                }, {
-                    '$unwind': {
-                    'path': '$catData'
-                    }
-                }, {
-                    '$match': {
-                    'catData.is_list': 1
+                    $lookup: {
+                        from: "categories",
+                        localField: "category",
+                        foreignField: "_id",
+                        as: "catData"
                     }
                 },
+                { $unwind: "$catData" },
+                { $match: { "catData.is_list": 1 } },
                 {
-                    '$lookup': {
-                    'from': 'categoryoffers', 
-                    'localField': 'categoryOffer', 
-                    'foreignField': '_id', 
-                    'as': 'catOffer'
+                    $lookup: {
+                        from: "categoryoffers",
+                        localField: "categoryOffer",
+                        foreignField: "_id",
+                        as: "catOffer"
                     }
-                },
-            ])
-            console.log("filteredProducts",filteredProducts);
-            console.log("proffer:",filteredProducts[0]?.proOffer[0],"catoffer:",filteredProducts[0]?.catOffer[0]);
-
-            res.status(200).json({success:true,filteredProducts,proffer:filteredProducts[0]?.proOffer[0],catoffer:filteredProducts[0]?.catOffer[0]})
-        }catch (error) {
+                }
+            ]);
+    
+            return res.status(200).json({
+                success: true,
+                filteredProducts,
+                proffer: filteredProducts[0]?.proOffer[0],
+                catoffer: filteredProducts[0]?.catOffer[0]
+            });
+    
+        } catch (error) {
             next(error);
         }
-    }
+    };
+    
 
 
     const loadForgotPassword = async(req,res,next) => {

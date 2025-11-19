@@ -42,7 +42,7 @@ button:hover {
                 <div class="col-lg-3">
                     <aside class="widget-search mb-30">
                         <form   action="#" method="get">
-                            <input type="text" placeholder="Search here...">
+                            <input type="text" placeholder="Search here..." id="searchInput">
                             <button type="submit"><i class="zmdi zmdi-search"></i></button>
                         </form>
                     </aside>
@@ -64,7 +64,7 @@ button:hover {
                                 </div>
                                 <div id="slider-range"></div>
                             </div>
-                            <button onclick="filterProducts(event,document.getElementById('filterForm'))">filter</button>
+                            <button id="clearFilters" class="btn btn-secondary">Clear</button>
                         </form>
                     </aside>
                 </div>
@@ -180,6 +180,33 @@ button:hover {
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+  document.getElementById("clearFilters").addEventListener("click", function () {
+    window.location.reload();
+});
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+const filterForm = document.getElementById('filterForm');
+
+// Auto filter when category checkbox is clicked
+filterForm.querySelectorAll('input[name="category"]').forEach(checkbox => {
+    checkbox.addEventListener('change', applyFilters);
+});
+
+// Auto filter when price changes
+document.getElementById('amount').addEventListener('change', applyFilters);
+
+// Auto filter when sort changes
+document.getElementById('sortPrice').addEventListener('change', applyFilters);
+
+document.getElementById('searchInput').addEventListener('keyup', applyFilters);
+
+
+function applyFilters() {
+    filterProducts(event, filterForm);
+}
+});
     function filterProducts(event,filterForm) {
         console.log("hiii")
        
@@ -194,9 +221,9 @@ button:hover {
 
         // Accessing price range
         const priceRange = filterForm.querySelector('input[name="price"]').value;
-
+        const search = document.getElementById('searchInput').value;
           const sort = document.getElementById('sortPrice').value;
-        console.log("sort",sort)
+        console.log("sort",search)
 
         console.log("Selected Categories:", categories);
         console.log("Price Range:", priceRange);
@@ -208,9 +235,13 @@ button:hover {
             url += 'price=' + priceRange + '&';
         }
         if (sort) {
-            url += 'sort=' + sort;
+            url += 'sort=' + sort + '&';
             
         }
+
+        if (search) {
+    url += 'search=' + encodeURIComponent(search) + '&';
+}
 console.log("URL",url)
         axios.get(url)
             .then(res => {

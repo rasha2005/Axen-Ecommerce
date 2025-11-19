@@ -10,7 +10,7 @@
                         <a href="addProduct" class="btn btn-primary btn-sm rounded">add product</a>
                    
                         
-                        <a href="list" class="btn btn-primary btn-sm rounded">unlisted products</a>
+                      
                     </div>
                 </div>
                 <!-- <div class="card mb-4">
@@ -39,7 +39,11 @@
                     <!-- card-header end// -->
                    
 <div class="card-body">
-   
+    <form method="get" action="/admin/products" class="mb-3 d-flex">
+        <input type="text" name="search" class="form-control me-2" placeholder="Search by name..." value="<%= req.query.search || '' %>">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    
     <% const usersPerPage = 6; %>
         <% const totalPages = Math.ceil(product.length / usersPerPage); %>
         <% const currentPage = req.query.page || 1; %>
@@ -82,12 +86,13 @@
                         <a href="/admin/editProduct/<%= product[i]._id %>" class="btn btn-sm " style="background-color: #1199cf; color: #ffffff; border: 1px solid #1199cf;">
                             Edit
                         </a>
-                        <form action="/admin/unlist" method="post" style="display: inline;">
+                        <form action="<%= product[i].is_list ? '/admin/unlist' : '/admin/list' %>" method="post" style="display: inline;">
                             <input type="hidden" name="productId" value="<%= product[i]._id %>">
-                            <button type="submit" class="btn btn-sm btn-danger">
-                                Unlist
+                            <button type="submit" class="btn btn-sm <%= product[i].is_list ? 'btn-danger' : "font-sm btn-light rounded" %>">
+                                <%= product[i].is_list ? 'Unlist' : 'List' %>
                             </button>
                         </form>
+                        
                     </td>
                 </tr>
                 <% } %>
@@ -272,5 +277,5 @@
                 }
             </style>
             <!-- content-main end// -->
-            
+           
             <%- include('../adminLayout/footer.ejs') %>

@@ -21,7 +21,12 @@ order_route.post('/OrderPlaced',cart.addCartCountToSession,orderController.loadO
 
 order_route.post('/checkout',block.checkBlockedStatus,cart.addCartCountToSession,orderController.orderPlaced);
 
-
+order_route.get("/orderPlaced", (req, res) => {
+    res.render("orderPlaced", { user: req.session.user });
+});
+order_route.get("/PaymentFailed", (req, res) => {
+    res.render("orderFailed", { user: req.session.user });
+});
 
 order_route.get('/Orders',auth.isUserLogin,block.checkBlockedStatus,orderController.loadOrder);
 
@@ -35,5 +40,14 @@ order_route.patch('/returnHandle/:orderId/:productId',orderController.handleRetu
 
 order_route.get('/downloadInvoice/:orderId/:productId',auth.isUserLogin,block.checkBlockedStatus,orderController.downloadInvoice)
 
+order_route.post("/paymentFailedOrder", orderController.paymentFailedOrder);
+
+order_route.get("/getFailedOrder/:orderId", orderController.getFailedOrder);
+
+order_route.post("/createRetryRazorpayOrder", orderController.createRetryRazorpayOrder);
+
+order_route.post("/retryPaymentSuccess", orderController.retryPaymentSuccess);
+
+order_route.post("/retryPaymentFailed", orderController.retryPaymentFailed);
 
 module.exports = order_route;

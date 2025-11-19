@@ -22,90 +22,56 @@
                                 <div class="tab-pane active" id="shopping-cart">
                                     <div class="shopping-cart-content">
                                        
-                                            <div class="table-content table-responsive mb-50">
-                                                <% if (product  && product.length > 0) { %>
+                                        <div class="table-content table-responsive mb-50">
+                                            <% if(product && product.length > 0) { %>
                                                 <table class="text-center" style="width: 100%;">
                                                     <thead>
                                                         <tr>
-                                                            <th class="product-thumbnail">product</th>
-                                                            <th class="product-price">price</th>
-                                                            <th class="product-price">add to cart</th>
-                                                           
-                                                            <th class="product-remove">remove</th>
+                                                            <th class="product-thumbnail">Product</th>
+                                                            <th class="product-price">Price</th>
+                                                            <th class="product-price">Add to Cart</th>
+                                                            <th class="product-remove">Remove</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tbodyToDelete">
-                                                        <!-- tr -->
-                                                       <% console.log("productsssss",product); %>
-                                                        <% for(let i = 0 ; i < product.length ; i++ ) {%>
-                                                       
-                                                        <tr id="wishlist_<%= product[i]?.product[0]._id %>">
+                                                        <% product.forEach(p => { 
+                                                            if(p.product && p.product.length > 0) {
+                                                                const prod = p.product[0];
+                                                                const price = parseFloat(prod.price);
+                                                                const highestOffer = Math.max(p.proffer?.[0]?.productOfferAmt || 0, p.catoffer?.[0]?.categoryofferAmt || 0);
+                                                                const discountedPrice = price * (100 - highestOffer) / 100;
+                                                        %>
+                                                        <tr id="wishlist_<%= prod._id %>">
                                                             <td class="product-thumbnail">
                                                                 <div class="pro-thumbnail-img">
-                                                                    <img src="/catimages/<%= Array.isArray(product[i].product[0].pimg) ? product[i].product[0].pimg[0] : '' %>" alt="">
+                                                                    <img src="/catimages/<%= Array.isArray(prod.pimg) ? prod.pimg[0] : '' %>" alt="">
                                                                 </div>
                                                                 <div class="pro-thumbnail-info text-start">
-                                                                    <h6 class="product-title-2">
-                                                                        <a href="#"><%=  product[i]?.product[0].pname %></a>
-                                                                    </h6>
-                                                                    <p></p>
-                                                                    <p>colour : <%= product[i]?.product[0].color  %></p>
-                                                                    
-                                                                   
+                                                                    <h6 class="product-title-2"><a href="#"><%= prod.pname %></a></h6>
+                                                                    <p>Colour: <%= prod.color %></p>
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                            
-                                                            
-                                                                <% if(!proffer && !catoffer) { %>
-                                                                    <h3 class="pro-price">₹<%= wishlist[0].product[0].price %></h3>
-                                                                    <% } else if(proffer || catoffer){ %>
-                                                                        <% 
-                  
-                                                                           const price = parseFloat(wishlist[i].product[0].price); 
-                                                                           console.log("price",price)
-                                                                           const productOffer = wishlist[i].proffer[0]?.productOfferAmt || 0; 
-                                                                           const categoryOffer =  wishlist[i].catoffer[0]?.categoryofferAmt || 0;
-                                                                           const highestOffer = Math.max(productOffer, categoryOffer);
-                                                                          
-                   
-                                                                           const discountedPrice = price * (100 - highestOffer) / 100;
-                                                                       %>
-                
-                                                                          
-                
-                                                                       <h3 class="pro-price discounted-price">₹<%= discountedPrice.toFixed(0) %></h3>
-                                                                       <% } %>
-                                                                   </td>
-                                                               
-               
-                                                                       
-             
-                                                               
-                                                                </td>
-                                                                 
-                                                            <td >
-                                                              <form action="/cart" method="post">
-                                                                <input type="hidden" name="productId" value="<%= product[i]?.product[0]._id %>">
-                                                               <button type="submit"><i class="zmdi zmdi-shopping-cart"></i></button> 
-                                                              </form>
-                                                              
-                                                                
-                                                           </td>
-
-                                                            <td class="product-remove">
-                                                                <button onclick="deleteFromWishlist('<%=  product[i]?.product[0]._id%>')"><i class="zmdi zmdi-close"></i></button>
+                                                                <h3 class="pro-price"><%= highestOffer > 0 ? discountedPrice.toFixed(0) : price %></h3>
                                                             </td>
-                                                                                                                     
-                                                            <% } %>
-                                                           
-                                                                                                            </tr>
-                                                        <!-- tr -->
-                                                        
+                                                            <td>
+                                                                <form action="/cart" method="post">
+                                                                    <input type="hidden" name="productId" value="<%= prod._id %>">
+                                                                    <button type="submit"><i class="zmdi zmdi-shopping-cart"></i></button>
+                                                                </form>
+                                                            </td>
+                                                            <td class="product-remove">
+                                                                <button onclick="deleteFromWishlist('<%= prod._id %>')"><i class="zmdi zmdi-close"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                        <% } }) %>
                                                     </tbody>
                                                 </table>
-                                               
-                                            </div>
+                                            <% } else { %>
+                                                <p>Your wishlist is empty.</p>
+                                            <% } %>
+                                        </div>
+                                        
 
 
                                           
@@ -121,10 +87,7 @@
                               
         </div>
        
-        <% }else { %>
-
-            <img src="/catimages/Premium_Vector___Checklist_on_a_clipboard_paper_successful_completion_of_business_tasks-removebg-preview.png" alt=""  style="display: block; margin-left: 40%;height: 240px;">
-            <% } %>
+        
         </section>
         <!-- End page content -->
 

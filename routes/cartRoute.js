@@ -27,6 +27,9 @@ cartRoute.get('/wishlist',cartController.loadWishlist);
 
 cartRoute.post('/addtowish',cartController.addToWishlist);
 
-cartRoute.delete('/removeWishlist',cartController.removeWishlist)
+cartRoute.delete('/removeWishlist',cartController.removeWishlist);
+
+cartRoute.post('/removeWish',cartController.removeWish)
+
 
 module.exports = cartRoute

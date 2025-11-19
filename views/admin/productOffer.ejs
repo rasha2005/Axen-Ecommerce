@@ -15,56 +15,55 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-           
-            <table class="table table-striped" width="100%">
-                <thead>
-                    <tr>
-                       
-                        <th>name</th>
-                        <th></th>
-                        
-                        <td></td>
-                        <th></th>
-                        <th></th>
-                        <th>offer</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="tbodyToDelete">
-                    <% for(let i = 0 ; i < pro.length ; i++) { %>
-                        <tr id="offerrow_<%= pro[i]._id %>">
-                            
-                            <% console.log('prodfdsf',pro[i].product[0]); %>
-                      
-                        <td><%= pro[i].product[0].pname %></td>
-                        <td></td>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <td><%= pro[i].productOfferAmt  %></td>
-                        <th></th>
-                        <th></th>
-                        <td></td>
-    
-                        <td>
-                            <a href="editProductOffer?id=<%=  pro[i]._id  %>" class="btn btn-sm " style="background-color: #1199cf; color: #ffffff; border: 1px solid #1199cf;">
-                                Edit
-                            </a>
-                           
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="deleteOffer('<%=  pro[i]._id %>')">
-                                   Delete
-                                </button>
-                            
-                    </tr>
-                    <% } %>
-                
-                </tbody>
-            </table>
+            <% if (pro && pro.length > 0) { %>
+                <table class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Offer</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyToDelete">
+                        <% for(let i = 0; i < pro.length; i++) { %>
+                            <% if (pro[i].product && pro[i].product[0]) { %>
+                                <tr id="offerrow_<%= pro[i]._id %>">
+                                    <td><%= pro[i].product[0].pname %></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><%= pro[i].productOfferAmt %></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <a href="editProductOffer?id=<%= pro[i]._id %>" class="btn btn-sm"
+                                           style="background-color: #1199cf; color: #ffffff; border: 1px solid #1199cf;">
+                                            Edit
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="deleteOffer('<%= pro[i]._id %>')">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        <% } %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <div class="text-center py-3">No product offers found.</div>
+            <% } %>
         </div>
-    </div>            
+    </div>
+               
                  
             </div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

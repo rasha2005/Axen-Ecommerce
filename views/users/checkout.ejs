@@ -284,107 +284,107 @@
    })
    
    
-   $(document).ready(function(){
-    console.log("razarpay sumbit working?")
-    // Event listener for the form submission
-    $('#orderForm').submit(function(e){
-        console.log("congaratzz working")
-        e.preventDefault(); // Prevent the default form submission
+   $(document).ready(function () {
+    console.log("razorpay submit working");
 
-        // Check if the payment method selected is Razorpay
-        var paymentMethod = $('input[name=paymentMethod]:checked').val();
+    // Form submit listener
+    $('#orderForm').submit(function (e) {
+        e.preventDefault();
+
+        let paymentMethod = $('input[name=paymentMethod]:checked').val();
+
         if (paymentMethod === "razorpay") {
-            // Trigger the AJAX function for Razorpay payment
             initiateRazorpayPayment();
         } else {
-            // Handle other payment methods here
-            // For example, submit the form for Cash on Delivery
+            // COD or Wallet → normal submit
             $(this).unbind('submit').submit();
         }
     });
 
+
+    // Razorpay Function
     function initiateRazorpayPayment() {
-        var formDataString = $('#orderForm').serialize();
-    console.log("Form data:", formDataString);
+        let formDataString = $('#orderForm').serialize();
+        const formData = new URLSearchParams(formDataString);
 
-    // Parse form data string into key-value pairs
-    const formData = new URLSearchParams(formDataString);
-    console.log("formData",formData)
+        const formDataObject = {};
+        for (const pair of formData.entries()) {
+            formDataObject[pair[0]] = pair[1];
+        }
 
-    // Convert form data to object
-    const formDataObject = {};
-    for (const pair of formData.entries()) {
-        formDataObject[pair[0]] = pair[1];
-    }
+        console.log("Form Data Object:", formDataObject);
 
-    console.log("Form data object:", formDataObject);
+        axios.post("/createRazorpayOrder", formData)
+            .then(res => {
+                if (!res.data.success) return;
 
-    axios.post("/createRazorpayOrder", formData)
-        .then(res => {
-          
-            if (res.data.success) {
-                console.log(" res.data.order._id,", res.data.order._id,);
-                console.log("success")
-                const value = "value"
                 var options = {
-                    "key": res.data.key_id, // Enter the Key ID generated from the Dashboard
-                    "amount": res.data.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "key": res.data.key_id,
+                    "amount": res.data.order.amount,
                     "currency": "INR",
-                    "name": "Axen", //your business name
+                    "name": "Axen",
                     "description": "Test Transaction",
-                   
-                    "order_id":res.data.order.id, //This is a sample Order ID. Pass the id obtained in the response of Step 1
-                    "callback_url":  "/OrderPlaced" ,
-                    
-			
-            
-		  
-                    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
-                        "name": "Gaurav Kumar", //your customer's name
-                        "email": "gaurav.kumar@example.com",
-                        "contact": "9000090000" //Provide the customer's phone number for better conversion rates 
+                    "order_id": res.data.order.id,
+
+                    // 🟢 PAYMENT SUCCESS
+                    "handler": function (response) {
+                        console.log("Payment Success");
+
+                        axios.post("/checkout", formDataObject)
+                            .then(() => {
+                                window.location.href = "/orderPlaced";
+                            })
+                            .catch(err => console.error(err));
                     },
+
+                    "prefill": {
+                        "name": "Gaurav Kumar",
+                        "email": "gaurav.kumar@example.com",
+                        "contact": "9000090000"
+                    },
+
                     "notes": {
                         "address": "Razorpay Corporate Office"
                     },
+
                     "theme": {
                         "color": "#3399cc"
+                    },
+
+                    "modal": {
+                        "ondismiss": function () {
+                            console.log("Popup Closed → Payment Failed");
+
+                            axios.post("/paymentFailedOrder", formDataObject)
+                                .then(() => {
+                                    window.location.href = "/PaymentFailed";
+                                });
+                        }
                     }
                 };
-                console.log("options",options)
+
                 var rzp1 = new Razorpay(options);
-                console.log("here is it")
 
-               
-                     // Call placeOrder function here
-                     placeOrder(formDataObject)
-              
-                rzp1.open();
-                  
-               
-               
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
-}
-   });
+                rzp1.on("payment.failed", function () {
+                    console.log("Payment Failed");
 
-   function placeOrder(formDataObject){
-    console.log("coming or not???")
+                    axios.post("/paymentFailedOrder", formDataObject)
+                    .then((response) => {
+                        const orderId = response.data.orderId;
 
-    axios.post("/checkout",formDataObject)
-            .then(res => {
-                            // No action needed here if you don't have any further processing
-                })
-            .catch(error => {
-                 console.error("Error posting order:", error);
-                            // Handle the error appropriately if needed
+                        sessionStorage.setItem("failedOrderId", orderId);
+
+                        window.location.href = "/PaymentFailed";
                         });
-                    }
+                });
 
-
+                rzp1.open();
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+});
 
 
    

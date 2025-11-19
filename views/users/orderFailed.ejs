@@ -1,0 +1,138 @@
+<%- include('../layouts/header.ejs') %>
+
+<div class="payment-failed-card">
+    <h2 class="payment-failed-message">❌ Payment Failed</h2>
+    <p class="payment-failed-text">Something went wrong with your payment.</p>
+    <p class="payment-failed-text">Please try again!</p>
+
+    <a id="retryBtn" class="retry-btn" style="display:none;">Retry Payment</a>
+</div>
+
+<style>
+.payment-failed-card {
+    background-color: #ffb3b3;
+    color: #7a0000;
+    text-align: center;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 50px auto;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+    animation: popUp 0.5s ease forwards;
+    transform: scale(0);
+    opacity: 0;
+}
+.retry-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 18px;
+    background-color: #cc0000;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.2s ease-in-out;
+}
+.retry-btn:hover {
+    background-color: #a10000;
+}
+@keyframes popUp {
+    0% { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+</style>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    
+        const retryBtn = document.getElementById("retryBtn");
+        const savedOrderId = sessionStorage.getItem("failedOrderId");
+    
+        // Show or hide retry button
+        if (!savedOrderId) {
+            retryBtn.style.display = "none";
+        } else {
+            retryBtn.style.display = "inline-block";
+        }
+    
+        // Retry click handler
+        retryBtn.addEventListener("click", async function () {
+            const failedOrderId = sessionStorage.getItem("failedOrderId");
+    
+            if (!failedOrderId) {
+                alert("No failed order found.");
+                return;
+            }
+    
+            console.log("Retrying for failed order:", failedOrderId);
+    
+            try {
+                // STEP 1 — Fetch failed order details
+                const orderRes = await axios.get(`/getFailedOrder/${failedOrderId}`);
+                const failedOrder = orderRes.data.order;
+    
+                // STEP 2 — Create new Razorpay order
+                const razorRes = await axios.post("/createRetryRazorpayOrder", {
+                    amount: failedOrder.subtotal,
+                    failedOrderId
+                });
+    
+                if (!razorRes.data.success) {
+                    alert("Unable to create Razorpay order");
+                    return;
+                }
+    
+                const options = {
+                    key: razorRes.data.key_id,
+                    amount: razorRes.data.order.amount,
+                    currency: "INR",
+                    name: "Axen",
+                    description: "Retry Payment",
+                    order_id: razorRes.data.order.id,
+    
+                    handler: function (response) {
+                        axios.post("/retryPaymentSuccess", { failedOrderId })
+                        .then(() => {
+                            sessionStorage.removeItem("failedOrderId");
+                            window.location.href = "/orderPlaced";
+                        });
+                    },
+    
+                    modal: {
+                        ondismiss: function () {
+                            axios.post("/retryPaymentFailed", { failedOrderId })
+                            .then((response) => {
+                                const orderId = response.data.orderId;
+
+                                sessionStorage.setItem("failedOrderId", orderId);
+                                window.location.href = "/PaymentFailed";
+                            });
+                        }
+                    }
+                };
+    
+                const rzp = new Razorpay(options);
+    
+                rzp.on("payment.failed", function () {
+                    axios.post("/retryPaymentFailed", { failedOrderId })
+                    .then(() => {
+                        window.location.href = "/PaymentFailed";
+                    });
+                });
+    
+                rzp.open();
+    
+            } catch (error) {
+                console.error(error);
+                alert("Something went wrong.");
+            }
+        });
+    
+    });
+    </script>
+    

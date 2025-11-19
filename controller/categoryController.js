@@ -255,8 +255,7 @@ const loadlistCategory = async(req,res) => {
 
         try{
 
-            const Category = await category.find();
-
+            const Category = await category.find({ is_list: 1 });
 
             res.render('addCategoryOffer',{category:Category});
 
